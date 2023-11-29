@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class TestController {
+public class ParkinglotController {
 
 
-    private final TestService testService;
-    public TestController(TestService testService) {
-        this.testService = testService;
+    private final ParkinglotService parkinglotService;
+    public ParkinglotController(ParkinglotService parkinglotService) {
+        this.parkinglotService = parkinglotService;
     }
 
 
@@ -27,14 +27,14 @@ public class TestController {
     }
 
     @GetMapping("api/parkinglots")
-    public List<TestTable> getParkinglots() {
-        return testService.getParkinglots();
+    public List<ParkinglotEntity> getParkinglots() {
+        return parkinglotService.getParkinglots();
     }
 
     @GetMapping("api/parkinglot/{id}")
-    public ResponseEntity<TestTable> getParkinglotById(@PathVariable long id) {
+    public ResponseEntity<ParkinglotEntity> getParkinglotById(@PathVariable long id) {
         try {
-            Optional<TestTable> parkingLot = testService.getParkinglotById(id);
+            Optional<ParkinglotEntity> parkingLot = parkinglotService.getParkinglotById(id);
             return parkingLot.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
         } catch (Exception e) {
             // Log the exception or handle it accordingly
@@ -45,13 +45,13 @@ public class TestController {
 
 
     @GetMapping("api/parkinglot/search") //검색란에 입력할시 검색어가 location으로
-    public List<TestTable> getRecordsByLocation(@RequestParam String location) {
-        return testService.getRecordsByLocation(location);
+    public List<ParkinglotEntity> getRecordsByLocation(@RequestParam String location) {
+        return parkinglotService.getRecordsByLocation(location);
     }
 
     @GetMapping("api/parkinglot/select/{location}") //각 지역버튼을 누르면 해당 지역이름이 location으로
-    public List<TestTable> getParkingLotsByLocation(@PathVariable String location) {
-        return testService.getRecordsByLocation(location);
+    public List<ParkinglotEntity> getParkingLotsByLocation(@PathVariable String location) {
+        return parkinglotService.getRecordsByLocation(location);
     }
 
 
