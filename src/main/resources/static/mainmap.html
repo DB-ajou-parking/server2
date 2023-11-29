@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>지도 백업</title>
+    <style>
+        #map {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 1000px;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<div>
+    <label for="locationInput">지역 검색:</label>
+    <input type="text" id="locationInput" placeholder="지역을 입력하세요">
+    <button onclick="searchLocation()">검색</button>
+</div>
+<div id="searchResults">
+    <!-- 검색 결과를 표시할 곳 -->
+</div>
+
+<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=75d65be9a39ddfb55fce3a7fef87cf7a"></script>
+<script>
+    var mapContainer = document.getElementById('map');
+    var mapOption = {
+        center: new kakao.maps.LatLng(37.28444, 127.0444),
+        level: 5,
+        mapTypeId: kakao.maps.MapTypeId.ROADMAP
+    };
+
+    var map = new kakao.maps.Map(mapContainer, mapOption);
+
+    function searchLocation() {
+        var locationInput = document.getElementById('locationInput').value;
+        var searchResultsDiv = document.getElementById('searchResults');
+
+        if (locationInput) {
+            var apiUrl = "api/parkinglot/select/" + encodeURIComponent(locationInput);
+
+            // Ajax를 사용하여 API 호출
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', apiUrl, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // API 호출이 성공했을 때 결과를 동적으로 HTML에 추가
+                    var data = JSON.parse(xhr.responseText);
+                    var resultsHTML = "<h2>검색 결과</h2><ul>";
+                    data.forEach(result => {
+                        // 실제로 데이터에 있는 속성을 사용
+                        var facilityName = result.ParkingFacilityName || result.someOtherField;
+                        resultsHTML += "<li>" + facilityName + "</li>";
+                    });
+                    resultsHTML += "</ul>";
+                    searchResultsDiv.innerHTML = resultsHTML;
+                } else if (xhr.readyState == 4) {
+                    // API 호출이 실패했을 때 에러 메시지를 표시
+                    console.error('API 호출 중 에러 발생:', xhr.status, xhr.statusText);
+                    searchResultsDiv.innerHTML = "<p>검색 결과를 불러오는 중 오류가 발생했습니다.</p>";
+                }
+            };
+            xhr.send();
+        } else {
+            searchResultsDiv.innerHTML = "<p>지역을 입력하세요.</p>";
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
+
+
+
+
+
