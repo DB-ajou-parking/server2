@@ -1,12 +1,12 @@
 package com.example.ajouparking;
 
+import com.example.ajouparking.Entity.ParkinglotEntity;
+import com.example.ajouparking.Entity.ReviewEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,5 +54,35 @@ public class ParkinglotController {
         return parkinglotService.getRecordsByLocation(location);
     }
 
+
+
+
+    @GetMapping("api/parkinglot/{id}/reviews")
+    public ResponseEntity<List<ReviewEntity>> getReviewsForParkingLot(@PathVariable long id) {
+        List<ReviewEntity> reviews = parkinglotService.getReviewsByParkingLotId(id);
+        return ResponseEntity.ok(reviews);
+    }
+
+    @PostMapping("api/parkinglot/{id}/reviews")
+    public ResponseEntity<String> addReviewForParkingLot(@PathVariable long id, @RequestBody ReviewEntity review) {
+        ParkinglotEntity parkinglot = parkinglotService.getParkinglotById(id).orElse(null);
+
+        try {
+            if (parkinglot == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            review.setParkinglot(parkinglot);
+            review.setAuthor(review.getAuthor());
+            review.setReviewText(review.getReviewText());
+            review.setTimestamp(LocalDateTime.now());
+            parkinglotService.saveReview(review);
+
+            return ResponseEntity.ok("Review added successfully");
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
+        }
+    }
 
 }

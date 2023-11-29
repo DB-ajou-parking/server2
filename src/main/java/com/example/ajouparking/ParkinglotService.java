@@ -1,5 +1,9 @@
 package com.example.ajouparking;
 
+import com.example.ajouparking.Entity.ParkinglotEntity;
+import com.example.ajouparking.Entity.ReviewEntity;
+import com.example.ajouparking.Repository.ParkinglotJpaRepository;
+import com.example.ajouparking.Repository.ReviewRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +15,15 @@ import java.util.Optional;
 public class ParkinglotService {
 
     private final ParkinglotJpaRepository parkinglotJpaRepository ;
+    private final ReviewRepository reviewRepository;
 
-    public ParkinglotService(ParkinglotJpaRepository testJpaRepository) {
+
+    public ParkinglotService(ParkinglotJpaRepository testJpaRepository, ReviewRepository reviewRepository) {
         this.parkinglotJpaRepository = testJpaRepository;
+        this.reviewRepository = reviewRepository;
     }
-
+    
+    
     public List<ParkinglotEntity> getParkinglots() {
         List<ParkinglotEntity> parkingLots = parkinglotJpaRepository.findAll();
         log.info("Fetched parking lots: {}", parkingLots);
@@ -43,6 +51,18 @@ public class ParkinglotService {
     }
 
 
+
+
+
+
+
+        public List<ReviewEntity> getReviewsByParkingLotId(long parkingLotId) {
+            return reviewRepository.findByParkinglotId(parkingLotId);
+        }
+
+    public void saveReview(ReviewEntity review) {
+        reviewRepository.save(review);
+    }
 
 
 
