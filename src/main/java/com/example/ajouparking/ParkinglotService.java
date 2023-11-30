@@ -12,9 +12,13 @@ public class ParkinglotService {
 
     private final ParkinglotJpaRepository parkinglotJpaRepository ;
 
+
+
     public ParkinglotService(ParkinglotJpaRepository testJpaRepository) {
         this.parkinglotJpaRepository = testJpaRepository;
+
     }
+
 
     public List<ParkinglotEntity> getParkinglots() {
         List<ParkinglotEntity> parkingLots = parkinglotJpaRepository.findAll();
@@ -41,6 +45,11 @@ public class ParkinglotService {
     public List<ParkinglotEntity> getRecordsByLocation(String location) {
         return parkinglotJpaRepository.findByLocationRoadNameAddressContainingOrLocationLandParcelAddressContaining(location, location);
     }
+
+
+
+
+
 
 
 
