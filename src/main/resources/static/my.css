@@ -1,0 +1,182 @@
+* {
+    font-family: 'BMJUA', sans-serif;
+}
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'BMJUA', sans-serif;
+    background-color: #f7f7f7;
+    color: #444;
+}
+
+#sidebar {
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: #ffffff;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#searchContainer {
+    position: sticky;
+    top: 0;
+    background-color: #e0e0e0;
+    z-index: 1;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+#searchResultsContainer {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px; /* 간격  조절 */
+}
+#searchResultsContainer .parking-link {
+    font-size: 1.1em; /* 주차장명의 글자 크기 조절 */
+
+}
+
+#searchResultsContainer h3 {
+    font-size: 1em; /* 글자 크기 조절 */
+}
+
+#searchResultsContainer p {
+    font-size: 0.8em; /* 글자 크기 조절 */
+}
+
+#detailedParkingLotInfo {
+    display: none;
+    font-size: 1em;
+    line-height: 0.5;
+    max-height: 200px; /* Adjust the max height as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+
+
+#searchResultsContainer,
+#detailedParkingLotInfo {
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: #007bff #f7f7f7; /* For Firefox */
+}
+
+#searchResultsContainer::-webkit-scrollbar,
+#detailedParkingLotInfo::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+}
+
+#searchResultsContainer::-webkit-scrollbar-thumb,
+#detailedParkingLotInfo::-webkit-scrollbar-thumb {
+    background-color: #007bff; /* Color of the scrollbar thumb */
+}
+
+#searchResultsContainer::-webkit-scrollbar-track,
+#detailedParkingLotInfo::-webkit-scrollbar-track {
+    background-color: #f7f7f7; /* Color of the scrollbar track */
+}
+
+
+
+#map {
+    flex: 1;
+    width: 100%;
+    height: 100vh;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+#Reviews {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 300px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: 2;
+    border-radius: 8px;
+    align-items: flex-end; /* 추가 */
+}
+#Reviews th {
+    font-size: 0.6em; /* Adjusted font size for table headers */
+}
+
+#Reviews td {
+    font-size: 0.6em; /* Adjusted font size for table data */
+}
+
+#Reviews .parking-link {
+    font-size: 0.7em; /* Adjusted font size for parking links */
+}
+
+#Reviews #commentContents {
+    width: 100%; /* Widened the comment contents input area */
+}
+
+#Reviews h3 {
+    font-size: 1em; /* Adjusted font size for the '리뷰' heading */
+}
+
+
+
+
+
+
+
+
+
+
+h3 {
+    color: #555;
+    font-size: 1.2em; /* 글자 크기 조절 */
+}
+
+label {
+    color: #333;
+    font-size: 1em; /* 글자 크기 조절 */
+    margin-bottom: 8px; /* 간격 조절 */
+}
+
+input {
+    padding: 8px;
+    font-size: 1em;
+}
+
+button {
+    padding: 8px 16px;
+    font-size: 1em;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+
+@font-face {
+    font-family: "BMJUA";
+    src: url("../resources/BMJUA_ttf.ttf") format("truetype")
+}
+
+@media (min-width: 768px) {
+    body {
+        display: flex;
+        flex-direction: row;
+    }
+
+    #sidebar {
+        width: 350px;
+    }
+
+    #map {
+        height: calc(100vh - 20px); /* 간격 조절 */
+    }
+}
