@@ -58,6 +58,36 @@
             font-size: 0.8em; /* 글자 크기 조절 */
         }
 
+        #detailedParkingLotInfo {
+            display: none;
+            font-size: 1em;
+            line-height: 0.5;
+            max-height: 200px; /* Adjust the max height as needed */
+            overflow-y: auto; /* Enable vertical scrolling */
+        }
+
+
+
+        #searchResultsContainer,
+        #detailedParkingLotInfo {
+            scrollbar-width: thin; /* For Firefox */
+            scrollbar-color: #007bff #f7f7f7; /* For Firefox */
+        }
+
+        #searchResultsContainer::-webkit-scrollbar,
+        #detailedParkingLotInfo::-webkit-scrollbar {
+            width: 8px; /* Width of the scrollbar */
+        }
+
+        #searchResultsContainer::-webkit-scrollbar-thumb,
+        #detailedParkingLotInfo::-webkit-scrollbar-thumb {
+            background-color: #007bff; /* Color of the scrollbar thumb */
+        }
+
+        #searchResultsContainer::-webkit-scrollbar-track,
+        #detailedParkingLotInfo::-webkit-scrollbar-track {
+            background-color: #f7f7f7; /* Color of the scrollbar track */
+        }
 
 
 
@@ -101,6 +131,15 @@
         #Reviews h3 {
             font-size: 1em; /* Adjusted font size for the '리뷰' heading */
         }
+
+
+
+
+
+
+
+
+
 
         h3 {
             color: #555;
@@ -167,7 +206,11 @@
     <div id="searchResultsContainer">
         <div id="searchResult"></div>
     </div>
+
+    <div id="detailedParkingLotInfo" style="display: none;"></div>
+
 </div>
+
 
 <div id="map"></div>
 
@@ -179,7 +222,7 @@
             <th>번호</th>
             <th>작성자</th>
             <th>내용</th>
-            <th>작성일자</th>   
+            <th>작성일자</th>
         </tr>
         </thead>
         <tbody th:each="comment: ${commentList}">
@@ -278,7 +321,7 @@
                 resultDiv.append('<p>주차장명: <a href="#" class="parking-link" data-lat="' + data[i].latitude + '" data-lng="' + data[i].longitude + '" data-parking-lot-id="' + data[i].id + '">' + data[i].parkingFacilityName + '</a></p>');
                 resultDiv.append('<p>도로명: ' + data[i].locationRoadNameAddress + '</p>');
                 resultDiv.append('<p>지번: ' + data[i].locationLandParcelAddress + '</p>');
-                resultDiv.append('<p>분류: ' + data[i].parkingFacilityClassification + '</p>');
+                //resultDiv.append('<p>분류: ' + data[i].parkingFacilityClassification + '</p>');
                 resultDiv.append('<hr>');
             }
 
@@ -290,6 +333,9 @@
 
                 map.setCenter(new kakao.maps.LatLng(lat, lng));
                 fetchReviews(currentParkingLotId);
+
+                // Fetch and display detailed parking lot information
+                fetchDetailedParkingLotInfo(currentParkingLotId);
             });
         } else {
             resultDiv.append('<p>No matching parking lots found</p>');
@@ -300,6 +346,57 @@
             addMarker(data[i]);
         }
 
+    }
+    // Add a new function to fetch and display detailed parking lot information
+    function fetchDetailedParkingLotInfo(parkingLotId) {
+        $.ajax({
+            type: 'GET',
+            url: '/api/parkinglot/' + parkingLotId,
+            success: function (parkingLot) {
+                // Display detailed information in the designated div
+                displayDetailedParkingLotInfo(parkingLot);
+            },
+            error: function () {
+                alert('Error fetching detailed parking lot information');
+            }
+        });
+    }
+
+    // Add a new function to display detailed parking lot information
+    function displayDetailedParkingLotInfo(parkingLot) {
+        var detailedInfoDiv = $('#detailedParkingLotInfo');
+        detailedInfoDiv.empty();
+        // Append detailed information to the div
+        detailedInfoDiv.append('<h3>' + parkingLot.parkingFacilityName + '</h3>');
+        detailedInfoDiv.append('<p>요금정보: ' + parkingLot.feeInformation + '</p>');
+        detailedInfoDiv.append('<p>결제방법: ' + parkingLot.paymentMethod + '</p>');
+        detailedInfoDiv.append('<p>주차기본시간: ' + parkingLot.basicParkingTime + '</p>');
+        detailedInfoDiv.append('<p>주차기본요금: ' + parkingLot.basicParkingFee + '</p>');
+        detailedInfoDiv.append('<p>추가단위시간: ' + parkingLot.additionalUnitTime + '</p>');
+        detailedInfoDiv.append('<p>추가단위요금: ' + parkingLot.additionalUnitFee + '</p>');
+        detailedInfoDiv.append('<p>1일주차권요금적용시간: ' + parkingLot.dailyParkingTicketApplicationTime + '</p>');
+        detailedInfoDiv.append('<p>1일주차권요금: ' + parkingLot.dailyParkingTicketFee + '</p>');
+        detailedInfoDiv.append('<p>월정기권요금: ' + parkingLot.monthlySubscriptionFee + '</p>');
+        detailedInfoDiv.append('<p>운영요일: ' + parkingLot.operatingDays + '</p>');
+        detailedInfoDiv.append('<p>분류: ' + parkingLot.parkingFacilityClassification + '</p>');
+        detailedInfoDiv.append('<p>유형: ' + parkingLot.parkingFacilityType + '</p>');
+        detailedInfoDiv.append('<p>구획수: ' + parkingLot.numberofParkingSpaces + '</p>');
+        detailedInfoDiv.append('<p>평일운영시작시각: ' + parkingLot.weekdayOperatingStartTime + '</p>');
+        detailedInfoDiv.append('<p>평일운영종료시각: ' + parkingLot.weekdayOperatingEndTime + '</p>');
+        detailedInfoDiv.append('<p>토요일운영시작시각: ' + parkingLot.saturdayOperatingStartTime + '</p>');
+        detailedInfoDiv.append('<p>토요일운영종료시각: ' + parkingLot.saturdayOperatingEndTime + '</p>');
+        detailedInfoDiv.append('<p>공휴일운영시작시각: ' + parkingLot.holidayOperatingStartTime + '</p>');
+        detailedInfoDiv.append('<p>공휴일운영종료시각: ' + parkingLot.holidayOperatingEndTime + '</p>');
+        detailedInfoDiv.append('<p>특기사항: ' + parkingLot.specialNotes + '</p>');
+        detailedInfoDiv.append('<p>관리기관명: ' + parkingLot.managementOrganizationName + '</p>');
+        detailedInfoDiv.append('<p>전화번호: ' + parkingLot.telephoneNumber + '</p>');
+        detailedInfoDiv.append('<p>장애인전용주차구역보유여부: ' + parkingLot.presenceofDisabledParkingSpaces + '</p>');
+        detailedInfoDiv.append('<p>데이터기준일자: ' + parkingLot.dataReferenceDate + '</p>');
+
+
+
+        // Show the detailed information section
+        detailedInfoDiv.show();
     }
 
     function commentWrite() {
