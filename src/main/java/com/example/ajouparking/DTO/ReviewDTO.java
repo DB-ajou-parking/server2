@@ -1,5 +1,6 @@
 package com.example.ajouparking.DTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -8,6 +9,8 @@ import java.time.LocalDateTime;
 public class ReviewDTO {
     private String author;
     private String reviewText;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime timestamp;
 
     public void setAuthor(String author) {
