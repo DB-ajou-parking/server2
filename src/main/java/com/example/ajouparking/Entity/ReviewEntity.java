@@ -1,5 +1,6 @@
 package com.example.ajouparking.Entity;
 
+import com.example.ajouparking.DTO.ReviewDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -46,4 +47,18 @@ public class ReviewEntity {
     }
 
 
+
+
+
+
+
+
+
+    public ReviewDTO toDTO() {
+        ReviewDTO dto = new ReviewDTO();
+        dto.setAuthor(this.author);
+        dto.setReviewText(this.reviewText);
+        dto.setTimestamp(this.timestamp);
+        return dto;
+    }
 }
