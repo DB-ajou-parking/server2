@@ -1,8 +1,11 @@
-package com.example.ajouparking;
+package com.example.ajouparking.Entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -113,7 +116,8 @@ public class ParkinglotEntity {
     @Column //(name = "providingOrganizationName")
     private String providingOrganizationName;
 
-
+    @OneToMany(mappedBy = "parkinglot", cascade = CascadeType.ALL)
+    private List<ReviewEntity> reviews = new ArrayList<>();
 
 
 

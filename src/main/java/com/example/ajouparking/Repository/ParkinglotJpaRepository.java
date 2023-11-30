@@ -1,5 +1,6 @@
-package com.example.ajouparking;
+package com.example.ajouparking.Repository;
 
+import com.example.ajouparking.Entity.ParkinglotEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
