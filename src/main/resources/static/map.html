@@ -198,14 +198,18 @@
     <div class="mb-3">
         <input type="text" id="commentContents" placeholder="내용" class="form-control">
     </div>
-    <button id="comment-write-btn" onclick="commentWrite()" class="btn btn-primary">댓글작성</button>
+    <button id="comment-write-btn" onclick="commentWrite()" class="btn btn-primary">리뷰작성</button>
 </div>
 
-<!-- 부트스트랩 JS 및 기타 스크립트 추가 -->
+<!-- Bootstrap JS and other scripts -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
 <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=75d65be9a39ddfb55fce3a7fef87cf7a"></script>
+
 <script>
+    var currentParkingLotId = null;
     var mapContainer = document.getElementById('map');
     var mapOption = {
         center: new kakao.maps.LatLng(37.28444, 127.0444),
@@ -271,7 +275,7 @@
         if (data.length > 0) {
             for (var i = 0; i < data.length; i++) {
                 //resultDiv.append('<p>ParkingLot ID: ' + data[i].id + '</p>');
-                resultDiv.append('<p>주차장명: <a href="#" class="parking-link" data-lat="' + data[i].latitude + '" data-lng="' + data[i].longitude + '">' + data[i].parkingFacilityName + '</a></p>');
+                resultDiv.append('<p>주차장명: <a href="#" class="parking-link" data-lat="' + data[i].latitude + '" data-lng="' + data[i].longitude + '" data-parking-lot-id="' + data[i].id + '">' + data[i].parkingFacilityName + '</a></p>');
                 resultDiv.append('<p>도로명: ' + data[i].locationRoadNameAddress + '</p>');
                 resultDiv.append('<p>지번: ' + data[i].locationLandParcelAddress + '</p>');
                 resultDiv.append('<p>분류: ' + data[i].parkingFacilityClassification + '</p>');
@@ -282,7 +286,10 @@
             $('.parking-link').click(function () {
                 var lat = $(this).data('lat');
                 var lng = $(this).data('lng');
+                currentParkingLotId = $(this).data('parking-lot-id'); // Store the current parking lot ID
+
                 map.setCenter(new kakao.maps.LatLng(lat, lng));
+                fetchReviews(currentParkingLotId);
             });
         } else {
             resultDiv.append('<p>No matching parking lots found</p>');
@@ -294,6 +301,65 @@
         }
 
     }
+
+    function commentWrite() {
+        var commentWriter = $('#commentWriter').val();
+        var commentContents = $('#commentContents').val();
+
+        if (currentParkingLotId !== null) {
+            $.ajax({
+                type: 'POST',
+                url: '/api/parkinglot/' + currentParkingLotId + '/reviews',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    author: commentWriter,
+                    reviewText: commentContents
+                }),
+                success: function (response) {
+                    // Clear input fields
+                    $('#commentWriter').val('');
+                    $('#commentContents').val('');
+
+                    // Fetch and display updated reviews
+                    fetchReviews(currentParkingLotId);
+                },
+                error: function () {
+                    alert('Error adding review');
+                }
+            });
+        } else {
+            alert('Please select a parking lot before writing a review.');
+        }
+    }
+
+    function fetchReviews(parkingLotId) {
+        $.ajax({
+            type: 'GET',
+            url: '/api/parkinglot/' + parkingLotId + '/reviews',
+            success: function (reviews) {
+                // Clear existing reviews
+                $('#Reviews tbody').empty();
+
+                // Append the new reviews
+                for (var i = 0; i < reviews.length; i++) {
+                    $('#Reviews tbody').append(
+                        '<tr>' +
+                        '<td>' + (i + 1) + '</td>' +
+                        '<td>' + reviews[i].author + '</td>' +
+                        '<td>' + reviews[i].reviewText + '</td>' +
+                        '<td>' + reviews[i].timestamp + '</td>' +
+                        '</tr>'
+                    );
+                }
+            },
+            error: function () {
+                alert('Error fetching reviews');
+            }
+        });
+    }
+
+
+
 </script>
 </body>
 
