@@ -1,5 +1,6 @@
 package com.example.ajouparking.Service;
 
+import com.example.ajouparking.DTO.ReviewDTO;
 import com.example.ajouparking.Entity.ParkinglotEntity;
 import com.example.ajouparking.Entity.ReviewEntity;
 import com.example.ajouparking.Repository.ParkinglotJpaRepository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -52,8 +54,9 @@ public class ParkinglotService {
 
 
 
-    public List<ReviewEntity> getReviewsByParkingLotId(long parkingLotId) {
-        return reviewRepository.findByParkinglotId(parkingLotId);
+    public List<ReviewDTO> getReviewsByParkingLotId(long parkingLotId) {
+        List<ReviewEntity> reviews = reviewRepository.findByParkinglotId(parkingLotId);
+        return reviews.stream().map(ReviewEntity::toDTO).collect(Collectors.toList());
     }
 
     public void saveReview(ReviewEntity review) {
