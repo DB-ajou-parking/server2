@@ -1,11 +1,7 @@
 package com.example.ajouparking.entity;
 
-<<<<<<< HEAD:src/main/java/com/example/ajouparking/entity/Review.java
 import com.example.ajouparking.dto.ReviewDto;
-=======
 
-import com.example.ajouparking.DTO.ReviewDTO;
->>>>>>> b2db0d6adef22035be2dc9d38c5dc4f01ec139ca:src/main/java/com/example/ajouparking/Entity/ReviewEntity.java
 import jakarta.persistence.*;
 import lombok.Getter;
 
