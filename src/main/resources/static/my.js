@@ -84,37 +84,53 @@ function searchParkingLot() {
         };
 
 
-    $.ajax({
-        type: 'GET',
-        url: '/api/parkinglot/search?location=' + roadName,
-        success: function (data, currentUserLocation) {
-            displaySearchResult(data);
-            if (data.length > 0) {
-                // Add a marker at the location of the first result
-                addMarker(data[0]);
+        $.ajax({
+            type: 'GET',
+            url: '/api/parkinglot/search?location=' + roadName,
+            success: function (data, currentUserLocation) {
+                displaySearchResult(data);
+                if (data.length > 0) {
+                    // Add a marker at the location of the first result
+                    addMarker(data[0]);
 
-                // Center the map on the location of the first result
-                map.setCenter(new kakao.maps.LatLng(data[0].latitude, data[0].longitude));
+                    // Center the map on the location of the first result
+                    map.setCenter(new kakao.maps.LatLng(data[0].latitude, data[0].longitude));
+                }
+            },
+            error: function () {
+                alert('Error fetching data');
             }
-        },
-        error: function () {
-            alert('Error fetching data');
-        }
-    });
+        });
     });
 }
+
 
 function displaySearchResult(data) {
     var resultDiv = $('#searchResult');
     resultDiv.empty();
 
     if (data.length > 0) {
+        // Sort data based on distance in ascending order
+        data.sort(function (a, b) {
+            var distanceA = calculateDistance(
+                currentUserLocation.latitude,
+                currentUserLocation.longitude,
+                a.latitude,
+                a.longitude
+            );
+            var distanceB = calculateDistance(
+                currentUserLocation.latitude,
+                currentUserLocation.longitude,
+                b.latitude,
+                b.longitude
+            );
+            return distanceA - distanceB;
+        });
+
         for (var i = 0; i < data.length; i++) {
-            //resultDiv.append('<p>ParkingLot ID: ' + data[i].id + '</p>');
             resultDiv.append('<p>주차장명: <a href="#" class="parking-link" data-lat="' + data[i].latitude + '" data-lng="' + data[i].longitude + '" data-parking-lot-id="' + data[i].id + '">' + data[i].parkingFacilityName + '</a></p>');
             resultDiv.append('<p>도로명: ' + data[i].locationRoadNameAddress + '</p>');
             resultDiv.append('<p>지번: ' + data[i].locationLandParcelAddress + '</p>');
-            //resultDiv.append('<p>분류: ' + data[i].parkingFacilityClassification + '</p>');
             var distance = calculateDistance(
                 currentUserLocation.latitude,
                 currentUserLocation.longitude,
@@ -146,29 +162,30 @@ function displaySearchResult(data) {
     for (var i = 0; i < data.length; i++) {
         addMarker(data[i]);
     }
-
-
-
-
-
-
-
-    for (var i = 0; i < data.length; i++) {
-        var distance = calculateDistance(
-            currentUserLocation.latitude,
-            currentUserLocation.longitude,
-            data[i].latitude,
-            data[i].longitude
-        );
-
-        // Add the distance to the parking lot object
-        data[i].distance = distance;
-
-        // You can send the data with distance to your backend for storage
-        sendParkingLotData(data[i]);
-    }
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function toRadians(degrees) {
     return degrees * Math.PI / 180;
 }
