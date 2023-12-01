@@ -92,6 +92,7 @@ body {
     height: 100vh;
     border: 1px solid #ddd;
     border-radius: 8px;
+
 }
 
 #Reviews {
@@ -160,6 +161,26 @@ body {
     margin-right: 5px;
     vertical-align: middle;
 }
+
+
+
+
+#bottomNotice {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 123, 255, 0);
+    color: #000;
+    padding: 2px;
+    text-align: right;
+    z-index: 9999;
+}
+
+#bottomNotice p {
+    margin: 0; /* To remove default margin of <p> element */
+}
+
 
 
 

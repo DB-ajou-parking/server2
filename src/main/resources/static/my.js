@@ -21,9 +21,10 @@ if (navigator.geolocation) {
 
         var lat = position.coords.latitude, // 위도
             lon = position.coords.longitude; // 경도
-
-        var locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-            message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
+        currentUserLocation = {
+            latitude: lat,
+            longitude: lon
+        };
 
 
 
@@ -75,10 +76,18 @@ function searchParkingLot() {
     clearMarkers(); // Clear existing markers before making a new search
     var roadName = $('#searchRoadName').val();
 
+
+    navigator.geolocation.getCurrentPosition(function(position) {
+        var currentUserLocation = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        };
+
+
     $.ajax({
         type: 'GET',
         url: '/api/parkinglot/search?location=' + roadName,
-        success: function (data) {
+        success: function (data, currentUserLocation) {
             displaySearchResult(data);
             if (data.length > 0) {
                 // Add a marker at the location of the first result
@@ -91,6 +100,7 @@ function searchParkingLot() {
         error: function () {
             alert('Error fetching data');
         }
+    });
     });
 }
 
@@ -105,6 +115,14 @@ function displaySearchResult(data) {
             resultDiv.append('<p>도로명: ' + data[i].locationRoadNameAddress + '</p>');
             resultDiv.append('<p>지번: ' + data[i].locationLandParcelAddress + '</p>');
             //resultDiv.append('<p>분류: ' + data[i].parkingFacilityClassification + '</p>');
+            var distance = calculateDistance(
+                currentUserLocation.latitude,
+                currentUserLocation.longitude,
+                data[i].latitude,
+                data[i].longitude
+            );
+
+            resultDiv.append('<p>거리: ' + distance.toFixed(2) + ' km</p>');
             resultDiv.append('<hr>');
         }
 
@@ -129,7 +147,60 @@ function displaySearchResult(data) {
         addMarker(data[i]);
     }
 
+
+
+
+
+
+
+    for (var i = 0; i < data.length; i++) {
+        var distance = calculateDistance(
+            currentUserLocation.latitude,
+            currentUserLocation.longitude,
+            data[i].latitude,
+            data[i].longitude
+        );
+
+        // Add the distance to the parking lot object
+        data[i].distance = distance;
+
+        // You can send the data with distance to your backend for storage
+        sendParkingLotData(data[i]);
+    }
+
 }
+function toRadians(degrees) {
+    return degrees * Math.PI / 180;
+}
+
+function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // 지구의 반지름 (단위: 킬로미터)
+
+    // 위도 및 경도를 라디안으로 변환
+    const radLat1 = toRadians(lat1);
+    const radLon1 = toRadians(lon1);
+    const radLat2 = toRadians(lat2);
+    const radLon2 = toRadians(lon2);
+
+    // 위도 및 경도의 차이 계산
+    const dLat = radLat2 - radLat1;
+    const dLon = radLon2 - radLon1;
+
+    // Haversine 공식을 이용한 거리 계산
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(radLat1) * Math.cos(radLat2) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    const distance = R * c; // 거리 (단위: 킬로미터)
+
+    return distance;
+}
+
+
+
+
 // Add a new function to fetch and display detailed parking lot information
 function fetchDetailedParkingLotInfo(parkingLotId) {
     $.ajax({
