@@ -5,7 +5,6 @@ import com.example.ajouparking.entity.Parkinglot;
 import com.example.ajouparking.entity.Review;
 import com.example.ajouparking.repository.ParkinglotJpaRepository;
 import com.example.ajouparking.repository.ReviewRepository;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
