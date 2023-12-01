@@ -205,10 +205,12 @@ function commentWrite() {
             },
             error: function () {
                 alert('Error adding review');
+                console.log(this.error);
             }
         });
     } else {
-        alert('Please select a parking lot before writing a review.');
+        alert('리뷰를 작성하기 위해 주차장을 선택해주세요');
+        console.log(this.error);
     }
 }
 
