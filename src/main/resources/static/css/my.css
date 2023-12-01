@@ -202,7 +202,7 @@ button:hover {
 
 @font-face {
     font-family: "BMJUA";
-    src: url("BMJUA_ttf.ttf") format("truetype")
+    src: url("../BMJUA_ttf.ttf") format("truetype")
 }
 
 @media (min-width: 768px) {
