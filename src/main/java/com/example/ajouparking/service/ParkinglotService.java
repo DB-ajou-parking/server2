@@ -1,10 +1,10 @@
-package com.example.ajouparking.Service;
+package com.example.ajouparking.service;
 
-import com.example.ajouparking.DTO.ReviewDTO;
-import com.example.ajouparking.Entity.ParkinglotEntity;
-import com.example.ajouparking.Entity.ReviewEntity;
-import com.example.ajouparking.Repository.ParkinglotJpaRepository;
-import com.example.ajouparking.Repository.ReviewRepository;
+import com.example.ajouparking.dto.ReviewDto;
+import com.example.ajouparking.entity.Parkinglot;
+import com.example.ajouparking.entity.Review;
+import com.example.ajouparking.repository.ParkinglotJpaRepository;
+import com.example.ajouparking.repository.ReviewRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -26,16 +26,16 @@ public class ParkinglotService {
     }
 
 
-    public List<ParkinglotEntity> getParkinglots() {
-        List<ParkinglotEntity> parkingLots = parkinglotJpaRepository.findAll();
+    public List<Parkinglot> getParkinglots() {
+        List<Parkinglot> parkingLots = parkinglotJpaRepository.findAll();
         log.info("Fetched parking lots: {}", parkingLots);
         return parkingLots;
     }
 
 
-    public Optional<ParkinglotEntity> getParkinglotById(long id) {
+    public Optional<Parkinglot> getParkinglotById(long id) {
 
-        Optional<ParkinglotEntity> parkinglot = parkinglotJpaRepository.findById(id);
+        Optional<Parkinglot> parkinglot = parkinglotJpaRepository.findById(id);
 
         if (parkinglot.isPresent()) {
             log.info("---------- Log : getparkinglot : api/parkinglot/{" + id + "} ----------");
@@ -48,18 +48,18 @@ public class ParkinglotService {
 
 
 
-    public List<ParkinglotEntity> getRecordsByLocation(String location) {
+    public List<Parkinglot> getRecordsByLocation(String location) {
         return parkinglotJpaRepository.findByLocationRoadNameAddressContainingOrLocationLandParcelAddressContaining(location, location);
     }
 
 
 
-    public List<ReviewDTO> getReviewsByParkingLotId(long parkingLotId) {
-        List<ReviewEntity> reviews = reviewRepository.findByParkinglotId(parkingLotId);
-        return reviews.stream().map(ReviewEntity::toDTO).collect(Collectors.toList());
+    public List<ReviewDto> getReviewsByParkingLotId(long parkingLotId) {
+        List<Review> reviews = reviewRepository.findByParkinglotId(parkingLotId);
+        return reviews.stream().map(Review::toDTO).collect(Collectors.toList());
     }
 
-    public void saveReview(ReviewEntity review) {
+    public void saveReview(Review review) {
         reviewRepository.save(review);
     }
 

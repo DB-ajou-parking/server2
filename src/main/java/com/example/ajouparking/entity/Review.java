@@ -1,13 +1,13 @@
-package com.example.ajouparking.Entity;
+package com.example.ajouparking.entity;
 
-import com.example.ajouparking.DTO.ReviewDTO;
+import com.example.ajouparking.dto.ReviewDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Entity
-public class ReviewEntity {
+public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,7 +16,7 @@ public class ReviewEntity {
     @Getter
     @ManyToOne
     @JoinColumn
-    private ParkinglotEntity parkinglot;
+    private Parkinglot parkinglot;
 
     @Getter
     @Column
@@ -30,7 +30,7 @@ public class ReviewEntity {
     @Column
     private LocalDateTime timestamp;
 
-    public void setParkinglot(ParkinglotEntity parkinglot) {
+    public void setParkinglot(Parkinglot parkinglot) {
         this.parkinglot = parkinglot;
     }
 
@@ -54,8 +54,8 @@ public class ReviewEntity {
 
 
 
-    public ReviewDTO toDTO() {
-        ReviewDTO dto = new ReviewDTO();
+    public ReviewDto toDTO() {
+        ReviewDto dto = new ReviewDto();
         dto.setAuthor(this.author);
         dto.setReviewText(this.reviewText);
         dto.setTimestamp(this.timestamp);

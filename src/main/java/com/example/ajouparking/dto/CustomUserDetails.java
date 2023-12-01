@@ -1,6 +1,6 @@
-package com.example.ajouparking.DTO;
+package com.example.ajouparking.dto;
 
-import com.example.ajouparking.Entity.User;
+import com.example.ajouparking.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

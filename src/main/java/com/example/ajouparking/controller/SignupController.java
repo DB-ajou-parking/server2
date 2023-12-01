@@ -1,7 +1,7 @@
-package com.example.ajouparking.Controller;
+package com.example.ajouparking.controller;
 
-import com.example.ajouparking.DTO.SignupRequestDto;
-import com.example.ajouparking.Service.SignupService;
+import com.example.ajouparking.dto.SignupRequestDto;
+import com.example.ajouparking.service.SignupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

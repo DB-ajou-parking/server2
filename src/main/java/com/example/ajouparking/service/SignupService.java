@@ -1,8 +1,8 @@
-package com.example.ajouparking.Service;
+package com.example.ajouparking.service;
 
-import com.example.ajouparking.DTO.SignupRequestDto;
-import com.example.ajouparking.Entity.User;
-import com.example.ajouparking.Repository.UserRepository;
+import com.example.ajouparking.dto.SignupRequestDto;
+import com.example.ajouparking.entity.User;
+import com.example.ajouparking.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

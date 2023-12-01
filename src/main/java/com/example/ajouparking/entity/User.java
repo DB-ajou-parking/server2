@@ -1,4 +1,4 @@
-package com.example.ajouparking.Entity;
+package com.example.ajouparking.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

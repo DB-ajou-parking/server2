@@ -1,9 +1,9 @@
-package com.example.ajouparking.Controller;
+package com.example.ajouparking.controller;
 
-import com.example.ajouparking.DTO.ReviewDTO;
-import com.example.ajouparking.Entity.ParkinglotEntity;
-import com.example.ajouparking.Entity.ReviewEntity;
-import com.example.ajouparking.Service.ParkinglotService;
+import com.example.ajouparking.dto.ReviewDto;
+import com.example.ajouparking.entity.Parkinglot;
+import com.example.ajouparking.entity.Review;
+import com.example.ajouparking.service.ParkinglotService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,14 +29,14 @@ public class ParkinglotController {
     }
 
     @GetMapping("api/parkinglots")
-    public List<ParkinglotEntity> getParkinglots() {
+    public List<Parkinglot> getParkinglots() {
         return parkinglotService.getParkinglots();
     }
 
     @GetMapping("api/parkinglot/{id}")
-    public ResponseEntity<ParkinglotEntity> getParkinglotById(@PathVariable long id) {
+    public ResponseEntity<Parkinglot> getParkinglotById(@PathVariable long id) {
         try {
-            Optional<ParkinglotEntity> parkingLot = parkinglotService.getParkinglotById(id);
+            Optional<Parkinglot> parkingLot = parkinglotService.getParkinglotById(id);
             return parkingLot.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
         } catch (Exception e) {
             // Log the exception or handle it accordingly
@@ -47,12 +47,12 @@ public class ParkinglotController {
 
 
     @GetMapping("api/parkinglot/search") //검색란에 입력할시 검색어가 location으로
-    public List<ParkinglotEntity> getRecordsByLocation(@RequestParam String location) {
+    public List<Parkinglot> getRecordsByLocation(@RequestParam String location) {
         return parkinglotService.getRecordsByLocation(location);
     }
 
     @GetMapping("api/parkinglot/select/{location}") //각 지역버튼을 누르면 해당 지역이름이 location으로
-    public List<ParkinglotEntity> getParkingLotsByLocation(@PathVariable String location) {
+    public List<Parkinglot> getParkingLotsByLocation(@PathVariable String location) {
         return parkinglotService.getRecordsByLocation(location);
     }
 
@@ -60,14 +60,14 @@ public class ParkinglotController {
 
 
     @GetMapping("api/parkinglot/{id}/reviews")
-    public ResponseEntity<List<ReviewDTO>> getReviewsForParkingLot(@PathVariable long id) {
-        List<ReviewDTO> reviews = parkinglotService.getReviewsByParkingLotId(id);
+    public ResponseEntity<List<ReviewDto>> getReviewsForParkingLot(@PathVariable long id) {
+        List<ReviewDto> reviews = parkinglotService.getReviewsByParkingLotId(id);
         return ResponseEntity.ok(reviews);
     }
 
     @PostMapping("api/parkinglot/{id}/reviews")
-    public ResponseEntity<String> addReviewForParkingLot(@PathVariable long id, @RequestBody ReviewEntity review) {
-        ParkinglotEntity parkinglot = parkinglotService.getParkinglotById(id).orElse(null);
+    public ResponseEntity<String> addReviewForParkingLot(@PathVariable long id, @RequestBody Review review) {
+        Parkinglot parkinglot = parkinglotService.getParkinglotById(id).orElse(null);
 
         if (parkinglot == null) {
             return ResponseEntity.notFound().build();

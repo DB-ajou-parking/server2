@@ -1,4 +1,4 @@
-package com.example.ajouparking.Entity;
+package com.example.ajouparking.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table
 @Entity
-public class ParkinglotEntity {
+public class Parkinglot {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -117,7 +117,7 @@ public class ParkinglotEntity {
     private String providingOrganizationName;
 
     @OneToMany(mappedBy = "parkinglot", cascade = CascadeType.ALL)
-    private List<ReviewEntity> reviews = new ArrayList<>();
+    private List<Review> reviews = new ArrayList<>();
 
 
 

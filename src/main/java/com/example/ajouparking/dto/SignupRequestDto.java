@@ -1,4 +1,4 @@
-package com.example.ajouparking.DTO;
+package com.example.ajouparking.dto;
 
 
 import lombok.Getter;

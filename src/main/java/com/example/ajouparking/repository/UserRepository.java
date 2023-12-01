@@ -1,6 +1,6 @@
-package com.example.ajouparking.Repository;
+package com.example.ajouparking.repository;
 
-import com.example.ajouparking.Entity.User;
+import com.example.ajouparking.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User,Long> {

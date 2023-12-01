@@ -1,4 +1,4 @@
-package com.example.ajouparking.Controller.routing;
+package com.example.ajouparking.controller.routing;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

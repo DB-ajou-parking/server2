@@ -1,4 +1,4 @@
-package com.example.ajouparking.DTO;
+package com.example.ajouparking.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class ReviewDTO {
+public class ReviewDto {
     private String author;
     private String reviewText;
 
