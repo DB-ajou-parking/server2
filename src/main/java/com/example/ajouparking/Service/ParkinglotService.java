@@ -1,5 +1,6 @@
 package com.example.ajouparking.Service;
 
+
 import com.example.ajouparking.DTO.ReviewDTO;
 import com.example.ajouparking.Entity.ParkinglotEntity;
 import com.example.ajouparking.Entity.ReviewEntity;
@@ -20,11 +21,12 @@ public class ParkinglotService {
     private final ReviewRepository reviewRepository;
 
 
-    public ParkinglotService(ParkinglotJpaRepository ParkinglotJpaRepository,ReviewRepository ReviewRepository) {
-        this.parkinglotJpaRepository = ParkinglotJpaRepository;
-        this.reviewRepository = ReviewRepository;
+    public ParkinglotService(ParkinglotJpaRepository testJpaRepository, ReviewRepository reviewRepository) {
+        this.parkinglotJpaRepository = testJpaRepository;
+        this.reviewRepository = reviewRepository;
     }
-
+    
+    
 
     public List<ParkinglotEntity> getParkinglots() {
         List<ParkinglotEntity> parkingLots = parkinglotJpaRepository.findAll();
@@ -62,6 +64,10 @@ public class ParkinglotService {
     public void saveReview(ReviewEntity review) {
         reviewRepository.save(review);
     }
+
+
+
+
 
 
 
