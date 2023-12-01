@@ -42,10 +42,14 @@
         <div id="searchResult"></div>
     </div>
 
-    <div id="detailedParkingLotInfo" style="display: none;"></div>
+    <div id="detailedParkingLotInfo"></div>
 
 </div>
 
+<div id="visualizationContainer">
+    <button id="serveyBtn" class="btn btn-primary">만족도조사</button>
+    <button id="visualizationBtn" class="btn btn-primary">시각화분석</button>
+</div>
 
 <div id="map"></div>
 
@@ -94,6 +98,96 @@
         </span> <!-- 예시: material-icons 사용 -->
     </div>
 </div>
+
+
+<div id="bottomNotice">
+    <p>
+        AJou PARKING이 새롭게 출시되었습니다. 사용자의 현재위치가 최대 450미터까지 차이날 수 있습니다. &nbsp; &nbsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;
+    </p>
+</div>
+
+
+
+
+<div class="modal fade" id="satisfactionModal" tabindex="-1" aria-labelledby="satisfactionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="satisfactionModalLabel">만족도 조사</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- 여기에 만족도 조사 양식이 들어갈 수 있습니다 -->
+
+                <p>주차장 시설 및 편의 시설에 대한 만족도:</p>
+                <select id="facilityRating" class="form-select">
+                    <option value="만족">만족</option>
+                    <option value="다소 만족">다소 만족</option>
+                    <option value="보통">보통</option>
+                    <option value="다소 불만">다소 불만</option>
+                    <option value="불만">불만</option>
+                </select>
+
+                <p>주차장의 혼잡도에 대한 만족도:</p>
+                <select id="congestionRating" class="form-select">
+                    <option value="만족">만족</option>
+                    <option value="다소 만족">다소 만족</option>
+                    <option value="보통">보통</option>
+                    <option value="다소 불만">다소 불만</option>
+                    <option value="불만">불만</option>
+                </select>
+
+                <p>주차 요금에 대한 만족도:</p>
+                <select id="feeRating" class="form-select">
+                    <option value="만족">만족</option>
+                    <option value="다소 만족">다소 만족</option>
+                    <option value="보통">보통</option>
+                    <option value="다소 불만">다소 불만</option>
+                    <option value="불만">불만</option>
+                </select>
+
+                <p>주차장의 안전성에 대한 만족도:</p>
+                <select id="safetyRating" class="form-select">
+                    <option value="만족">만족</option>
+                    <option value="다소 만족">다소 만족</option>
+                    <option value="보통">보통</option>
+                    <option value="다소 불만">다소 불만</option>
+                    <option value="불만">불만</option>
+                </select>
+
+                <p>주차장의 표지판 및 안내 시스템에 대한 만족도:</p>
+                <select id="signageRating" class="form-select">
+                    <option value="만족">만족</option>
+                    <option value="다소 만족">다소 만족</option>
+                    <option value="보통">보통</option>
+                    <option value="다소 불만">다소 불만</option>
+                    <option value="불만">불만</option>
+                </select>
+
+                <p>주차장 직원의 서비스에 대한 만족도:</p>
+                <select id="serviceRating" class="form-select">
+                    <option value="만족">만족</option>
+                    <option value="다소 만족">다소 만족</option>
+                    <option value="보통">보통</option>
+                    <option value="다소 불만">다소 불만</option>
+                    <option value="불만">불만</option>
+                </select>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-primary" onclick="submitSatisfactionSurvey()">제출</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
 
 <!-- Bootstrap JS and other scripts -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>

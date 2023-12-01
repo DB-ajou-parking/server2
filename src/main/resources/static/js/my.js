@@ -21,9 +21,10 @@ if (navigator.geolocation) {
 
         var lat = position.coords.latitude, // 위도
             lon = position.coords.longitude; // 경도
-
-        var locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-            message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
+        currentUserLocation = {
+            latitude: lat,
+            longitude: lon
+        };
 
 
 
@@ -75,36 +76,69 @@ function searchParkingLot() {
     clearMarkers(); // Clear existing markers before making a new search
     var roadName = $('#searchRoadName').val();
 
-    $.ajax({
-        type: 'GET',
-        url: '/api/parkinglot/search?location=' + roadName,
-        success: function (data) {
-            displaySearchResult(data);
-            if (data.length > 0) {
-                // Add a marker at the location of the first result
-                addMarker(data[0]);
 
-                // Center the map on the location of the first result
-                map.setCenter(new kakao.maps.LatLng(data[0].latitude, data[0].longitude));
+    navigator.geolocation.getCurrentPosition(function(position) {
+        var currentUserLocation = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        };
+
+
+        $.ajax({
+            type: 'GET',
+            url: '/api/parkinglot/search?location=' + roadName,
+            success: function (data, currentUserLocation) {
+                displaySearchResult(data);
+                if (data.length > 0) {
+                    // Add a marker at the location of the first result
+                    addMarker(data[0]);
+
+                    // Center the map on the location of the first result
+                    map.setCenter(new kakao.maps.LatLng(data[0].latitude, data[0].longitude));
+                }
+            },
+            error: function () {
+                alert('Error fetching data');
             }
-        },
-        error: function () {
-            alert('Error fetching data');
-        }
+        });
     });
 }
+
 
 function displaySearchResult(data) {
     var resultDiv = $('#searchResult');
     resultDiv.empty();
 
     if (data.length > 0) {
+        // Sort data based on distance in ascending order
+        data.sort(function (a, b) {
+            var distanceA = calculateDistance(
+                currentUserLocation.latitude,
+                currentUserLocation.longitude,
+                a.latitude,
+                a.longitude
+            );
+            var distanceB = calculateDistance(
+                currentUserLocation.latitude,
+                currentUserLocation.longitude,
+                b.latitude,
+                b.longitude
+            );
+            return distanceA - distanceB;
+        });
+
         for (var i = 0; i < data.length; i++) {
-            //resultDiv.append('<p>ParkingLot ID: ' + data[i].id + '</p>');
             resultDiv.append('<p>주차장명: <a href="#" class="parking-link" data-lat="' + data[i].latitude + '" data-lng="' + data[i].longitude + '" data-parking-lot-id="' + data[i].id + '">' + data[i].parkingFacilityName + '</a></p>');
             resultDiv.append('<p>도로명: ' + data[i].locationRoadNameAddress + '</p>');
             resultDiv.append('<p>지번: ' + data[i].locationLandParcelAddress + '</p>');
-            //resultDiv.append('<p>분류: ' + data[i].parkingFacilityClassification + '</p>');
+            var distance = calculateDistance(
+                currentUserLocation.latitude,
+                currentUserLocation.longitude,
+                data[i].latitude,
+                data[i].longitude
+            );
+
+            resultDiv.append('<p>거리: ' + distance.toFixed(2) + ' km</p>');
             resultDiv.append('<hr>');
         }
 
@@ -130,6 +164,60 @@ function displaySearchResult(data) {
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function toRadians(degrees) {
+    return degrees * Math.PI / 180;
+}
+
+function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // 지구의 반지름 (단위: 킬로미터)
+
+    // 위도 및 경도를 라디안으로 변환
+    const radLat1 = toRadians(lat1);
+    const radLon1 = toRadians(lon1);
+    const radLat2 = toRadians(lat2);
+    const radLon2 = toRadians(lon2);
+
+    // 위도 및 경도의 차이 계산
+    const dLat = radLat2 - radLat1;
+    const dLon = radLon2 - radLon1;
+
+    // Haversine 공식을 이용한 거리 계산
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(radLat1) * Math.cos(radLat2) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    const distance = R * c; // 거리 (단위: 킬로미터)
+
+    return distance;
+}
+
+
+
+
 // Add a new function to fetch and display detailed parking lot information
 function fetchDetailedParkingLotInfo(parkingLotId) {
     $.ajax({
@@ -138,6 +226,7 @@ function fetchDetailedParkingLotInfo(parkingLotId) {
         success: function (parkingLot) {
             // Display detailed information in the designated div
             displayDetailedParkingLotInfo(parkingLot);
+
         },
         error: function () {
             alert('Error fetching detailed parking lot information');
@@ -175,8 +264,6 @@ function displayDetailedParkingLotInfo(parkingLot) {
     detailedInfoDiv.append('<p>전화번호: ' + parkingLot.telephoneNumber + '</p>');
     detailedInfoDiv.append('<p>장애인전용주차구역보유여부: ' + parkingLot.presenceofDisabledParkingSpaces + '</p>');
     detailedInfoDiv.append('<p>데이터기준일자: ' + parkingLot.dataReferenceDate + '</p>');
-
-
 
     // Show the detailed information section
     detailedInfoDiv.show();
@@ -238,4 +325,26 @@ function fetchReviews(parkingLotId) {
             alert('Error fetching reviews');
         }
     });
+}
+
+
+
+$(document).ready(function () {
+    $('#serveyBtn').click(function () {
+        $('#satisfactionModal').modal('show');
+    });
+});
+
+// 모달 닫힐 때 입력 내용 초기화
+$('#satisfactionModal').on('hidden.bs.modal', function () {
+    $('#satisfactionSurveyText').val('');
+});
+
+// 만족도 조사 제출 함수
+function submitSatisfactionSurvey() {
+    var surveyText = $('#satisfactionSurveyText').val();
+    // 여기에 만족도 조사를 서버로 전송하는 코드를 추가할 수 있습니다.
+    // 예시: $.post('/api/satisfaction', { text: surveyText }, function(response) { console.log(response); });
+    // 모달 닫기
+    $('#satisfactionModal').modal('hide');
 }
