@@ -162,8 +162,8 @@ function displaySearchResult(data) {
     for (var i = 0; i < data.length; i++) {
         addMarker(data[i]);
     }
-}
 
+}
 
 
 
@@ -226,6 +226,7 @@ function fetchDetailedParkingLotInfo(parkingLotId) {
         success: function (parkingLot) {
             // Display detailed information in the designated div
             displayDetailedParkingLotInfo(parkingLot);
+
         },
         error: function () {
             alert('Error fetching detailed parking lot information');
@@ -263,8 +264,6 @@ function displayDetailedParkingLotInfo(parkingLot) {
     detailedInfoDiv.append('<p>전화번호: ' + parkingLot.telephoneNumber + '</p>');
     detailedInfoDiv.append('<p>장애인전용주차구역보유여부: ' + parkingLot.presenceofDisabledParkingSpaces + '</p>');
     detailedInfoDiv.append('<p>데이터기준일자: ' + parkingLot.dataReferenceDate + '</p>');
-
-
 
     // Show the detailed information section
     detailedInfoDiv.show();
