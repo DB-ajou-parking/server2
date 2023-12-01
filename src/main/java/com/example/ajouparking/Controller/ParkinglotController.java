@@ -1,7 +1,9 @@
-package com.example.ajouparking;
+package com.example.ajouparking.Controller;
 
+import com.example.ajouparking.DTO.ReviewDTO;
 import com.example.ajouparking.Entity.ParkinglotEntity;
 import com.example.ajouparking.Entity.ReviewEntity;
+import com.example.ajouparking.Service.ParkinglotService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -58,8 +60,9 @@ public class ParkinglotController {
 
 
     @GetMapping("api/parkinglot/{id}/reviews")
-    public ResponseEntity<List<ReviewEntity>> getReviewsForParkingLot(@PathVariable long id) {
-        List<ReviewEntity> reviews = parkinglotService.getReviewsByParkingLotId(id);
+    public ResponseEntity<List<ReviewDTO>> getReviewsForParkingLot(@PathVariable long id) {
+        List<ReviewDTO> reviews = parkinglotService.getReviewsByParkingLotId(id);
+
         return ResponseEntity.ok(reviews);
     }
 
@@ -83,6 +86,7 @@ public class ParkinglotController {
             e.printStackTrace(); // Log the exception
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
         }
+
     }
 
 }

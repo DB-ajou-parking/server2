@@ -1,5 +1,7 @@
 package com.example.ajouparking.Entity;
 
+
+import com.example.ajouparking.DTO.ReviewDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -23,17 +25,20 @@ public class ReviewEntity {
     @Column
     private String reviewText;
 
+
     @Column
     private LocalDateTime timestamp;
 
     public void setParkinglot(ParkinglotEntity parkinglot) {
         this.parkinglot = parkinglot;
     }
+
     public void setAuthor(String author) {
         this.author = author;
     }public void setReviewText(String reviewText) {
         this.reviewText = reviewText;
     }
+
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
@@ -46,6 +51,14 @@ public class ReviewEntity {
         return reviewText;
     }
 
+
+    public ReviewDTO toDTO() {
+        ReviewDTO dto = new ReviewDTO();
+        dto.setAuthor(this.author);
+        dto.setReviewText(this.reviewText);
+        dto.setTimestamp(this.timestamp);
+        return dto;
+    }
 
     // Getters and setters
 }

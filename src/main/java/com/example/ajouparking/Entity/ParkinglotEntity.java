@@ -117,8 +117,10 @@ public class ParkinglotEntity {
     private String providingOrganizationName;
 
 
+
     @OneToMany(mappedBy = "parkinglot", cascade = CascadeType.ALL)
     private List<ReviewEntity> reviews = new ArrayList<>();
+
 
 
 
