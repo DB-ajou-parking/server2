@@ -11,8 +11,4 @@ public class LoginController {
         return "signin";
     }
 
-    @GetMapping("/auth/signup")
-    public String signup(){
-        return "signup";
-    }
 }
