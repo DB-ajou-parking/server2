@@ -18,6 +18,7 @@ body {
     display: flex;
     flex-direction: column;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px; /* 모서리를 둥글게 처리 */
 }
 
 #searchContainer {
@@ -27,12 +28,15 @@ body {
     z-index: 1;
     padding: 10px;
     border-bottom: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
 }
 
 #searchResultsContainer {
     flex: 1;
     overflow-y: auto;
-    padding: 10px; /* 간격  조절 */
+    padding: 15px; /* 간격 조절 */
+    background-color: #f5f5f5;
+    border-radius: 8px;
 }
 #searchResultsContainer .parking-link {
     font-size: 1.1em; /* 주차장명의 글자 크기 조절 */
@@ -53,6 +57,8 @@ body {
     line-height: 0.5;
     max-height: 200px; /* Adjust the max height as needed */
     overflow-y: auto; /* Enable vertical scrolling */
+    padding: 10px; /* 간격 조절 */
+    border-radius: 8px;
 }
 
 
@@ -100,17 +106,18 @@ body {
     z-index: 2;
     border-radius: 8px;
     align-items: flex-end; /* 추가 */
+    text-align: right; /* 텍스트 정렬 추가 */
 }
 #Reviews th {
-    font-size: 0.6em; /* Adjusted font size for table headers */
+    font-size: 0.8em; /* Adjusted font size for table headers */
 }
 
 #Reviews td {
-    font-size: 0.6em; /* Adjusted font size for table data */
+    font-size: 0.8em; /* Adjusted font size for table data */
 }
 
 #Reviews .parking-link {
-    font-size: 0.7em; /* Adjusted font size for parking links */
+    font-size: 0.9em; /* Adjusted font size for parking links */
 }
 
 #Reviews #commentContents {
@@ -121,6 +128,38 @@ body {
     font-size: 1em; /* Adjusted font size for the '리뷰' heading */
 }
 
+
+
+
+
+
+
+
+#bottomRightButtons {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 1000; /* map과 겹치지 않도록 z-index 설정 */
+}
+
+.transparentBox {
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+#bottomRightButtons button {
+    margin-right: 5px;
+}
+
+
+.icon-image {
+    width: 2.3em; /* 이미지 크기 조절 */
+    height: 2.3em;
+    margin-right: 5px;
+    vertical-align: middle;
+}
 
 
 
@@ -163,7 +202,7 @@ button:hover {
 
 @font-face {
     font-family: "BMJUA";
-    src: url("../resources/BMJUA_ttf.ttf") format("truetype")
+    src: url("BMJUA_ttf.ttf") format("truetype")
 }
 
 @media (min-width: 768px) {
@@ -177,6 +216,6 @@ button:hover {
     }
 
     #map {
-        height: calc(100vh - 20px); /* 간격 조절 */
+        height: calc(100vh - 5px); /* 간격 조절 */
     }
 }
