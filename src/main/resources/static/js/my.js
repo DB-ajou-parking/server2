@@ -162,8 +162,8 @@ function displaySearchResult(data) {
     for (var i = 0; i < data.length; i++) {
         addMarker(data[i]);
     }
-}
 
+}
 
 
 
@@ -226,6 +226,7 @@ function fetchDetailedParkingLotInfo(parkingLotId) {
         success: function (parkingLot) {
             // Display detailed information in the designated div
             displayDetailedParkingLotInfo(parkingLot);
+
         },
         error: function () {
             alert('Error fetching detailed parking lot information');
@@ -263,8 +264,6 @@ function displayDetailedParkingLotInfo(parkingLot) {
     detailedInfoDiv.append('<p>전화번호: ' + parkingLot.telephoneNumber + '</p>');
     detailedInfoDiv.append('<p>장애인전용주차구역보유여부: ' + parkingLot.presenceofDisabledParkingSpaces + '</p>');
     detailedInfoDiv.append('<p>데이터기준일자: ' + parkingLot.dataReferenceDate + '</p>');
-
-
 
     // Show the detailed information section
     detailedInfoDiv.show();
@@ -326,4 +325,26 @@ function fetchReviews(parkingLotId) {
             alert('Error fetching reviews');
         }
     });
+}
+
+
+
+$(document).ready(function () {
+    $('#serveyBtn').click(function () {
+        $('#satisfactionModal').modal('show');
+    });
+});
+
+// 모달 닫힐 때 입력 내용 초기화
+$('#satisfactionModal').on('hidden.bs.modal', function () {
+    $('#satisfactionSurveyText').val('');
+});
+
+// 만족도 조사 제출 함수
+function submitSatisfactionSurvey() {
+    var surveyText = $('#satisfactionSurveyText').val();
+    // 여기에 만족도 조사를 서버로 전송하는 코드를 추가할 수 있습니다.
+    // 예시: $.post('/api/satisfaction', { text: surveyText }, function(response) { console.log(response); });
+    // 모달 닫기
+    $('#satisfactionModal').modal('hide');
 }
