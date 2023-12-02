@@ -28,10 +28,8 @@ public class Review {
     @Column
     private String reviewText;
 
-
     @Column
     private LocalDateTime timestamp;
-
 
     public ReviewDto toDTO() {
         ReviewDto dto = new ReviewDto();
@@ -41,5 +39,4 @@ public class Review {
         return dto;
     }
 
-    // Getters and setters
 }

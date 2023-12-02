@@ -24,10 +24,14 @@ public class SignupController {
         return "signup";
     }
 
+//    @PostMapping("/auth/signup")
+//    public ResponseEntity<?> signup(SignupRequestDto signupRequestDto){
+//        URI selfLink = URI.create(ServletUriComponentsBuilder.fromCurrentRequest() .toUriString());
+//        signupService.signup(signupRequestDto);
+//        return ResponseEntity.created(selfLink).build();
+//    }
     @PostMapping("/auth/signup")
-    public ResponseEntity<?> signup(SignupRequestDto signupRequestDto){
-        URI selfLink = URI.create(ServletUriComponentsBuilder.fromCurrentRequest() .toUriString());
+    public void signup(SignupRequestDto signupRequestDto){
         signupService.signup(signupRequestDto);
-        return ResponseEntity.created(selfLink).build();
     }
 }

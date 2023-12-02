@@ -27,15 +27,5 @@ public class SignupService {
                 .build();
 
         userRepository.save(user);
-
-
-
-//        User userEntity = new User();
-//
-//        userEntity.setUsername(signupRequestDto.getUsername());
-//        userEntity.setPassword(bCryptPasswordEncoder.encode(signupRequestDto.getPassword()));
-//        userEntity.setRole("ROLE_USER");
-
-//        userRepository.save(userEntity);
     }
 }
