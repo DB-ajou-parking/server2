@@ -1,15 +1,15 @@
 package com.example.ajouparking.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table
+@Getter @Setter
 @Entity
 public class Parkinglot {
 
@@ -120,150 +120,6 @@ public class Parkinglot {
 
     @OneToMany(mappedBy = "parkinglot", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
-
-
-
-
-
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getParkingFacilityName() {
-        return ParkingFacilityName;
-    }
-
-    public String getParkingFacilityClassification() {
-        return ParkingFacilityClassification;
-
-    }
-
-    public String getParkingFacilityType() {
-        return ParkingFacilityType;
-    }
-
-    public String getlocationRoadNameAddress() {
-        return locationRoadNameAddress;
-    }
-
-    public String getlocationLandParcelAddress() {
-        return locationLandParcelAddress;
-    }
-
-    public String getNumberofParkingSpaces() {
-        return NumberofParkingSpaces;
-    }
-
-    public String getAccessClassification() {
-        return AccessClassification;
-    }
-
-    public String getSubtitleImplementationClassification() {
-        return SubtitleImplementationClassification;
-    }
-
-    public String getOperatingDays() {
-        return OperatingDays;
-    }
-
-    public String getWeekdayOperatingStartTime() {
-        return WeekdayOperatingStartTime;
-    }
-
-    public String getWeekdayOperatingEndTime() {
-        return WeekdayOperatingEndTime;
-    }
-
-    public String getSaturdayOperatingStartTime() {
-        return SaturdayOperatingStartTime;
-    }
-
-    public String getSaturdayOperatingEndTime() {
-        return SaturdayOperatingEndTime;
-    }
-
-    public String getHolidayOperatingStartTime() {
-        return HolidayOperatingStartTime;
-    }
-
-    public String getHolidayOperatingEndTime() {
-        return HolidayOperatingEndTime;
-    }
-
-    public String getFeeInformation() {
-        return FeeInformation;
-    }
-
-    public String getBasicParkingTime() {
-        return BasicParkingTime;
-    }
-
-    public String getBasicParkingFee() {
-        return BasicParkingFee;
-    }
-
-    public String getAdditionalUnitTime() {
-        return AdditionalUnitTime;
-    }
-
-    public String getAdditionalUnitFee() {
-        return AdditionalUnitFee;
-    }
-
-    public String getDailyParkingTicketApplicationTime() {
-        return DailyParkingTicketApplicationTime;
-    }
-
-    public String getDailyParkingTicketFee() {
-        return DailyParkingTicketFee;
-    }
-
-    public String getMonthlySubscriptionFee() {
-        return MonthlySubscriptionFee;
-    }
-
-    public String getPaymentMethod() {
-        return PaymentMethod;
-    }
-
-    public String getSpecialNotes() {
-        return SpecialNotes;
-    }
-
-    public String getManagementOrganizationName() {
-        return ManagementOrganizationName;
-    }
-
-    public String getTelephoneNumber() {
-        return TelephoneNumber;
-    }
-
-    public String getLatitude() {
-        return Latitude;
-    }
-
-    public String getLongitude() {
-        return Longitude;
-    }
-
-    public String getPresenceofDisabledParkingSpaces() {
-        return PresenceofDisabledParkingSpaces;
-    }
-
-    public String getDataReferenceDate() {
-        return DataReferenceDate;
-    }
-
-    public String getProvidingOrganizationCode() {
-        return ProvidingOrganizationCode;
-    }
-
-    public String getprovidingOrganizationName() {
-        return providingOrganizationName;
-    }
-
 
 
 }
