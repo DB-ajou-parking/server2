@@ -5,6 +5,9 @@ import lombok.*;
 
 @Getter @Setter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id

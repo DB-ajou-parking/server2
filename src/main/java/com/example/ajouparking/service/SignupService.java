@@ -20,12 +20,22 @@ public class SignupService {
             return;
         }
 
-        User userEntity = new User();
+        User user = User.builder()
+                .username(signupRequestDto.getUsername())
+                .password(bCryptPasswordEncoder.encode(signupRequestDto.getPassword()))
+                .role("ROLE_USER")
+                .build();
 
-        userEntity.setUsername(signupRequestDto.getUsername());
-        userEntity.setPassword(bCryptPasswordEncoder.encode(signupRequestDto.getPassword()));
-        userEntity.setRole("ROLE_USER");
+        userRepository.save(user);
 
-        userRepository.save(userEntity);
+
+
+//        User userEntity = new User();
+//
+//        userEntity.setUsername(signupRequestDto.getUsername());
+//        userEntity.setPassword(bCryptPasswordEncoder.encode(signupRequestDto.getPassword()));
+//        userEntity.setRole("ROLE_USER");
+
+//        userRepository.save(userEntity);
     }
 }
