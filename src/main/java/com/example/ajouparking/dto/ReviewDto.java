@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 
 @Getter @Setter
 public class ReviewDto {
-    private Parkinglot parkinglot;
     private String author;
     private String reviewText;
 

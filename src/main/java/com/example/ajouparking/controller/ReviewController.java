@@ -1,6 +1,7 @@
 package com.example.ajouparking.controller;
 
 import com.example.ajouparking.dto.ReviewDto;
+import com.example.ajouparking.dto.ReviewRequestDto;
 import com.example.ajouparking.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,8 @@ public class ReviewController {
     }
 
     @PostMapping("/parkinglot/{id}/reviews")
-    public void addReviewForParkingLot(@PathVariable long id, @RequestBody ReviewDto reviewDto) {
-        reviewService.saveReview(id,reviewDto);
+    public void addReviewForParkingLot(@PathVariable long id, @RequestBody ReviewRequestDto reviewRequestDto) {
+        reviewService.saveReview(id,reviewRequestDto);
     }
 
 }

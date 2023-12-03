@@ -2,6 +2,7 @@ package com.example.ajouparking.service;
 
 import com.example.ajouparking.dto.CommonResponseDto;
 import com.example.ajouparking.dto.ReviewDto;
+import com.example.ajouparking.dto.ReviewRequestDto;
 import com.example.ajouparking.entity.Parkinglot;
 import com.example.ajouparking.entity.Review;
 import com.example.ajouparking.exceptionHandler.exceptions.CustomApiException;
@@ -30,7 +31,7 @@ public class ReviewService {
     }
 
     @Transactional
-    public ResponseEntity<?> saveReview(Long parkingLotId, ReviewDto reviewDto) {
+    public ResponseEntity<?> saveReview(Long parkingLotId, ReviewRequestDto reviewRequestDto) {
         Parkinglot parkinglot = parkinglotService.getParkinglotById(parkingLotId).orElseThrow(
                 () -> new IllegalArgumentException("없는 주차장 입니다."));
 
@@ -40,9 +41,9 @@ public class ReviewService {
 
         try {
             Review reviewEntity = Review.builder()
-                    .parkinglot(reviewDto.getParkinglot())
-                    .author(reviewDto.getAuthor())
-                    .reviewText(reviewDto.getReviewText())
+                    .parkinglot(reviewRequestDto.getParkinglot())
+                    .author(reviewRequestDto.getAuthor())
+                    .reviewText(reviewRequestDto.getReviewText())
                     .build();
 
             reviewRepository.save(reviewEntity);

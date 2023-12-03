@@ -57,5 +57,10 @@ public class ParkinglotController {
         return parkinglotService.getRecordsByLocation(location);
     }
 
+//    @GetMapping("api/parkinglot/select/{id}") // 주차장을 누르면 해당 주차장 정보를 보여주는 페이지로 이동
+//    public List<Parkinglot> getParkingLotsByLocation(@PathVariable Long id) {
+//      return null;
+//    }
+
 
 }
