@@ -116,6 +116,8 @@ public class Parkinglot {
     @Column
     private String providingOrganizationName;
 
+    @Column String distance;
+
     @OneToMany(mappedBy = "parkinglot", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 

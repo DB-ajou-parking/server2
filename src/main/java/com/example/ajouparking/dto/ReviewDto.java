@@ -1,5 +1,6 @@
 package com.example.ajouparking.dto;
 
+import com.example.ajouparking.entity.Review;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,4 +15,11 @@ public class ReviewDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime timestamp;
 
+    public Review toEntity(){
+        return Review.builder()
+                .author(author)
+                .reviewText(reviewText)
+                .timestamp(timestamp)
+                .build();
+    }
 }
