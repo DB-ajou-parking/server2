@@ -22,10 +22,10 @@ public class Review {
     @JoinColumn
     private Parkinglot parkinglot;
 
-    @Column
+    @Column(nullable = false)
     private String author;
 
-    @Column
+    @Column(nullable = false)
     private String reviewText;
 
     @Column

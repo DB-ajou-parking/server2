@@ -55,6 +55,9 @@
 
 <div id="Reviews">
     <h3>리뷰</h3>
+<!--    <form th:action="@{/review}" method="get">-->
+<!--        <button type="submit" class="btn btn-primary">리뷰 보러가기</button>-->
+<!--    </form>-->
     <table class="table">
         <thead>
         <tr>
@@ -75,10 +78,10 @@
     </table>
 
     <div class="mb-3">
-        <input type="text" id="commentWriter" placeholder="작성자" class="form-control">
+        <input type="text" id="commentWriter" placeholder="작성자" class="form-control" required="required">
     </div>
     <div class="mb-3">
-        <input type="text" id="commentContents" placeholder="내용" class="form-control">
+        <input type="text" id="commentContents" placeholder="내용" class="form-control" required="required">
     </div>
     <button id="comment-write-btn" onclick="commentWrite()" class="btn btn-primary">리뷰작성</button>
 </div>
