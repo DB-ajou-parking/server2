@@ -14,7 +14,6 @@ public class ReviewDto {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime timestamp;
-
     public Review toEntity(){
         return Review.builder()
                 .author(author)

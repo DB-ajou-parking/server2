@@ -1,12 +1,18 @@
 package com.example.ajouparking.dto;
 
-import lombok.*;
 
-@Builder
+import com.example.ajouparking.entity.Parkinglot;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+
 @Getter @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class ReviewRequestDto {
+
+    private Parkinglot parkinglot;
     private String author;
-    private String content;
+    private String reviewText;
+    private LocalDateTime timestamp;
+
 }

@@ -57,36 +57,10 @@ public class ParkinglotController {
         return parkinglotService.getRecordsByLocation(location);
     }
 
+//    @GetMapping("api/parkinglot/select/{id}") // 주차장을 누르면 해당 주차장 정보를 보여주는 페이지로 이동
+//    public List<Parkinglot> getParkingLotsByLocation(@PathVariable Long id) {
+//      return null;
+//    }
 
-
-
-    @GetMapping("api/parkinglot/{id}/reviews")
-    public ResponseEntity<List<ReviewDto>> getReviewsForParkingLot(@PathVariable long id) {
-        List<ReviewDto> reviews = parkinglotService.getReviewsByParkingLotId(id);
-        return ResponseEntity.ok(reviews);
-    }
-
-    @PostMapping("api/parkinglot/{id}/reviews")
-    public ResponseEntity<String> addReviewForParkingLot(@PathVariable long id, @RequestBody Review review) {
-        Parkinglot parkinglot = parkinglotService.getParkinglotById(id).orElse(null);
-
-        try {
-            if (parkinglot == null) {
-                return ResponseEntity.notFound().build();
-            }
-
-            review.setParkinglot(parkinglot);
-            review.setAuthor(review.getAuthor());
-            review.setReviewText(review.getReviewText());
-            review.setTimestamp(LocalDateTime.now());
-            parkinglotService.saveReview(review);
-
-            return ResponseEntity.ok("Review added successfully");
-        } catch (Exception e) {
-            e.printStackTrace(); // Log the exception
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
-        }
-
-    }
 
 }

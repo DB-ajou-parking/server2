@@ -55,14 +55,4 @@ public class ParkinglotService {
 
 
 
-    public List<ReviewDto> getReviewsByParkingLotId(long parkingLotId) {
-        List<Review> reviews = reviewRepository.findByParkinglotId(parkingLotId);
-        return reviews.stream().map(Review::toDTO).collect(Collectors.toList());
-    }
-
-    public void saveReview(Review review) {
-        reviewRepository.save(review);
-    }
-
-
 }
