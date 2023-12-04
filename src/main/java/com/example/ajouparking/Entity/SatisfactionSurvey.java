@@ -1,6 +1,7 @@
 package com.example.ajouparking.Entity;
 
 
+import com.example.ajouparking.DTO.SatisfactionSurveyDTO;
 import jakarta.persistence.*;
 
 @Entity
@@ -83,7 +84,15 @@ public class SatisfactionSurvey {
     }
 
 
-
-
-
+    public SatisfactionSurveyDTO toDTO() {
+        SatisfactionSurveyDTO dto = new SatisfactionSurveyDTO();
+        dto.setCleanlinessSatisfaction(this.cleanlinessSatisfaction);
+        dto.setFacilitySatisfaction(this.facilitySatisfaction);
+        dto.setCongestionSatisfaction(this.congestionSatisfaction);
+        dto.setFeeSatisfaction(this.feeSatisfaction);
+        dto.setSafetySatisfaction(this.safetySatisfaction);
+        dto.setSignageSatisfaction(this.signageSatisfaction);
+        dto.setServiceSatisfaction(this.serviceSatisfaction);
+        return dto;
+    }
 }

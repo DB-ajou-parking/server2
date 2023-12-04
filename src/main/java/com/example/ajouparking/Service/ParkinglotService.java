@@ -2,6 +2,7 @@ package com.example.ajouparking.Service;
 
 
 import com.example.ajouparking.DTO.ReviewDTO;
+import com.example.ajouparking.DTO.SatisfactionSurveyDTO;
 import com.example.ajouparking.Entity.ParkinglotEntity;
 import com.example.ajouparking.Entity.ReviewEntity;
 import com.example.ajouparking.Entity.SatisfactionSurvey;
@@ -74,7 +75,10 @@ public class ParkinglotService {
 
 
 
-
+    public List<SatisfactionSurveyDTO> getSatisfactionSurveyByParkingLotId(long parkingLotId) {
+        List<SatisfactionSurvey> satisfactionSurveys = satisfactionSurveyRepository.findByParkinglotId(parkingLotId);
+        return satisfactionSurveys.stream().map(SatisfactionSurvey::toDTO).collect(Collectors.toList());
+    }
 
 
     public void saveSatisfactionSurvey(SatisfactionSurvey satisfactionSurvey) {

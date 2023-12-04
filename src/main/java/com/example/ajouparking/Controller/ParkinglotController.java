@@ -1,6 +1,7 @@
 package com.example.ajouparking.Controller;
 
 import com.example.ajouparking.DTO.ReviewDTO;
+import com.example.ajouparking.DTO.SatisfactionSurveyDTO;
 import com.example.ajouparking.Entity.ParkinglotEntity;
 import com.example.ajouparking.Entity.ReviewEntity;
 import com.example.ajouparking.Entity.SatisfactionSurvey;
@@ -95,6 +96,15 @@ public class ParkinglotController {
 
 
 
+
+
+
+    @GetMapping("api/parkinglot/{id}/satisfaction")
+    public ResponseEntity<List<SatisfactionSurveyDTO>> getSatisfactionSurveyForParkingLot(@PathVariable long id) {
+        List<SatisfactionSurveyDTO> satisfactionSurvey = parkinglotService.getSatisfactionSurveyByParkingLotId(id);
+
+        return ResponseEntity.ok(satisfactionSurvey);
+    }
 
     @PostMapping("/api/parkinglot/{id}/satisfaction")
     public ResponseEntity<String> saveSatisfactionSurvey(
