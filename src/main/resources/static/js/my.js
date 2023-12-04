@@ -372,11 +372,11 @@ function submitSatisfactionSurvey() {
             },
             error: function (error) {
                 console.error(error);
-                alert('Error submitting satisfaction survey');
+                alert('만족도 설문조사를 제출하는 중에 오류가 발생했습니다.');
             }
         });
     } else {
-        alert('Please select a parking lot before submitting the survey');
+        alert('설문조사를 제출하기 전에 주차장을 선택하세요.');
     }
 }
 
@@ -407,24 +407,25 @@ $(document).ready(function () {
                     var serviceData = surveyResults.map(result => result.serviceSatisfaction);
 
                     // Create a chart
-                    createChart(cleanlinessData, facilityData, congestionData, feeData, safetyData, signageData, serviceData);
+                    createRadarChart(cleanlinessData, facilityData, congestionData, feeData, safetyData, signageData, serviceData);
+                    createBarChart(cleanlinessData, facilityData, congestionData, feeData, safetyData, signageData, serviceData);
                 },
                 error: function () {
-                    alert('Error fetching satisfaction survey results');
+                    alert('만족도 설문조사 결과를 가져오는 중에 오류가 발생했습니다.');
                 }
             });
         } else {
-            alert('Please select a parking lot before visualizing the survey results');
+            alert('시각화분석을 보려는 주차장을 선택하세요.');
         }
     });
 });
 
 // Add a new function to create the chart
-function createChart(cleanlinessData, facilityData, congestionData, feeData, safetyData, signageData, serviceData) {
+function createBarChart(cleanlinessData, facilityData, congestionData, feeData, safetyData, signageData, serviceData) {
     new Chart(document.getElementById("bar-chart"), {
         type: 'bar',
         data: {
-            labels: ["Cleanliness", "Facility", "Congestion", "Fee", "Safety", "Signage", "Service"],
+            labels: ["청결도", "시설", "혼잡도", "요금", "안전성", "안내표시", "직원서비스"],
             datasets: [
                 {
                     label: "Average Satisfaction",
@@ -445,7 +446,42 @@ function createChart(cleanlinessData, facilityData, congestionData, feeData, saf
             legend: { display: false },
             title: {
                 display: true,
-                text: 'Average Satisfaction Survey Results'
+                text: '만족도 평균 크기 비교'
+            }
+        }
+    });
+}
+
+function createRadarChart(cleanlinessData, facilityData, congestionData, feeData, safetyData, signageData, serviceData) {
+    new Chart(document.getElementById("radar-chart"), {
+        type: 'radar',
+        data: {
+            labels:["청결도", "시설", "혼잡도", "요금", "안전성", "안내표시", "직원서비스"],
+            datasets: [
+                {
+                    label: "%",
+                    fill: true,
+                    backgroundColor: "rgba(255,99,132,0.2)",
+                    borderColor: "rgba(255,99,132,1)",
+                    pointBorderColor: "#fff",
+                    pointBackgroundColor: "rgba(255,99,132,1)",
+                    pointBorderColor: "#fff",
+                    data:[
+                        calculateAverage(cleanlinessData),
+                        calculateAverage(facilityData),
+                        calculateAverage(congestionData),
+                        calculateAverage(feeData),
+                        calculateAverage(safetyData),
+                        calculateAverage(signageData),
+                        calculateAverage(serviceData),
+                    ]
+                }
+            ]
+        },
+        options: {
+            title: {
+                display: true,
+                text: '만족도 평균의 % 분포'
             }
         }
     });

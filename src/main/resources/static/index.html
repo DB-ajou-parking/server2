@@ -212,12 +212,13 @@
             <div class="modal-body">
                 <!-- Add your visualization content here -->
 
+                <canvas id="radar-chart" width="250" height="250"></canvas>
                 <canvas id="bar-chart" width="300" height="230"></canvas>
 
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" onclick="closevisualizationModal()">Close</button>
             </div>
         </div>
     </div>
@@ -243,12 +244,11 @@
         $('#satisfactionModal').modal('hide');
     }
 
-
-
-
-
-
-
+    function closevisualizationModal() {
+        console.log('Closing modal');
+        $('#visualizationModal').modal('hide');
+    }
+    
 
 </script>
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
