@@ -459,7 +459,7 @@ function createRadarChart(cleanlinessData, facilityData, congestionData, feeData
             labels:["청결도", "시설", "혼잡도", "요금", "안전성", "안내표시", "직원서비스"],
             datasets: [
                 {
-                    label: "%",
+                    label: "평균",
                     fill: true,
                     backgroundColor: "rgba(255,99,132,0.2)",
                     borderColor: "rgba(255,99,132,1)",
@@ -481,7 +481,7 @@ function createRadarChart(cleanlinessData, facilityData, congestionData, feeData
         options: {
             title: {
                 display: true,
-                text: '만족도 평균의 % 분포'
+                text: '만족도 평균 분포'
             }
         }
     });

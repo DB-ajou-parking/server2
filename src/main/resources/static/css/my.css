@@ -232,7 +232,26 @@ body {
 
 
 
+#satisfactionModal,
+#visualizationModal {
+    scrollbar-width: thin;
+    scrollbar-color: #007bff #f7f7f7;
+}
 
+#satisfactionModal::-webkit-scrollbar,
+#visualizationModal::-webkit-scrollbar {
+    width: 8px;
+}
+
+#satisfactionModal::-webkit-scrollbar-thumb,
+#visualizationModal::-webkit-scrollbar-thumb {
+    background-color: #007bff;
+}
+
+#satisfactionModal::-webkit-scrollbar-track,
+#visualizationModal::-webkit-scrollbar-track {
+    background-color: #f7f7f7;
+}
 
 
 
