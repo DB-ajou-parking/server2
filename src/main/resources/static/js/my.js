@@ -329,22 +329,70 @@ function fetchReviews(parkingLotId) {
 
 
 
+
+
+
 $(document).ready(function () {
     $('#serveyBtn').click(function () {
         $('#satisfactionModal').modal('show');
     });
 });
 
+/* closeSatisfactionModal() <- 이 함수만 작동이 안돼서 html에 따로 빼주었음. 해결해주시면 감사합니다.
+
+function closeSatisfactionModal() {
+    console.log('Closing modal');
+    $('#satisfactionModal').modal('hide');
+}
+*/
+
+
 // 모달 닫힐 때 입력 내용 초기화
 $('#satisfactionModal').on('hidden.bs.modal', function () {
-    $('#satisfactionSurveyText').val('');
+    $("#satisfactionSurveyText").val('');
+    $("#cleanlinessSatisfaction").val('');
+    $("#facilitySatisfaction").val('');
+    $("#congestionSatisfaction").val('');
+    $("#feeSatisfaction").val('');
+    $("#safetySatisfaction").val('');
+    $("#signageSatisfaction").val('');
+    $("#serviceSatisfaction").val('');
 });
 
-// 만족도 조사 제출 함수
+// Add this function to your existing JavaScript code
 function submitSatisfactionSurvey() {
-    var surveyText = $('#satisfactionSurveyText').val();
-    // 여기에 만족도 조사를 서버로 전송하는 코드를 추가할 수 있습니다.
-    // 예시: $.post('/api/satisfaction', { text: surveyText }, function(response) { console.log(response); });
-    // 모달 닫기
-    $('#satisfactionModal').modal('hide');
+    var cleanlinessSatisfaction = parseInt($('#cleanlinessSatisfaction').val());
+    var facilitySatisfaction = parseInt($('#facilitySatisfaction').val());
+    var congestionSatisfaction = parseInt($('#congestionSatisfaction').val());
+    var feeSatisfaction = parseInt($('#feeSatisfaction').val());
+    var safetySatisfaction = parseInt($('#safetySatisfaction').val());
+    var signageSatisfaction = parseInt($('#signageSatisfaction').val());
+    var serviceSatisfaction = parseInt($('#serviceSatisfaction').val());
+
+    if (currentParkingLotId !== null) {
+        $.ajax({
+            type: 'POST',
+            url: '/api/parkinglot/' + currentParkingLotId + '/satisfaction',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                cleanlinessSatisfaction: cleanlinessSatisfaction,
+                facilitySatisfaction: facilitySatisfaction,
+                congestionSatisfaction: congestionSatisfaction,
+                feeSatisfaction: feeSatisfaction,
+                safetySatisfaction: safetySatisfaction,
+                signageSatisfaction: signageSatisfaction,
+                serviceSatisfaction: serviceSatisfaction
+            }),
+            success: function (response) {
+                console.log(response);
+                $('#satisfactionModal').modal('hide');
+            },
+            error: function (error) {
+                console.error(error);
+                alert('Error submitting satisfaction survey');
+            }
+        });
+    } else {
+        alert('Please select a parking lot before submitting the survey');
+    }
 }

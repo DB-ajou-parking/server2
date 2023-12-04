@@ -2,10 +2,12 @@ package com.example.ajouparking.Entity;
 
 
 import com.example.ajouparking.DTO.ReviewDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+
 
 @Entity
 public class ReviewEntity {
@@ -16,7 +18,8 @@ public class ReviewEntity {
 
     @Getter
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "parkinglot_id")
+    @JsonIgnore
     private ParkinglotEntity parkinglot;
 
     @Column
@@ -35,7 +38,8 @@ public class ReviewEntity {
 
     public void setAuthor(String author) {
         this.author = author;
-    }public void setReviewText(String reviewText) {
+    }
+    public void setReviewText(String reviewText) {
         this.reviewText = reviewText;
     }
 

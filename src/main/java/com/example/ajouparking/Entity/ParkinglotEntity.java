@@ -1,5 +1,6 @@
 package com.example.ajouparking.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table
 @Entity
+@JsonIgnoreProperties({"reviews", "satisfactionSurveys"})
 public class ParkinglotEntity {
 
     @Id
@@ -120,6 +122,10 @@ public class ParkinglotEntity {
 
     @OneToMany(mappedBy = "parkinglot", cascade = CascadeType.ALL)
     private List<ReviewEntity> reviews = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "parkinglot", cascade = CascadeType.ALL)
+    private List<SatisfactionSurvey> satisfactionSurveys = new ArrayList<>();
 
 
 
@@ -262,6 +268,11 @@ public class ParkinglotEntity {
 
     public String getprovidingOrganizationName() {
         return providingOrganizationName;
+    }
+
+
+    public List<SatisfactionSurvey> getSatisfactionSurveys() {
+        return satisfactionSurveys;
     }
 
 

@@ -3,6 +3,8 @@ package com.example.ajouparking.Controller;
 import com.example.ajouparking.DTO.ReviewDTO;
 import com.example.ajouparking.Entity.ParkinglotEntity;
 import com.example.ajouparking.Entity.ReviewEntity;
+import com.example.ajouparking.Entity.SatisfactionSurvey;
+import com.example.ajouparking.Repository.SatisfactionSurveyRepository;
 import com.example.ajouparking.Service.ParkinglotService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +19,8 @@ public class ParkinglotController {
 
 
     private final ParkinglotService parkinglotService;
-    public ParkinglotController(ParkinglotService parkinglotService) {
+
+    public ParkinglotController(ParkinglotService parkinglotService, SatisfactionSurveyRepository satisfactionSurveyRepository) {
         this.parkinglotService = parkinglotService;
     }
 
@@ -89,4 +92,46 @@ public class ParkinglotController {
 
     }
 
+
+
+
+
+    @PostMapping("/api/parkinglot/{id}/satisfaction")
+    public ResponseEntity<String> saveSatisfactionSurvey(
+            @PathVariable Long id,
+            @RequestBody SatisfactionSurvey satisfactionSurvey) {
+
+        ParkinglotEntity parkinglot = parkinglotService.getParkinglotById(id).orElse(null);
+
+        try {
+            if (parkinglot == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+
+            satisfactionSurvey.setParkinglot(parkinglot);
+            satisfactionSurvey.setCleanlinessSatisfaction(satisfactionSurvey.getCleanlinessSatisfaction());
+            satisfactionSurvey.setFacilitySatisfaction(satisfactionSurvey.getFacilitySatisfaction());
+            satisfactionSurvey.setFeeSatisfaction(satisfactionSurvey.getFeeSatisfaction());
+            satisfactionSurvey.setSafetySatisfaction(satisfactionSurvey.getSafetySatisfaction());
+            satisfactionSurvey.setCongestionSatisfaction(satisfactionSurvey.getCongestionSatisfaction());
+            satisfactionSurvey.setSignageSatisfaction(satisfactionSurvey.getSignageSatisfaction());
+            satisfactionSurvey.setServiceSatisfaction(satisfactionSurvey.getServiceSatisfaction());
+            parkinglotService.saveSatisfactionSurvey(satisfactionSurvey);
+
+            return ResponseEntity.ok("SatisfactionSurvey added successfully");
+        }
+        catch (Exception e) {
+            e.printStackTrace(); // Log the exception
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
+        }
+
+    }
+
+
+
+
 }
+
+
+

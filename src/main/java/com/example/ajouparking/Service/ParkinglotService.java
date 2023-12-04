@@ -4,8 +4,10 @@ package com.example.ajouparking.Service;
 import com.example.ajouparking.DTO.ReviewDTO;
 import com.example.ajouparking.Entity.ParkinglotEntity;
 import com.example.ajouparking.Entity.ReviewEntity;
+import com.example.ajouparking.Entity.SatisfactionSurvey;
 import com.example.ajouparking.Repository.ParkinglotJpaRepository;
 import com.example.ajouparking.Repository.ReviewRepository;
+import com.example.ajouparking.Repository.SatisfactionSurveyRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +21,12 @@ public class ParkinglotService {
 
     private final ParkinglotJpaRepository parkinglotJpaRepository ;
     private final ReviewRepository reviewRepository;
+    private final SatisfactionSurveyRepository satisfactionSurveyRepository;
 
-
-    public ParkinglotService(ParkinglotJpaRepository testJpaRepository, ReviewRepository reviewRepository) {
+    public ParkinglotService(ParkinglotJpaRepository testJpaRepository, ReviewRepository reviewRepository, SatisfactionSurveyRepository satisfactionSurveyRepository) {
         this.parkinglotJpaRepository = testJpaRepository;
         this.reviewRepository = reviewRepository;
+        this.satisfactionSurveyRepository = satisfactionSurveyRepository;
     }
     
     
@@ -48,6 +51,9 @@ public class ParkinglotService {
         }
     }
 
+    public ParkinglotEntity saveParkingLot(ParkinglotEntity parkingLot) {
+        return parkinglotJpaRepository.save(parkingLot);
+    }
 
 
     public List<ParkinglotEntity> getRecordsByLocation(String location) {
@@ -71,9 +77,9 @@ public class ParkinglotService {
 
 
 
-
-
-
+    public void saveSatisfactionSurvey(SatisfactionSurvey satisfactionSurvey) {
+        satisfactionSurveyRepository.save(satisfactionSurvey);
+    }
 
 
 }
