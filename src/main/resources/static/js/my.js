@@ -1,5 +1,6 @@
 var currentParkingLotId = null;
 
+
 var mapContainer = document.getElementById('map');
 var mapOption = {
     center: new kakao.maps.LatLng(37.28444, 127.0444),
@@ -369,6 +370,7 @@ function submitSatisfactionSurvey() {
             success: function (response) {
                 console.log(response);
                 $('#satisfactionModal').modal('hide');
+
             },
             error: function (error) {
                 console.error(error);
@@ -383,7 +385,7 @@ function submitSatisfactionSurvey() {
 
 
 
-
+var barChart, radarChart;
 
 
 $(document).ready(function () {
@@ -406,10 +408,21 @@ $(document).ready(function () {
                     var signageData = surveyResults.map(result => result.signageSatisfaction);
                     var serviceData = surveyResults.map(result => result.serviceSatisfaction);
 
+
+                    // Destroy existing charts if they exist
+                    if (barChart) {
+                        barChart.destroy();
+                    }
+                    if (radarChart) {
+                        radarChart.destroy();
+                    }
+
                     // Create a chart
-                    createRadarChart(cleanlinessData, facilityData, congestionData, feeData, safetyData, signageData, serviceData);
-                    createBarChart(cleanlinessData, facilityData, congestionData, feeData, safetyData, signageData, serviceData);
-                },
+                    radarChart = createRadarChart(cleanlinessData, facilityData, congestionData, feeData, safetyData, signageData, serviceData);
+                    barChart = createBarChart(cleanlinessData, facilityData, congestionData, feeData, safetyData, signageData, serviceData);
+
+
+                    },
                 error: function () {
                     alert('만족도 설문조사 결과를 가져오는 중에 오류가 발생했습니다.');
                 }
@@ -422,7 +435,7 @@ $(document).ready(function () {
 
 // Add a new function to create the chart
 function createBarChart(cleanlinessData, facilityData, congestionData, feeData, safetyData, signageData, serviceData) {
-    new Chart(document.getElementById("bar-chart"), {
+    return new Chart(document.getElementById("bar-chart"), {
         type: 'bar',
         data: {
             labels: ["청결도", "시설", "혼잡도", "요금", "안전성", "안내표시", "직원서비스"],
@@ -453,7 +466,7 @@ function createBarChart(cleanlinessData, facilityData, congestionData, feeData, 
 }
 
 function createRadarChart(cleanlinessData, facilityData, congestionData, feeData, safetyData, signageData, serviceData) {
-    new Chart(document.getElementById("radar-chart"), {
+    return new Chart(document.getElementById("radar-chart"), {
         type: 'radar',
         data: {
             labels:["청결도", "시설", "혼잡도", "요금", "안전성", "안내표시", "직원서비스"],
