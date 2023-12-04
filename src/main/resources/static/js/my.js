@@ -4,7 +4,7 @@ var currentParkingLotId = null;
 var mapContainer = document.getElementById('map');
 var mapOption = {
     center: new kakao.maps.LatLng(37.28444, 127.0444),
-    level: 2,
+    level: 3,
     mapTypeId: kakao.maps.MapTypeId.ROADMAP
 };
 var map = new kakao.maps.Map(mapContainer, mapOption);
@@ -154,7 +154,12 @@ function displaySearchResult(data) {
 
             // Fetch and display detailed parking lot information
             fetchDetailedParkingLotInfo(currentParkingLotId);
+
+            // Toggle the reviews section with animation
+            $('#Reviews').css('right', '0');
+
         });
+
     } else {
         resultDiv.append('<p>No matching parking lots found</p>');
     }

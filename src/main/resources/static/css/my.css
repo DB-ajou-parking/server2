@@ -22,7 +22,10 @@ body {
     z-index: 3;
     position: relative;
 }
-
+.centered-image {
+    display: block;
+    margin: 0 auto;
+}
 
 #searchContainer {
     position: sticky;
@@ -143,7 +146,9 @@ body {
 #Reviews {
     position: absolute;
     top: 10px;
-    right: 10px;
+    /*right: 10px;*/
+    right: -400px; /* Initially positioned outside the viewport */
+    transition: right 0.3s ease-in-out; /* Add a transition for smooth animation */
     width: 340px;
     margin: 10px;
     padding: 10px;
@@ -154,6 +159,7 @@ body {
     align-items: flex-end; /* 추가 */
     text-align: right; /* 텍스트 정렬 추가 */
 }
+
 #Reviews th {
     font-size: 0.8em; /* Adjusted font size for table headers */
 }
