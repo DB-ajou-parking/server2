@@ -8,10 +8,32 @@ var mapOption = {
     mapTypeId: kakao.maps.MapTypeId.ROADMAP
 };
 var map = new kakao.maps.Map(mapContainer, mapOption);
+
 map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
 var markers = []; // Array to store markers
 
 
+
+
+
+
+//로드뷰를 표시할 div
+var roadviewContainer = document.getElementById('roadview');
+
+// 로드뷰 위치
+var rvPosition = new kakao.maps.LatLng(37.56613, 126.97853);
+
+//로드뷰 객체를 생성한다
+var roadview = new kakao.maps.Roadview(roadviewContainer, {
+    pan: 0, // 로드뷰 처음 실행시에 바라봐야 할 수평 각
+    tilt: 0, // 로드뷰 처음 실행시에 바라봐야 할 수직 각
+    zoom: 0// 로드뷰 줌 초기값
+});
+var roadviewClient = new kakao.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
+var position = new kakao.maps.LatLng(37.28379, 127.0449);
+roadviewClient.getNearestPanoId(position, 50, function(panoId) {
+    roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
+});
 
 
 // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
@@ -33,7 +55,7 @@ if (navigator.geolocation) {
 
 } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
 
-    var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),
+    var locPosition = new kakao.maps.LatLng(37.28444, 127.0444),
         message = 'geolocation을 사용할수 없어요..'
 
 
@@ -106,7 +128,12 @@ function searchParkingLot() {
 }
 
 
+
+
+
+
 function displaySearchResult(data) {
+
     var resultDiv = $('#searchResult');
     resultDiv.empty();
 
@@ -148,6 +175,8 @@ function displaySearchResult(data) {
             var lat = $(this).data('lat');
             var lng = $(this).data('lng');
             currentParkingLotId = $(this).data('parking-lot-id'); // Store the current parking lot ID
+            console.log('Latitude:', lat, 'Longitude:', lng);
+
 
             map.setCenter(new kakao.maps.LatLng(lat, lng));
             fetchReviews(currentParkingLotId);
@@ -157,8 +186,8 @@ function displaySearchResult(data) {
 
             // Toggle the reviews section with animation
             $('#Reviews').css('right', '0');
-
         });
+
 
     } else {
         resultDiv.append('<p>No matching parking lots found</p>');
@@ -170,6 +199,12 @@ function displaySearchResult(data) {
     }
 
 }
+
+
+
+
+
+
 
 
 
@@ -511,3 +546,80 @@ function calculateAverage(numbers) {
     return sum / numbers.length;
 }
 
+
+
+
+
+
+// Assuming roadBtn and mapBtn are the IDs of your buttons
+var roadBtn = document.getElementById('roadBtn');
+var mapBtn = document.getElementById('mapBtn');
+var asroadview = document.getElementById('roadview');
+var asmapview = document.getElementById('map');
+
+// Initially, show the map and hide the road view
+asroadview.style.display = 'none';
+asmapview.style.display = 'block';
+
+// Add click event listener for the roadBtn
+roadBtn.addEventListener('click', function () {
+    // Show the road view and hide the map
+    asroadview.style.display = 'block';
+    asmapview.style.display = 'none';
+});
+
+// Add click event listener for the mapBtn
+mapBtn.addEventListener('click', function () {
+    // Show the map and hide the road view
+    asroadview.style.display = 'none';
+    asmapview.style.display = 'block';
+});
+
+
+
+
+
+
+
+var container = document.getElementById('container'),
+    mapWrapper = document.getElementById('mapWrapper'),
+    btnRoadview = document.getElementById('btnRoadview'),
+    btnMap = document.getElementById('btnMap'),
+    rvContainer = document.getElementById('roadview'),
+    mapContainer = document.getElementById('map');
+
+var placePosition = new kakao.maps.LatLng(37.28379, 127.0449);
+
+var mapOption = {
+    center: placePosition,
+    level: 3
+};
+var map = new kakao.maps.Map(mapContainer, mapOption);
+var roadview = new kakao.maps.Roadview(rvContainer);
+
+
+roadview.setViewpoint({
+    pan: 0,
+    tilt: 0,
+    zoom: 0
+});
+
+
+
+
+function toggleMap(active) {
+    if (active) {
+        container.className = "view_map";
+    } else {
+        container.className = "view_roadview";
+    }
+}
+
+// Event listeners to toggle between map and road view
+btnRoadview.addEventListener('click', function () {
+    toggleMap(false);
+});
+
+btnMap.addEventListener('click', function () {
+    toggleMap(true);
+});
