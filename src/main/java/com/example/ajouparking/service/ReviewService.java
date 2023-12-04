@@ -5,9 +5,11 @@ import com.example.ajouparking.dto.ReviewDto;
 import com.example.ajouparking.dto.ReviewRequestDto;
 import com.example.ajouparking.entity.Parkinglot;
 import com.example.ajouparking.entity.Review;
+import com.example.ajouparking.entity.User;
 import com.example.ajouparking.exceptionHandler.exceptions.CustomApiException;
 import com.example.ajouparking.exceptionHandler.exceptions.CustomValidationException;
 import com.example.ajouparking.repository.ReviewRepository;
+import com.example.ajouparking.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final ParkinglotService parkinglotService;
+    private final UserRepository userRepository;
 
     @Transactional
     public List<ReviewDto> getReviewsByParkingLotId(Long parkingLotId) {
@@ -31,7 +34,8 @@ public class ReviewService {
     }
 
     @Transactional
-    public ResponseEntity<?> saveReview(Long parkingLotId, ReviewRequestDto reviewRequestDto) {
+    public ResponseEntity<?> saveReview(int userId, Long parkingLotId, ReviewRequestDto reviewRequestDto) {
+        User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("없는유저"));
         Parkinglot parkinglot = parkinglotService.getParkinglotById(parkingLotId).orElseThrow(
                 () -> new IllegalArgumentException("없는 주차장 입니다."));
 
@@ -41,7 +45,8 @@ public class ReviewService {
 
         try {
             Review reviewEntity = Review.builder()
-                    .parkinglot(reviewRequestDto.getParkinglot())
+                    .user(user)
+                    .parkinglot(parkinglot)
                     .author(reviewRequestDto.getAuthor())
                     .reviewText(reviewRequestDto.getReviewText())
                     .build();

@@ -28,26 +28,22 @@ public class Review {
     @Column(nullable = false)
     private String reviewText;
 
-    @Column(name = "created_at")
-    LocalDateTime timestamp;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
-//
-//    @Column(name = "created_at")
-//    LocalDateTime createdAt;
-//
-//    @PrePersist
-//    public void createdAt(){
-//        this.createdAt = LocalDateTime.now();
-//    }
+    @Column(name = "created_at")
+    LocalDateTime createdAt;
+
+    @PrePersist
+    public void createdAt(){
+        this.createdAt = LocalDateTime.now();
+    }
 
     public ReviewDto toDTO() {
         ReviewDto dto = new ReviewDto();
         dto.setAuthor(this.author);
         dto.setReviewText(this.reviewText);
-        dto.setTimestamp(this.timestamp);
         return dto;
     }
 

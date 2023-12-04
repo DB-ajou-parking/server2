@@ -12,13 +12,10 @@ public class ReviewDto {
     private String author;
     private String reviewText;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDateTime timestamp;
     public Review toEntity(){
         return Review.builder()
                 .author(author)
                 .reviewText(reviewText)
-                .timestamp(timestamp)
                 .build();
     }
 }
