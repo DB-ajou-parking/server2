@@ -167,25 +167,6 @@ function displaySearchResult(data) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function toRadians(degrees) {
     return degrees * Math.PI / 180;
 }
@@ -336,6 +317,8 @@ $(document).ready(function () {
     $('#serveyBtn').click(function () {
         $('#satisfactionModal').modal('show');
     });
+
+
 });
 
 /* closeSatisfactionModal() <- 이 함수만 작동이 안돼서 html에 따로 빼주었음. 해결해주시면 감사합니다.
@@ -396,3 +379,81 @@ function submitSatisfactionSurvey() {
         alert('Please select a parking lot before submitting the survey');
     }
 }
+
+
+
+
+
+
+
+$(document).ready(function () {
+    $('#visualizationBtn').click(function () {
+        $('#visualizationModal').modal('show');
+        console.log('Submitting satisfaction survey for Parking Lot ID:', currentParkingLotId);
+
+        if (currentParkingLotId !== null) {
+            // Fetch satisfaction survey results for the current parking lot ID
+            $.ajax({
+                type: 'GET',
+                url: '/api/parkinglot/' + currentParkingLotId + '/satisfaction',
+                success: function (surveyResults) {
+                    // Extract satisfaction values for each category
+                    var cleanlinessData = surveyResults.map(result => result.cleanlinessSatisfaction);
+                    var facilityData = surveyResults.map(result => result.facilitySatisfaction);
+                    var congestionData = surveyResults.map(result => result.congestionSatisfaction);
+                    var feeData = surveyResults.map(result => result.feeSatisfaction);
+                    var safetyData = surveyResults.map(result => result.safetySatisfaction);
+                    var signageData = surveyResults.map(result => result.signageSatisfaction);
+                    var serviceData = surveyResults.map(result => result.serviceSatisfaction);
+
+                    // Create a chart
+                    createChart(cleanlinessData, facilityData, congestionData, feeData, safetyData, signageData, serviceData);
+                },
+                error: function () {
+                    alert('Error fetching satisfaction survey results');
+                }
+            });
+        } else {
+            alert('Please select a parking lot before visualizing the survey results');
+        }
+    });
+});
+
+// Add a new function to create the chart
+function createChart(cleanlinessData, facilityData, congestionData, feeData, safetyData, signageData, serviceData) {
+    new Chart(document.getElementById("bar-chart"), {
+        type: 'bar',
+        data: {
+            labels: ["Cleanliness", "Facility", "Congestion", "Fee", "Safety", "Signage", "Service"],
+            datasets: [
+                {
+                    label: "Average Satisfaction",
+                    backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#8e5ea2", "#3cba9f"],
+                    data: [
+                        calculateAverage(cleanlinessData),
+                        calculateAverage(facilityData),
+                        calculateAverage(congestionData),
+                        calculateAverage(feeData),
+                        calculateAverage(safetyData),
+                        calculateAverage(signageData),
+                        calculateAverage(serviceData),
+                    ]
+                }
+            ]
+        },
+        options: {
+            legend: { display: false },
+            title: {
+                display: true,
+                text: 'Average Satisfaction Survey Results'
+            }
+        }
+    });
+}
+
+// Add a new function to calculate the average of an array of numbers
+function calculateAverage(numbers) {
+    var sum = numbers.reduce((acc, val) => acc + val, 0);
+    return sum / numbers.length;
+}
+
