@@ -98,7 +98,7 @@ function searchParkingLot() {
                 }
             },
             error: function () {
-                alert('Error fetching data');
+                alert('검색 데이터를 가져오는 중에 오류가 발생했습니다.');
             }
         });
     });
@@ -210,7 +210,7 @@ function fetchDetailedParkingLotInfo(parkingLotId) {
 
         },
         error: function () {
-            alert('Error fetching detailed parking lot information');
+            alert('자세한 주차장 정보를 가져오는 중에 오류가 발생했습니다.');
         }
     });
 }
@@ -272,7 +272,7 @@ function commentWrite() {
                 fetchReviews(currentParkingLotId);
             },
             error: function () {
-                alert('Error adding review');
+                alert('리뷰를 추가하는 중에 오류가 발생했습니다.');
                 console.log(this.error);
             }
         });
@@ -303,7 +303,7 @@ function fetchReviews(parkingLotId) {
             }
         },
         error: function () {
-            alert('Error fetching reviews');
+            alert('리뷰를 가져오는 중에 오류가 발생했습니다.');
         }
     });
 }
