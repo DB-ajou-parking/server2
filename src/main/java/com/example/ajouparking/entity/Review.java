@@ -19,17 +19,29 @@ public class Review {
     private Long id;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "parkinglot_id")
     private Parkinglot parkinglot;
 
-    @Column
+    @Column(nullable = false)
     private String author;
 
-    @Column
+    @Column(nullable = false)
     private String reviewText;
 
-    @Column
-    private LocalDateTime timestamp;
+    @Column(name = "created_at")
+    LocalDateTime timestamp;
+
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    private User user;
+//
+//    @Column(name = "created_at")
+//    LocalDateTime createdAt;
+//
+//    @PrePersist
+//    public void createdAt(){
+//        this.createdAt = LocalDateTime.now();
+//    }
 
     public ReviewDto toDTO() {
         ReviewDto dto = new ReviewDto();

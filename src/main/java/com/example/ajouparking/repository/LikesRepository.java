@@ -12,6 +12,6 @@ public interface LikesRepository extends JpaRepository<Likes,Long> {
     void like(int fromUserId,int toUserId);
 
     @Modifying
-    @Query(value = "delete from likes where from_user_id = :fromUserId and to_user_id = :toUserId)",nativeQuery=true)
+    @Query(value = "delete from likes where from_user_id = :fromUserId and to_user_id = :toUserId",nativeQuery=true)
     void unlike(int fromUserId, int toUserId);
 }
