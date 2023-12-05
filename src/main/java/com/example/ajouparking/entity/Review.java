@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -28,9 +29,9 @@ public class Review {
     @Column(nullable = false)
     private String reviewText;
 
-    @ManyToOne
+    @OneToMany
     @JoinColumn(name = "user_id")
-    private User user;
+    private List<User> user;
 
     @Column(name = "created_at")
     LocalDateTime createdAt;

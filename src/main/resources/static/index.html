@@ -30,6 +30,12 @@
 </head>
 
 <body>
+
+
+
+
+
+
 <div id="sidebar">
     <div id="searchContainer">
         <label for="searchRoadName">키워드를 입력하세요.</label>
@@ -47,11 +53,14 @@
 </div>
 
 <div id="visualizationContainer">
+    <button id="roadBtn" class="btn btn-primary"  >로드뷰</button>
+    <button id="mapBtn" class="btn btn-primary"  >지도뷰</button>
     <button id="serveyBtn" class="btn btn-primary">만족도조사</button>
     <button id="visualizationBtn" class="btn btn-primary">시각화분석</button>
 </div>
 
 <div id="map"></div>
+<div id="roadview"></div>
 
 <div id="Reviews">
     <h3>리뷰</h3>
@@ -120,74 +129,87 @@
 
 
 
-<div class="modal fade" id="satisfactionModal" tabindex="-1" aria-labelledby="satisfactionModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="satisfactionModal" tabindex="-1" role="dialog" aria-labelledby="satisfactionModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="satisfactionModalLabel">만족도 조사</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!-- 여기에 만족도 조사 양식이 들어갈 수 있습니다 -->
-
-                <p>주차장 시설 및 편의 시설에 대한 만족도:</p>
-                <select id="facilityRating" class="form-select">
-                    <option value="만족">만족</option>
-                    <option value="다소 만족">다소 만족</option>
-                    <option value="보통">보통</option>
-                    <option value="다소 불만">다소 불만</option>
-                    <option value="불만">불만</option>
+                <!-- 주차 공간의 청결도에 대한 만족도 -->
+                <label for="cleanlinessSatisfaction">주차 공간의 청결도에 대해 만족하세요?</label>
+                <select class="form-control" id="cleanlinessSatisfaction">
+                    <option value="5">만족</option>
+                    <option value="4">다소 만족</option>
+                    <option value="3">보통</option>
+                    <option value="2">다소 불만</option>
+                    <option value="1">불만</option>
                 </select>
 
-                <p>주차장의 혼잡도에 대한 만족도:</p>
-                <select id="congestionRating" class="form-select">
-                    <option value="만족">만족</option>
-                    <option value="다소 만족">다소 만족</option>
-                    <option value="보통">보통</option>
-                    <option value="다소 불만">다소 불만</option>
-                    <option value="불만">불만</option>
+                <!-- 주차장 시설 및 편의 시설에 대한 만족도 -->
+                <label for="facilitySatisfaction">주차장 시설 및 편의 시설에 대해 만족하세요?</label>
+                <select class="form-control" id="facilitySatisfaction">
+                    <option value="5">만족</option>
+                    <option value="4">다소 만족</option>
+                    <option value="3">보통</option>
+                    <option value="2">다소 불만</option>
+                    <option value="1">불만</option>
                 </select>
 
-                <p>주차 요금에 대한 만족도:</p>
-                <select id="feeRating" class="form-select">
-                    <option value="만족">만족</option>
-                    <option value="다소 만족">다소 만족</option>
-                    <option value="보통">보통</option>
-                    <option value="다소 불만">다소 불만</option>
-                    <option value="불만">불만</option>
+                <!-- 주차장의 혼잡도에 대한 만족도 -->
+                <label for="congestionSatisfaction">주차장의 혼잡도에 대해 만족하세요?</label>
+                <select class="form-control" id="congestionSatisfaction">
+                    <option value="5">만족</option>
+                    <option value="4">다소 만족</option>
+                    <option value="3">보통</option>
+                    <option value="2">다소 불만</option>
+                    <option value="1">불만</option>
                 </select>
 
-                <p>주차장의 안전성에 대한 만족도:</p>
-                <select id="safetyRating" class="form-select">
-                    <option value="만족">만족</option>
-                    <option value="다소 만족">다소 만족</option>
-                    <option value="보통">보통</option>
-                    <option value="다소 불만">다소 불만</option>
-                    <option value="불만">불만</option>
+                <!-- 주차 요금에 대한 만족도 -->
+                <label for="feeSatisfaction">주차 요금에 대해 만족하세요?</label>
+                <select class="form-control" id="feeSatisfaction">
+                    <option value="5">만족</option>
+                    <option value="4">다소 만족</option>
+                    <option value="3">보통</option>
+                    <option value="2">다소 불만</option>
+                    <option value="1">불만</option>
                 </select>
 
-                <p>주차장의 표지판 및 안내 시스템에 대한 만족도:</p>
-                <select id="signageRating" class="form-select">
-                    <option value="만족">만족</option>
-                    <option value="다소 만족">다소 만족</option>
-                    <option value="보통">보통</option>
-                    <option value="다소 불만">다소 불만</option>
-                    <option value="불만">불만</option>
+                <!-- 주차장의 안전성에 대한 만족도 -->
+                <label for="safetySatisfaction">주차장의 안전성에 대해 만족하세요?</label>
+                <select class="form-control" id="safetySatisfaction">
+                    <option value="5">만족</option>
+                    <option value="4">다소 만족</option>
+                    <option value="3">보통</option>
+                    <option value="2">다소 불만</option>
+                    <option value="1">불만</option>
                 </select>
 
-                <p>주차장 직원의 서비스에 대한 만족도:</p>
-                <select id="serviceRating" class="form-select">
-                    <option value="만족">만족</option>
-                    <option value="다소 만족">다소 만족</option>
-                    <option value="보통">보통</option>
-                    <option value="다소 불만">다소 불만</option>
-                    <option value="불만">불만</option>
+                <!-- 주차장의 표지판 및 안내 시스템에 대한 만족도 -->
+                <label for="signageSatisfaction">주차장의 표지판 및 안내 시스템에 대해 만족하세요?</label>
+                <select class="form-control" id="signageSatisfaction">
+                    <option value="5">만족</option>
+                    <option value="4">다소 만족</option>
+                    <option value="3">보통</option>
+                    <option value="2">다소 불만</option>
+                    <option value="1">불만</option>
+                </select>
+
+                <!-- 주차장 직원의 서비스에 대한 만족도 -->
+                <label for="serviceSatisfaction">주차장 직원의 서비스에 대해 만족하세요?</label>
+                <select class="form-control" id="serviceSatisfaction">
+                    <option value="5">만족</option>
+                    <option value="4">다소 만족</option>
+                    <option value="3">보통</option>
+                    <option value="2">다소 불만</option>
+                    <option value="1">불만</option>
                 </select>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                <button type="button" class="btn btn-primary" onclick="submitSatisfactionSurvey()">제출</button>
+                <button type="button" class="btn btn-secondary" onclick="closeSatisfactionModal()" >Close</button>
+                <button type="button" class="btn btn-primary" onclick="submitSatisfactionSurvey()">Submit</button>
             </div>
         </div>
     </div>
@@ -195,7 +217,26 @@
 
 
 
+<div class="modal fade" id="visualizationModal" tabindex="-1" role="dialog" aria-labelledby="visualizationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="visualizationModalLabel">시각화 분석</h5>
+            </div>
+            <div class="modal-body">
+                <!-- Add your visualization content here -->
 
+                <canvas id="radar-chart" width="250" height="250"></canvas>
+                <canvas id="bar-chart" width="300" height="230"></canvas>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closevisualizationModal()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -205,9 +246,31 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
-<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=75d65be9a39ddfb55fce3a7fef87cf7a"></script>
+
+<script type="text/javaScript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=75d65be9a39ddfb55fce3a7fef87cf7a"></script>
 
 <script type="text/javaScript" src="js/my.js"></script>
+
+
+<script>
+    function closeSatisfactionModal() {
+        console.log('Closing modal');
+        $('#satisfactionModal').modal('hide');
+    }
+
+    function closevisualizationModal() {
+        console.log('Closing modal');
+        $('#visualizationModal').modal('hide');
+    }
+
+
+</script>
+<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
 </body>
 
 </html>

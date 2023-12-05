@@ -30,5 +30,10 @@
 
 <body>
   <h1>리뷰 페이지</h1>
+  <div th:each="리뷰 : ${review}">
+    <p th:text="${review.author}"></p>
+    <p th:text="${review.reviewText}"></p>
+  </div>
+
 </body>
 </html>
