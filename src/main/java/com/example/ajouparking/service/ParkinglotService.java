@@ -5,6 +5,8 @@ import com.example.ajouparking.entity.Parkinglot;
 import com.example.ajouparking.entity.Review;
 import com.example.ajouparking.repository.ParkinglotJpaRepository;
 import com.example.ajouparking.repository.ReviewRepository;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -14,16 +16,13 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class ParkinglotService {
 
     private final ParkinglotJpaRepository parkinglotJpaRepository ;
     private final ReviewRepository reviewRepository;
+    private final com.example.ajouparking.Repository.SatisfactionSurveyRepository satisfactionSurveyRepository;
 
-
-    public ParkinglotService(ParkinglotJpaRepository testJpaRepository, ReviewRepository reviewRepository) {
-        this.parkinglotJpaRepository = testJpaRepository;
-        this.reviewRepository = reviewRepository;
-    }
     
     
 
@@ -47,12 +46,37 @@ public class ParkinglotService {
         }
     }
 
+    public Parkinglot saveParkingLot(Parkinglot parkingLot) {
+        return parkinglotJpaRepository.save(parkingLot);
+    }
 
 
     public List<Parkinglot> getRecordsByLocation(String location) {
         return parkinglotJpaRepository.findByLocationRoadNameAddressContainingOrLocationLandParcelAddressContaining(location, location);
     }
 
+
+    public List<ReviewDto> getReviewsByParkingLotId(long parkingLotId) {
+        List<Review> reviews = reviewRepository.findByParkinglotId(parkingLotId);
+        return reviews.stream().map(Review::toDTO).collect(Collectors.toList());
+    }
+
+    public void saveReview(Review review) {
+        reviewRepository.save(review);
+    }
+
+
+
+
+    public List<com.example.ajouparking.DTO.SatisfactionSurveyDTO> getSatisfactionSurveyByParkingLotId(long parkingLotId) {
+        List<com.example.ajouparking.Entity.SatisfactionSurvey> satisfactionSurveys = satisfactionSurveyRepository.findByParkinglotId(parkingLotId);
+        return satisfactionSurveys.stream().map(com.example.ajouparking.Entity.SatisfactionSurvey::toDTO).collect(Collectors.toList());
+    }
+
+
+    public void saveSatisfactionSurvey(com.example.ajouparking.Entity.SatisfactionSurvey satisfactionSurvey) {
+        satisfactionSurveyRepository.save(satisfactionSurvey);
+    }
 
 
 }

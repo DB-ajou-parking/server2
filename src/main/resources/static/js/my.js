@@ -1,16 +1,39 @@
 var currentParkingLotId = null;
 
+
 var mapContainer = document.getElementById('map');
 var mapOption = {
     center: new kakao.maps.LatLng(37.28444, 127.0444),
-    level: 2,
+    level: 3,
     mapTypeId: kakao.maps.MapTypeId.ROADMAP
 };
 var map = new kakao.maps.Map(mapContainer, mapOption);
+
 map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
 var markers = []; // Array to store markers
 
 
+
+
+
+
+//로드뷰를 표시할 div
+var roadviewContainer = document.getElementById('roadview');
+
+// 로드뷰 위치
+var rvPosition = new kakao.maps.LatLng(37.56613, 126.97853);
+
+//로드뷰 객체를 생성한다
+var roadview = new kakao.maps.Roadview(roadviewContainer, {
+    pan: 0, // 로드뷰 처음 실행시에 바라봐야 할 수평 각
+    tilt: 0, // 로드뷰 처음 실행시에 바라봐야 할 수직 각
+    zoom: 0// 로드뷰 줌 초기값
+});
+var roadviewClient = new kakao.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
+var position = new kakao.maps.LatLng(37.28379, 127.0449);
+roadviewClient.getNearestPanoId(position, 50, function(panoId) {
+    roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
+});
 
 
 // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
@@ -32,7 +55,7 @@ if (navigator.geolocation) {
 
 } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
 
-    var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),
+    var locPosition = new kakao.maps.LatLng(37.28444, 127.0444),
         message = 'geolocation을 사용할수 없어요..'
 
 
@@ -98,14 +121,19 @@ function searchParkingLot() {
                 }
             },
             error: function () {
-                alert('Error fetching data');
+                alert('검색 데이터를 가져오는 중에 오류가 발생했습니다.');
             }
         });
     });
 }
 
 
+
+
+
+
 function displaySearchResult(data) {
+
     var resultDiv = $('#searchResult');
     resultDiv.empty();
 
@@ -147,13 +175,20 @@ function displaySearchResult(data) {
             var lat = $(this).data('lat');
             var lng = $(this).data('lng');
             currentParkingLotId = $(this).data('parking-lot-id'); // Store the current parking lot ID
+            console.log('Latitude:', lat, 'Longitude:', lng);
+
 
             map.setCenter(new kakao.maps.LatLng(lat, lng));
             fetchReviews(currentParkingLotId);
 
             // Fetch and display detailed parking lot information
             fetchDetailedParkingLotInfo(currentParkingLotId);
+
+            // Toggle the reviews section with animation
+            $('#Reviews').css('right', '0');
         });
+
+
     } else {
         resultDiv.append('<p>No matching parking lots found</p>');
     }
@@ -164,19 +199,6 @@ function displaySearchResult(data) {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -229,7 +251,7 @@ function fetchDetailedParkingLotInfo(parkingLotId) {
 
         },
         error: function () {
-            alert('Error fetching detailed parking lot information');
+            alert('자세한 주차장 정보를 가져오는 중에 오류가 발생했습니다.');
         }
     });
 }
@@ -291,7 +313,7 @@ function commentWrite() {
                 fetchReviews(currentParkingLotId);
             },
             error: function () {
-                alert('Error adding review');
+                alert('리뷰를 추가하는 중에 오류가 발생했습니다.');
                 console.log(this.error);
             }
         });
@@ -322,10 +344,13 @@ function fetchReviews(parkingLotId) {
             }
         },
         error: function () {
-            alert('Error fetching reviews');
+            alert('리뷰를 가져오는 중에 오류가 발생했습니다.');
         }
     });
 }
+
+
+
 
 
 
@@ -333,18 +358,268 @@ $(document).ready(function () {
     $('#serveyBtn').click(function () {
         $('#satisfactionModal').modal('show');
     });
+
+
 });
+
+/* closeSatisfactionModal() <- 이 함수만 작동이 안돼서 html에 따로 빼주었음. 해결해주시면 감사합니다.
+
+function closeSatisfactionModal() {
+    console.log('Closing modal');
+    $('#satisfactionModal').modal('hide');
+}
+*/
+
 
 // 모달 닫힐 때 입력 내용 초기화
 $('#satisfactionModal').on('hidden.bs.modal', function () {
-    $('#satisfactionSurveyText').val('');
+    $("#satisfactionSurveyText").val('');
+    $("#cleanlinessSatisfaction").val('');
+    $("#facilitySatisfaction").val('');
+    $("#congestionSatisfaction").val('');
+    $("#feeSatisfaction").val('');
+    $("#safetySatisfaction").val('');
+    $("#signageSatisfaction").val('');
+    $("#serviceSatisfaction").val('');
 });
 
-// 만족도 조사 제출 함수
+// Add this function to your existing JavaScript code
 function submitSatisfactionSurvey() {
-    var surveyText = $('#satisfactionSurveyText').val();
-    // 여기에 만족도 조사를 서버로 전송하는 코드를 추가할 수 있습니다.
-    // 예시: $.post('/api/satisfaction', { text: surveyText }, function(response) { console.log(response); });
-    // 모달 닫기
-    $('#satisfactionModal').modal('hide');
+    var cleanlinessSatisfaction = parseInt($('#cleanlinessSatisfaction').val());
+    var facilitySatisfaction = parseInt($('#facilitySatisfaction').val());
+    var congestionSatisfaction = parseInt($('#congestionSatisfaction').val());
+    var feeSatisfaction = parseInt($('#feeSatisfaction').val());
+    var safetySatisfaction = parseInt($('#safetySatisfaction').val());
+    var signageSatisfaction = parseInt($('#signageSatisfaction').val());
+    var serviceSatisfaction = parseInt($('#serviceSatisfaction').val());
+
+    if (currentParkingLotId !== null) {
+        $.ajax({
+            type: 'POST',
+            url: '/api/parkinglot/' + currentParkingLotId + '/satisfaction',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                cleanlinessSatisfaction: cleanlinessSatisfaction,
+                facilitySatisfaction: facilitySatisfaction,
+                congestionSatisfaction: congestionSatisfaction,
+                feeSatisfaction: feeSatisfaction,
+                safetySatisfaction: safetySatisfaction,
+                signageSatisfaction: signageSatisfaction,
+                serviceSatisfaction: serviceSatisfaction
+            }),
+            success: function (response) {
+                console.log(response);
+                $('#satisfactionModal').modal('hide');
+
+            },
+            error: function (error) {
+                console.error(error);
+                alert('만족도 설문조사를 제출하는 중에 오류가 발생했습니다.');
+            }
+        });
+    } else {
+        alert('설문조사를 제출하기 전에 주차장을 선택하세요.');
+    }
 }
+
+
+
+
+var barChart, radarChart;
+
+
+$(document).ready(function () {
+    $('#visualizationBtn').click(function () {
+        $('#visualizationModal').modal('show');
+        console.log('Submitting satisfaction survey for Parking Lot ID:', currentParkingLotId);
+
+        if (currentParkingLotId !== null) {
+            // Fetch satisfaction survey results for the current parking lot ID
+            $.ajax({
+                type: 'GET',
+                url: '/api/parkinglot/' + currentParkingLotId + '/satisfaction',
+                success: function (surveyResults) {
+                    // Extract satisfaction values for each category
+                    var cleanlinessData = surveyResults.map(result => result.cleanlinessSatisfaction);
+                    var facilityData = surveyResults.map(result => result.facilitySatisfaction);
+                    var congestionData = surveyResults.map(result => result.congestionSatisfaction);
+                    var feeData = surveyResults.map(result => result.feeSatisfaction);
+                    var safetyData = surveyResults.map(result => result.safetySatisfaction);
+                    var signageData = surveyResults.map(result => result.signageSatisfaction);
+                    var serviceData = surveyResults.map(result => result.serviceSatisfaction);
+
+
+                    // Destroy existing charts if they exist
+                    if (barChart) {
+                        barChart.destroy();
+                    }
+                    if (radarChart) {
+                        radarChart.destroy();
+                    }
+
+                    // Create a chart
+                    radarChart = createRadarChart(cleanlinessData, facilityData, congestionData, feeData, safetyData, signageData, serviceData);
+                    barChart = createBarChart(cleanlinessData, facilityData, congestionData, feeData, safetyData, signageData, serviceData);
+
+
+                    },
+                error: function () {
+                    alert('만족도 설문조사 결과를 가져오는 중에 오류가 발생했습니다.');
+                }
+            });
+        } else {
+            alert('시각화분석을 보려는 주차장을 선택하세요.');
+        }
+    });
+});
+
+// Add a new function to create the chart
+function createBarChart(cleanlinessData, facilityData, congestionData, feeData, safetyData, signageData, serviceData) {
+    return new Chart(document.getElementById("bar-chart"), {
+        type: 'bar',
+        data: {
+            labels: ["청결도", "시설", "혼잡도", "요금", "안전성", "안내표시", "직원서비스"],
+            datasets: [
+                {
+                    label: "Average Satisfaction",
+                    backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#8e5ea2", "#3cba9f"],
+                    data: [
+                        calculateAverage(cleanlinessData),
+                        calculateAverage(facilityData),
+                        calculateAverage(congestionData),
+                        calculateAverage(feeData),
+                        calculateAverage(safetyData),
+                        calculateAverage(signageData),
+                        calculateAverage(serviceData),
+                    ]
+                }
+            ]
+        },
+        options: {
+            legend: { display: false },
+            title: {
+                display: true,
+                text: '만족도 평균 크기 비교'
+            }
+        }
+    });
+}
+
+function createRadarChart(cleanlinessData, facilityData, congestionData, feeData, safetyData, signageData, serviceData) {
+    return new Chart(document.getElementById("radar-chart"), {
+        type: 'radar',
+        data: {
+            labels:["청결도", "시설", "혼잡도", "요금", "안전성", "안내표시", "직원서비스"],
+            datasets: [
+                {
+                    label: "평균",
+                    fill: true,
+                    backgroundColor: "rgba(255,99,132,0.2)",
+                    borderColor: "rgba(255,99,132,1)",
+                    pointBorderColor: "#fff",
+                    pointBackgroundColor: "rgba(255,99,132,1)",
+                    pointBorderColor: "#fff",
+                    data:[
+                        calculateAverage(cleanlinessData),
+                        calculateAverage(facilityData),
+                        calculateAverage(congestionData),
+                        calculateAverage(feeData),
+                        calculateAverage(safetyData),
+                        calculateAverage(signageData),
+                        calculateAverage(serviceData),
+                    ]
+                }
+            ]
+        },
+        options: {
+            title: {
+                display: true,
+                text: '만족도 평균 분포'
+            }
+        }
+    });
+}
+
+// Add a new function to calculate the average of an array of numbers
+function calculateAverage(numbers) {
+    var sum = numbers.reduce((acc, val) => acc + val, 0);
+    return sum / numbers.length;
+}
+
+
+
+
+
+
+// Assuming roadBtn and mapBtn are the IDs of your buttons
+var roadBtn = document.getElementById('roadBtn');
+var mapBtn = document.getElementById('mapBtn');
+var asroadview = document.getElementById('roadview');
+var asmapview = document.getElementById('map');
+
+// Initially, show the map and hide the road view
+asroadview.style.display = 'none';
+asmapview.style.display = 'block';
+
+// Add click event listener for the roadBtn
+roadBtn.addEventListener('click', function () {
+    // Show the road view and hide the map
+    asroadview.style.display = 'block';
+    asmapview.style.display = 'none';
+});
+
+// Add click event listener for the mapBtn
+mapBtn.addEventListener('click', function () {
+    // Show the map and hide the road view
+    asroadview.style.display = 'none';
+    asmapview.style.display = 'block';
+});
+
+
+
+
+
+
+
+var container = document.getElementById('container'),
+    mapWrapper = document.getElementById('mapWrapper'),
+    btnRoadview = document.getElementById('btnRoadview'),
+    btnMap = document.getElementById('btnMap'),
+    rvContainer = document.getElementById('roadview'),
+    mapContainer = document.getElementById('map');
+
+var placePosition = new kakao.maps.LatLng(37.28379, 127.0449);
+
+var mapOption = {
+    center: placePosition,
+    level: 3
+};
+var map = new kakao.maps.Map(mapContainer, mapOption);
+var roadview = new kakao.maps.Roadview(rvContainer);
+
+
+roadview.setViewpoint({
+    pan: 0,
+    tilt: 0,
+    zoom: 0
+});
+
+
+
+
+function toggleMap(active) {
+    if (active) {
+        container.className = "view_map";
+    } else {
+        container.className = "view_roadview";
+    }
+}
+
+// Event listeners to toggle between map and road view
+btnRoadview.addEventListener('click', function () {
+    toggleMap(false);
+});
+
+btnMap.addEventListener('click', function () {
+    toggleMap(true);
+});

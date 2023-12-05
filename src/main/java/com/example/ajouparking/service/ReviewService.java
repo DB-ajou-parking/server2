@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +28,7 @@ public class ReviewService {
     private final ParkinglotService parkinglotService;
     private final UserRepository userRepository;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ReviewDto> getReviewsByParkingLotId(Long parkingLotId) {
         List<Review> reviews = reviewRepository.findByParkinglotId(parkingLotId);
         return reviews.stream().map(Review::toDTO).collect(Collectors.toList());
@@ -45,7 +46,7 @@ public class ReviewService {
 
         try {
             Review reviewEntity = Review.builder()
-                    .user(user)
+                    .user((List<User>) user)
                     .parkinglot(parkinglot)
                     .author(reviewRequestDto.getAuthor())
                     .reviewText(reviewRequestDto.getReviewText())
@@ -59,6 +60,7 @@ public class ReviewService {
         }
 
     }
+
 
 
 
