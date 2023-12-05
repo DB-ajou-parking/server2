@@ -32,10 +32,6 @@
 <body>
 
 
-
-
-
-
 <div id="sidebar">
     <div id="searchContainer">
         <label for="searchRoadName">키워드를 입력하세요.</label>
@@ -53,11 +49,14 @@
 </div>
 
 <div id="visualizationContainer">
+    <button id="roadBtn" class="btn btn-primary"><img class="map-image" src="/images/roadimg.png" alt="Road View" ></button>
+    <button id="mapBtn" class="btn btn-primary"> <img class="map-image" src="/images/mapimg.png" alt="Map View" ></button>
     <button id="serveyBtn" class="btn btn-primary">만족도조사</button>
     <button id="visualizationBtn" class="btn btn-primary">시각화분석</button>
 </div>
 
 <div id="map"></div>
+<div id="roadview"></div>
 
 <div id="Reviews">
     <h3>리뷰</h3>
@@ -119,7 +118,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="satisfactionModalLabel">Satisfaction Survey</h5>
+                <h5 class="modal-title" id="satisfactionModalLabel">만족도 조사</h5>
             </div>
             <div class="modal-body">
                 <!-- 주차 공간의 청결도에 대한 만족도 -->
@@ -195,7 +194,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeSatisfactionModal()" >Close</button>
-                <button type="button" class="btn btn-primary" onclick="submitSatisfactionSurvey()">Submit Survey</button>
+                <button type="button" class="btn btn-primary" onclick="submitSatisfactionSurvey()">Submit</button>
             </div>
         </div>
     </div>
@@ -248,7 +247,7 @@
         console.log('Closing modal');
         $('#visualizationModal').modal('hide');
     }
-    
+
 
 </script>
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
