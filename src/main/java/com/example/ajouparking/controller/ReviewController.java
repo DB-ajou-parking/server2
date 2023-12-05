@@ -20,18 +20,18 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @GetMapping("/{parkinglotId}/reviews")
-    public ResponseEntity<List<ReviewDto>> getReviewsForParkingLot(@PathVariable long parkinglotId, Model model) {
-        List<ReviewDto> reviews = reviewService.getReviewsByParkingLotId(parkinglotId);
+    @GetMapping("/{id}/reviews")
+    public ResponseEntity<List<ReviewDto>> getReviewsForParkingLot(@PathVariable long id, Model model) {
+        List<ReviewDto> reviews = reviewService.getReviewsByParkingLotId(id);
         model.addAttribute("review", reviews);
         return ResponseEntity.ok(reviews);
     }
 
 
-    @PostMapping("/{parkinglotId}/reviews")
-    public void addReviewForParkingLot(@PathVariable Long parkinglotId, @RequestBody ReviewRequestDto reviewRequestDto, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    @PostMapping("/{id}/reviews")
+    public void addReviewForParkingLot(@PathVariable Long id, @RequestBody ReviewRequestDto reviewRequestDto, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         User user = customUserDetails.getUser();
-        reviewService.saveReview(user.getId(),parkinglotId,reviewRequestDto);
+        reviewService.saveReview(user.getId(),id,reviewRequestDto);
     }
 
 }
