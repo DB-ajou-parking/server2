@@ -21,7 +21,7 @@ public class ParkinglotService {
 
     private final ParkinglotJpaRepository parkinglotJpaRepository ;
     private final ReviewRepository reviewRepository;
-    private final com.example.ajouparking.Repository.SatisfactionSurveyRepository satisfactionSurveyRepository;
+    private final com.example.ajouparking.repository.SatisfactionSurveyRepository satisfactionSurveyRepository;
 
     
     
@@ -68,13 +68,13 @@ public class ParkinglotService {
 
 
 
-    public List<com.example.ajouparking.DTO.SatisfactionSurveyDTO> getSatisfactionSurveyByParkingLotId(long parkingLotId) {
-        List<com.example.ajouparking.Entity.SatisfactionSurvey> satisfactionSurveys = satisfactionSurveyRepository.findByParkinglotId(parkingLotId);
-        return satisfactionSurveys.stream().map(com.example.ajouparking.Entity.SatisfactionSurvey::toDTO).collect(Collectors.toList());
+    public List<com.example.ajouparking.dto.SatisfactionSurveyDTO> getSatisfactionSurveyByParkingLotId(long parkingLotId) {
+        List<com.example.ajouparking.entity.SatisfactionSurvey> satisfactionSurveys = satisfactionSurveyRepository.findByParkinglotId(parkingLotId);
+        return satisfactionSurveys.stream().map(com.example.ajouparking.entity.SatisfactionSurvey::toDTO).collect(Collectors.toList());
     }
 
 
-    public void saveSatisfactionSurvey(com.example.ajouparking.Entity.SatisfactionSurvey satisfactionSurvey) {
+    public void saveSatisfactionSurvey(com.example.ajouparking.entity.SatisfactionSurvey satisfactionSurvey) {
         satisfactionSurveyRepository.save(satisfactionSurvey);
     }
 

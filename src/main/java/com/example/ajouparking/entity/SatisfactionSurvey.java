@@ -1,8 +1,7 @@
-package com.example.ajouparking.Entity;
+package com.example.ajouparking.entity;
 
 
-import com.example.ajouparking.DTO.SatisfactionSurveyDTO;
-import com.example.ajouparking.entity.Parkinglot;
+import com.example.ajouparking.dto.SatisfactionSurveyDTO;
 import jakarta.persistence.*;
 
 @Entity
