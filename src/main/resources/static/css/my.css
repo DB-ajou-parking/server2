@@ -134,16 +134,16 @@ body {
     position: absolute;
     bottom: 330px; /* 아래에서 100px 떨어진 위치 */
     width: 50px;
-    height: 100px;
+    height: 45px;
     border-radius: 0px 8px 8px 0px;
 }
 #roadBtn{
     writing-mode: vertical-lr; /* 세로로 텍스트 표시를 위한 속성 추가 */
     text-orientation: upright; /* 텍스트 방향 설정 (선택 사항) */
     position: absolute;
-    bottom: 440px; /* 아래에서 100px 떨어진 위치 */
+    bottom: 385px; /* 아래에서 100px 떨어진 위치 */
     width: 50px;
-    height: 100px;
+    height: 42px;
     border-radius: 0px 8px 8px 0px;
 }
 
@@ -158,6 +158,8 @@ body {
     border-radius: 8px;
     z-index:1
 }
+
+
 
 #roadview {
     flex: 1;
@@ -315,6 +317,7 @@ button {
     border-radius: 4px;
 }
 
+
 button:hover {
     background-color: #0056b3;
 }
@@ -340,6 +343,9 @@ button:hover {
     }
 }
 
-
-
-
+.map-image {
+    width: 25px; /* Adjust the width as needed */
+    height: 25px; /* Adjust the height as needed */
+    display: block;
+    margin: 0 auto;
+}
