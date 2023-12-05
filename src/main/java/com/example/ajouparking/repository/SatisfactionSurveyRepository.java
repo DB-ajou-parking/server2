@@ -1,6 +1,6 @@
-package com.example.ajouparking.Repository;
+package com.example.ajouparking.repository;
 
-import com.example.ajouparking.Entity.SatisfactionSurvey;
+import com.example.ajouparking.entity.SatisfactionSurvey;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

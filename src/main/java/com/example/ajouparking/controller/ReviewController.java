@@ -21,10 +21,10 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @GetMapping("/{parkinglotId}/reviews")
-    public String getReviewsForParkingLot(@PathVariable long parkinglotId, Model model) {
+    public ResponseEntity<List<ReviewDto>> getReviewsForParkingLot(@PathVariable long parkinglotId, Model model) {
         List<ReviewDto> reviews = reviewService.getReviewsByParkingLotId(parkinglotId);
         model.addAttribute("review", reviews);
-        return "review";
+        return ResponseEntity.ok(reviews);
     }
 
 

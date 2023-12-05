@@ -1,17 +1,14 @@
 package com.example.ajouparking.controller;
 
-import com.example.ajouparking.DTO.SatisfactionSurveyDTO;
-import com.example.ajouparking.Entity.SatisfactionSurvey;
-import com.example.ajouparking.dto.ReviewDto;
+import com.example.ajouparking.dto.SatisfactionSurveyDTO;
+import com.example.ajouparking.entity.SatisfactionSurvey;
 import com.example.ajouparking.entity.Parkinglot;
-import com.example.ajouparking.entity.Review;
 import com.example.ajouparking.service.ParkinglotService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
