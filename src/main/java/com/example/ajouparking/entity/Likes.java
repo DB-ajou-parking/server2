@@ -12,8 +12,8 @@ import lombok.*;
 @Table(
         uniqueConstraints = {
                 @UniqueConstraint(
-                        name="likes_key",
-                        columnNames = {"from_user_id","to_user_id"}
+                        name="review_like_key",
+                        columnNames = {"from_user_id","to_review_id"}
                 )
         }
 )
@@ -27,6 +27,6 @@ public class Likes {
     private User fromUser;
 
     @ManyToOne
-    @JoinColumn(name = "to_user_id")
-    private User toUser;
+    @JoinColumn(name = "to_review_id")
+    private Review review;
 }

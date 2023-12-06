@@ -14,7 +14,7 @@ public class FavoriteService {
     private final FavoriteRepository favoriteRepository;
 
     @Transactional
-    public void addFavorite(int userId, Long parkinglotId){
+    public void addFavorite(int userId, int parkinglotId){
         try{
             favoriteRepository.addFavorite(userId,parkinglotId);
         }catch(Exception e){
@@ -23,7 +23,7 @@ public class FavoriteService {
     }
 
     @Transactional
-    public void deleteFavorite(int userId, Long parkinglotId){
+    public void deleteFavorite(int userId, int parkinglotId){
         favoriteRepository.deleteFavorite(userId,parkinglotId);
     }
 }

@@ -19,20 +19,20 @@ import java.net.URI;
 public class LikesController {
 
     private final LikesService likesService;
-
-    @PostMapping("/{toUserId}")
-    public ResponseEntity<?> like(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable int toUserId){
+    @PostMapping("/{toReviewId}")
+    public ResponseEntity<?> like(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable Long toReviewId){
         User user = customUserDetails.getUser();
-        likesService.putLike(user.getId(),toUserId);
+        likesService.putLike(user.getId(),toReviewId);
 
         URI selfLink = URI.create(ServletUriComponentsBuilder.fromCurrentRequest() .toUriString());
         return ResponseEntity.created(selfLink).build();
     }
 
-    @DeleteMapping("/{toUserId}")
-    public ResponseEntity<?> unlike(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable int toUserId){
+    @DeleteMapping("/{toReviewId}")
+    public ResponseEntity<?> unlike(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable Long toReviewId){
         User user = customUserDetails.getUser();
-        likesService.deleteLike(user.getId(), toUserId);
+        likesService.deleteLike(user.getId(), toReviewId);
         return new ResponseEntity<>(new CommonResponseDto<>("삭제성공",null),HttpStatus.NO_CONTENT);
     }
+
 }

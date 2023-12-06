@@ -335,6 +335,17 @@ function fetchReviews(parkingLotId) {
             for (var i = 0; i < reviews.length; i++) {
                 $('#Reviews tbody').append(
                     '<tr>' +
+                    '<td>' + reviews[i].reviewText + '</td>' +
+                    '</tr>'
+                );
+            }
+
+            $('#ShowMoreReviewstable tbody').empty();
+
+            // Append the new reviews to the modal's content
+            for (var i = 0; i < reviews.length; i++) {
+                $('#ShowMoreReviewstable tbody').append(
+                    '<tr>' +
                     '<td>' + (i + 1) + '</td>' +
                     '<td>' + reviews[i].author + '</td>' +
                     '<td>' + reviews[i].reviewText + '</td>' +
@@ -623,3 +634,10 @@ btnRoadview.addEventListener('click', function () {
 btnMap.addEventListener('click', function () {
     toggleMap(true);
 });
+
+
+
+function ShowMoreReviews() {
+    // Open the details modal
+    $('#ShowMoreReviewsModal').modal('show');
+}

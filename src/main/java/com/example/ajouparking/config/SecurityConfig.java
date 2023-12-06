@@ -49,6 +49,15 @@ public class SecurityConfig {
                 );
 
         http
+                .logout((auth) -> auth
+                .logoutUrl("/auth/signout")
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll()
+        );
+
+        http
                 .csrf((auth)->auth.disable());
 
 

@@ -45,7 +45,7 @@ public class ReviewService {
 
         try {
             Review reviewEntity = Review.builder()
-                    //.user((List<User>) user)
+                    .user(user)
                     .parkinglot(parkinglot)
                     .author(reviewRequestDto.getAuthor())
                     .reviewText(reviewRequestDto.getReviewText())
