@@ -49,7 +49,6 @@ public class ReviewService {
                     .parkinglot(parkinglot)
                     .reviewText(reviewRequestDto.getReviewText())
                     .build();
-                    //.author(reviewRequestDto.getAuthor())
 
             reviewRepository.save(reviewEntity);
             return new ResponseEntity<>(new CommonResponseDto<>("리뷰 등록 성공",reviewEntity),HttpStatus.CREATED);

@@ -352,6 +352,7 @@ function fetchReviews(parkingLotId) {
                 $('#ShowMoreReviewstable tbody').append(
                     '<tr>' +
                     '<td>' + (i + 1) + '</td>' +
+                    '<td>' + reviews[i].user.tier + '</td>' +
                     '<td>' + reviews[i].user.username + '</td>' +
                     '<td>' + reviews[i].reviewText + '</td>' +
                     '<td>' + reviews[i].likesCount + '</td>' +
