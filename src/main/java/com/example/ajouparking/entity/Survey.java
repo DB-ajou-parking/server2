@@ -15,25 +15,25 @@ public class Survey {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "청결_만족도")
+    @Column
     private int cleanlinessSatisfaction;
 
-    @Column(name = "시설_만족도")
+    @Column
     private int facilitySatisfaction;
 
-    @Column(name = "혼잡_만족도")
+    @Column
     private int congestionSatisfaction;
 
-    @Column(name = "요금_만족도")
+    @Column
     private int feeSatisfaction;
 
-    @Column(name = "안전성_만족도")
+    @Column
     private int safetySatisfaction;
     
-    @Column(name = "표지판_만족도")
+    @Column
     private int signageSatisfaction;
     
-    @Column(name = "서비스_만족도")
+    @Column
     private int serviceSatisfaction;
 
     @ManyToOne
