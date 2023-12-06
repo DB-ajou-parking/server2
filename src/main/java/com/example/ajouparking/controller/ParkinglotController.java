@@ -1,7 +1,7 @@
 package com.example.ajouparking.controller;
 
 import com.example.ajouparking.dto.SatisfactionSurveyDTO;
-import com.example.ajouparking.entity.SatisfactionSurvey;
+import com.example.ajouparking.entity.Survey;
 import com.example.ajouparking.entity.Parkinglot;
 import com.example.ajouparking.service.ParkinglotService;
 import lombok.RequiredArgsConstructor;
@@ -64,7 +64,7 @@ public class ParkinglotController {
     @PostMapping("/api/parkinglot/{id}/satisfaction")
     public ResponseEntity<?> saveSatisfactionSurvey(
             @PathVariable Long id,
-            @RequestBody SatisfactionSurvey satisfactionSurvey) {
+            @RequestBody Survey survey) {
 
         Parkinglot parkinglot = parkinglotService.getParkinglotById(id).orElse(null);
 
@@ -74,15 +74,15 @@ public class ParkinglotController {
             }
 
 
-            satisfactionSurvey.setParkinglot(parkinglot);
-            satisfactionSurvey.setCleanlinessSatisfaction(satisfactionSurvey.getCleanlinessSatisfaction());
-            satisfactionSurvey.setFacilitySatisfaction(satisfactionSurvey.getFacilitySatisfaction());
-            satisfactionSurvey.setFeeSatisfaction(satisfactionSurvey.getFeeSatisfaction());
-            satisfactionSurvey.setSafetySatisfaction(satisfactionSurvey.getSafetySatisfaction());
-            satisfactionSurvey.setCongestionSatisfaction(satisfactionSurvey.getCongestionSatisfaction());
-            satisfactionSurvey.setSignageSatisfaction(satisfactionSurvey.getSignageSatisfaction());
-            satisfactionSurvey.setServiceSatisfaction(satisfactionSurvey.getServiceSatisfaction());
-            parkinglotService.saveSatisfactionSurvey(satisfactionSurvey);
+            survey.setParkinglot(parkinglot);
+            survey.setCleanlinessSatisfaction(survey.getCleanlinessSatisfaction());
+            survey.setFacilitySatisfaction(survey.getFacilitySatisfaction());
+            survey.setFeeSatisfaction(survey.getFeeSatisfaction());
+            survey.setSafetySatisfaction(survey.getSafetySatisfaction());
+            survey.setCongestionSatisfaction(survey.getCongestionSatisfaction());
+            survey.setSignageSatisfaction(survey.getSignageSatisfaction());
+            survey.setServiceSatisfaction(survey.getServiceSatisfaction());
+            parkinglotService.saveSatisfactionSurvey(survey);
 
             return ResponseEntity.ok("SatisfactionSurvey added successfully");
         }

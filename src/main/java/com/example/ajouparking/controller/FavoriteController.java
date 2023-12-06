@@ -22,7 +22,7 @@ public class FavoriteController {
     private final FavoriteService favoriteService;
 
     @PostMapping("/{parkinglotId}")
-    public ResponseEntity<?> addFavorite(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable Long parkinglotId){
+    public ResponseEntity<?> addFavorite(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable int parkinglotId){
         User user = customUserDetails.getUser();
         favoriteService.addFavorite(user.getId(),parkinglotId);
 
@@ -31,7 +31,7 @@ public class FavoriteController {
     }
 
     @DeleteMapping("/{parkinglotId}")
-    public ResponseEntity<?> deleteFavorite(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable Long parkinglotId){
+    public ResponseEntity<?> deleteFavorite(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable int parkinglotId){
         User user = customUserDetails.getUser();
         favoriteService.deleteFavorite(user.getId(), parkinglotId);
         return new ResponseEntity<>(new CommonResponseDto<>("삭제성공",null),HttpStatus.NO_CONTENT);

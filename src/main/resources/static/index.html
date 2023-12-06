@@ -66,7 +66,7 @@
             <th>번호</th>
             <th>작성자</th>
             <th>내용</th>
-            <th>작성일자</th>
+            <th>좋아요</th>
         </tr>
         </thead>
         <tbody th:each="comment: ${commentList}">
@@ -74,7 +74,7 @@
             <td th:text="${comment.id}"></td>
             <td th:text="${comment.commentWriter}"></td>
             <td th:text="${comment.commentContents}"></td>
-            <td th:text="${comment.commentCreatedTime}"></td>
+            <td th:text="${comment.likesCount}"></td>
         </tr>
         </tbody>
     </table>
