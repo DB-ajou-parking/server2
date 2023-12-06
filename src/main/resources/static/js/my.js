@@ -292,8 +292,9 @@ function displayDetailedParkingLotInfo(parkingLot) {
 }
 
 function commentWrite() {
-    var commentWriter = $('#commentWriter').val();
+    //var commentWriter = $('#commentWriter').val();
     var commentContents = $('#commentContents').val();
+    //var loggedInUserId;
 
     if (currentParkingLotId !== null) {
         $.ajax({
@@ -301,12 +302,13 @@ function commentWrite() {
             url: '/api/parkinglot/' + currentParkingLotId + '/reviews',
             contentType: 'application/json',
             data: JSON.stringify({
-                author: commentWriter,
+                //user_id: loggedInUserId,
                 reviewText: commentContents
             }),
             success: function (response) {
                 // Clear input fields
-                $('#commentWriter').val('');
+                //loggedInUserId = response.user_id;
+                //$('#commentWriter').val('');
                 $('#commentContents').val('');
 
                 // Fetch and display updated reviews
@@ -324,10 +326,13 @@ function commentWrite() {
 }
 
 function fetchReviews(parkingLotId) {
+
+
     $.ajax({
         type: 'GET',
         url: '/api/parkinglot/' + parkingLotId + '/reviews',
         success: function (reviews) {
+
             // Clear existing reviews
             $('#Reviews tbody').empty();
 
@@ -347,9 +352,9 @@ function fetchReviews(parkingLotId) {
                 $('#ShowMoreReviewstable tbody').append(
                     '<tr>' +
                     '<td>' + (i + 1) + '</td>' +
-                    '<td>' + reviews[i].author + '</td>' +
+                    '<td>' + reviews[i].user.username + '</td>' +
                     '<td>' + reviews[i].reviewText + '</td>' +
-                    '<td>' + reviews[i].timestamp + '</td>' +
+                    '<td>' + reviews[i].likesCount + '</td>' +
                     '</tr>'
                 );
             }
@@ -437,6 +442,7 @@ function submitSatisfactionSurvey() {
 
 
 var barChart, radarChart;
+
 
 
 $(document).ready(function () {
@@ -641,3 +647,7 @@ function ShowMoreReviews() {
     // Open the details modal
     $('#ShowMoreReviewsModal').modal('show');
 }
+
+
+
+
