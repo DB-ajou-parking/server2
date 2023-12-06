@@ -177,7 +177,7 @@ body {
     /*right: 10px;*/
     right: 10px; /* Initially positioned outside the viewport */
     transition: right 0.5s ease-in-out; /* Add a transition for smooth animation */
-    width: 340px;
+    width: 300px;
     margin: 10px;
     padding: 10px;
     border: 1px solid #ccc;
@@ -208,7 +208,9 @@ body {
     font-size: 1em; /* Adjusted font size for the '리뷰' heading */
 }
 
+#show-more-reviews-btn {
 
+}
 
 
 
