@@ -325,6 +325,7 @@ function commentWrite() {
     }
 }
 
+var reviews = [];
 function fetchReviews(parkingLotId) {
 
 
@@ -353,9 +354,11 @@ function fetchReviews(parkingLotId) {
                     '<tr>' +
                     '<td>' + (i + 1) + '</td>' +
                     '<td>' + reviews[i].user.tier + '</td>' +
+                    '<td>' + reviews[i].user.tierExp + '</td>' +
                     '<td>' + reviews[i].user.username + '</td>' +
                     '<td>' + reviews[i].reviewText + '</td>' +
-                    '<td>' + reviews[i].likesCount + '</td>' +
+                    '<td id="likesCount_' + i + '">' + reviews[i].likesCount + '</td>' +
+                    '<td><button onclick="likeReview(' + i + ')">좋아요</button></td>' +
                     '</tr>'
                 );
             }
@@ -365,6 +368,70 @@ function fetchReviews(parkingLotId) {
         }
     });
 }
+
+
+
+function likeReview(index) {
+    // 현재 likesCount를 가져옴
+    var likesCountElement = $('#likesCount_' + index);
+    var currentLikesCount = parseInt(likesCountElement.text());
+
+    // 현재 상태에 따라 likesCount를 증가 또는 감소시킴
+    var newLikesCount = currentLikesCount === 1 ? 0 : 1;
+
+    // UI를 새로운 좋아요 횟수로 업데이트
+    updateLikesCountUI(index, newLikesCount);
+
+    // Update the server using an AJAX call
+    updateServerWithLikesCount(index, newLikesCount);
+}
+
+// UI를 새로운 좋아요 횟수로 업데이트하는 함수
+function updateLikesCountUI(index, newLikesCount) {
+    // 리뷰마다 좋아요 횟수를 표시하는 UI를 가정
+    $('#ShowMoreReviewstable tbody tr:eq(' + index + ') td:eq(5)').text(newLikesCount);
+}
+
+// 서버를 새로운 likesCount로 업데이트하는 함수
+function updateServerWithLikesCount(index, newLikesCount) {
+    // 리뷰 ID 또는 업데이트에 필요한 다른 식별자를 가져옴
+    var reviewId = getReviewIdAtIndex(index);
+
+    // 서버를 업데이트하기 위해 AJAX 호출 수행
+    $.ajax({
+        type: 'POST',
+        url: '/api/likes/' + reviewId,  // 서버의 API에 따라 URL을 업데이트
+        contentType: 'application/json',
+        data: JSON.stringify({
+            // API가 newLikesCount 값을 필요로 하는 경우
+            likesCount: newLikesCount
+        }),
+        success: function (response) {
+            console.log('서버가 성공적으로 업데이트되었습니다:', response);
+        },
+        error: function () {
+            console.error('서버 업데이트 중 오류가 발생했습니다.');
+            // 업데이트가 실패한 경우 UI를 이전 상태로 되돌리는 등의 조치를 취할 수 있음
+        }
+    });
+}
+
+// 인덱스를 기반으로 리뷰 ID를 검색하는 함수
+function getReviewIdAtIndex(index) {            //여기서 reviews를 못가져와서 서버에 저장을 못함.
+    // 인덱스를 기반으로 리뷰 ID를 검색하는 로직을 구현
+    // 예를 들어, 리뷰에 고유한 ID가 있다면 리뷰 배열을 사용할 수 있음
+    // var reviewId = reviews[index].id;
+    // 데이터 구조에 따라 이 로직을 조절
+
+    // 리뷰가 서버에서 가져오고 각 리뷰에 ID 속성이 있는 경우를 가정
+    return reviews[index].id;
+}
+
+
+
+
+
+
 
 
 
