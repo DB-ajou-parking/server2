@@ -4,7 +4,6 @@ import com.example.ajouparking.dto.CommonResponseDto;
 import com.example.ajouparking.dto.CustomUserDetails;
 import com.example.ajouparking.entity.User;
 import com.example.ajouparking.service.FavoriteService;
-import com.example.ajouparking.service.LikesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -63,22 +63,15 @@
     <table class="table">
         <thead>
         <tr>
-            <th>번호</th>
-            <th>작성자</th>
             <th>내용</th>
-            <th>좋아요 어떻게표시?</th>
         </tr>
         </thead>
         <tbody th:each="comment: ${commentList}">
         <tr>
-            <td th:text="${comment.id}"></td>
-            <td th:text="${comment.commentWriter}"></td>
             <td th:text="${comment.commentContents}"></td>
-            <td th:text="${comment.likesCount}"></td>
         </tr>
         </tbody>
     </table>
-
     <div class="mb-3">
         <input type="text" id="commentWriter" placeholder="작성자" class="form-control" required="required">
     </div>
@@ -86,6 +79,7 @@
         <input type="text" id="commentContents" placeholder="내용" class="form-control" required="required">
     </div>
     <button id="comment-write-btn" onclick="commentWrite()" class="btn btn-primary">리뷰작성</button>
+    <button id="detailsBtn" onclick="ShowMoreReviews()">Details</button>
 <!--    <button type="button" class="btn btn-primary" onclick="goToReviews()">리뷰 작성하러 가기</button>-->
 <!--    <button type="button" class="btn btn-primary" onclick="goToParkinglotInfo()">주차장 정보 보러가기</button>-->
     <script>
@@ -99,6 +93,42 @@
     </script>
 </div>
 
+<!-- Add this HTML structure for the ShowMoreReviews Modal -->
+<div class="modal fade" id="ShowMoreReviewsModal" tabindex="-1" role="dialog" aria-labelledby="ShowMoreReviewsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ShowMoreReviewsModalLabel">More Reviews</h5>
+            </div>
+            <div class="modal-body" id="ShowMoreReviewstable">
+                <!-- Container to append reviews -->
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>작성자</th>
+                        <th>내용</th>
+                        <th>좋아요</th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="comment: ${commentList}">
+                    <tr>
+                        <td th:text="${comment.id}"></td>
+                        <td th:text="${comment.commentWriter}"></td>
+                        <td th:text="${comment.commentContents}"></td>
+                        <td th:text="${comment.likesCount}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div id="bottomRightButtons">
     <div class="transparentBox">
