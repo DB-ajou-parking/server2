@@ -21,15 +21,15 @@ public class LikesService {
     @Transactional
     public void putLike(int fromUserId, Long toReviewId){
         try{
-//            Review review = reviewRepository.findById(toReviewId)
-//                    .orElseThrow(() -> new IllegalArgumentException("없는리뷰"));
-//            User user = userRepository.findById(fromUserId)
-//                    .orElseThrow(() -> new IllegalArgumentException("없는유저"));
-//
-//            System.out.println("=================================="+review.getUser()+"==================================");
-//            user.setTierExp(user.getTierExp()+1);
-//
-//            userRepository.save(user);
+            Review review = reviewRepository.findById(toReviewId)
+                    .orElseThrow(() -> new IllegalArgumentException("없는리뷰"));
+            User user = userRepository.findById(fromUserId)
+                    .orElseThrow(() -> new IllegalArgumentException("없는유저"));
+
+            System.out.println("=================================="+review.getUser()+"==================================");
+            user.setTierExp(user.getTierExp()+1);
+
+            userRepository.save(user);
             likesRepository.like(fromUserId,toReviewId);
         }catch(Exception e){
             throw new CustomApiException("좋아요 에러");
