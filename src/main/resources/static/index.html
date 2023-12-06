@@ -80,7 +80,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="ShowMoreReviewsModalLabel">More Reviews</h5>
+                <h5 class="modal-title" id="ShowMoreReviewsModalLabel">전체 리뷰</h5>
             </div>
             <div class="modal-body" id="ShowMoreReviewstable">
                 <!-- Container to append reviews -->
@@ -108,7 +108,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeShowMoreReviewsModal()">Close</button>
             </div>
         </div>
     </div>
@@ -273,6 +273,10 @@
         $('#visualizationModal').modal('hide');
     }
 
+    function closeShowMoreReviewsModal() {
+        console.log('Closing modal');
+        $('#ShowMoreReviewsModal').modal('hide');
+    }
 
 </script>
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
