@@ -1,5 +1,6 @@
 package com.example.ajouparking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -118,7 +119,8 @@ public class Parkinglot {
     @Column String distance;
 
     @OneToMany(mappedBy = "parkinglot", cascade = CascadeType.ALL)
-    private List<com.example.ajouparking.entity.Review> reviews = new ArrayList<>();
+    @JsonIgnore
+    private List<Review> reviews = new ArrayList<>();
 
 
 }

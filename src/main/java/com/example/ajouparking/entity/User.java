@@ -2,6 +2,8 @@ package com.example.ajouparking.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.util.List;
 
@@ -16,13 +18,25 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(unique = true)
+    @Column(name = "username", unique = true)
     private String username;
+
+    @Column(name = "password")
     private String password;
+
+    @Column(name = "role")
     private String role;
 
+    @Column(name = "tier", nullable = false)
+    private String tier;
 
+    @Column(name = "tier_exp")
+    private int tierExp;
 
+    @PrePersist
+    public void defaultTier(){
+        this.tier = "un_lank";
+    }
 
 
 }

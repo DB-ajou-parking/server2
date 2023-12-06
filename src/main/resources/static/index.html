@@ -66,7 +66,7 @@
             <th>번호</th>
             <th>작성자</th>
             <th>내용</th>
-            <th>작성일자</th>
+            <th>좋아요 어떻게표시?</th>
         </tr>
         </thead>
         <tbody th:each="comment: ${commentList}">
@@ -74,7 +74,7 @@
             <td th:text="${comment.id}"></td>
             <td th:text="${comment.commentWriter}"></td>
             <td th:text="${comment.commentContents}"></td>
-            <td th:text="${comment.commentCreatedTime}"></td>
+            <td th:text="${comment.likesCount}"></td>
         </tr>
         </tbody>
     </table>
@@ -105,8 +105,8 @@
         <a href="/favorite">
             <button id="bookmarkBtn" class="btn btn-primary">즐겨찾기</button>
         </a>
-        <a href="/auth/signin">
-            <button id="loginBtn" class="btn btn-primary">로그인/마이페이지</button>
+        <a href="/auth/signout">
+            <button id="loginBtn" class="btn btn-primary">로그아웃</button>
         </a>
         <!-- 아이콘 추가 -->
         <span class="materiqal-icons">
