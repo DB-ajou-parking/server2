@@ -1,7 +1,6 @@
 package com.example.ajouparking.repository;
 
 import com.example.ajouparking.entity.Favorite;
-import com.example.ajouparking.entity.Likes;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

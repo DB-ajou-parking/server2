@@ -32,9 +32,9 @@ public class Review {
     @Column(name="likes_count")
     private int likesCount;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "user_id")
-    private List<User> user;
+    private User user;
 
     @Column(name = "created_at")
     LocalDateTime createdAt;
