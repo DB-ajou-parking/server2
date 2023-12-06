@@ -61,11 +61,7 @@
 <div id="Reviews">
     <h3>리뷰</h3>
     <table class="table">
-        <thead>
-        <tr>
-            <th>내용</th>
-        </tr>
-        </thead>
+
         <tbody th:each="comment: ${commentList}">
         <tr>
             <td th:text="${comment.commentContents}"></td>
@@ -73,15 +69,15 @@
         </tbody>
     </table>
     <div class="mb-3">
-        <input type="text" id="commentContents" placeholder="내용" class="form-control" required="required">
+        <input type="text" id="commentContents" placeholder="주차장에 대한 솔직한 리뷰를 남겨주세요." class="form-control" required="required">
     </div>
     <button id="comment-write-btn" onclick="commentWrite()" class="btn btn-primary">리뷰작성</button>
-    <button id="detailsBtn" onclick="ShowMoreReviews()">Details</button>
+    <button id="show-more-reviews-btn" onclick="ShowMoreReviews()" class="btn btn-primary" >더보기</button>
 </div>
 
 <!-- Add this HTML structure for the ShowMoreReviews Modal -->
 <div class="modal fade" id="ShowMoreReviewsModal" tabindex="-1" role="dialog" aria-labelledby="ShowMoreReviewsModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="ShowMoreReviewsModalLabel">More Reviews</h5>
@@ -134,7 +130,7 @@
 
 <div id="bottomNotice">
     <p>
-        AJou PARKING이 새롭게 출시되었습니다. 사용자의 현재위치가 최대 450미터까지 차이날 수 있습니다. &nbsp; &nbsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;
+        AJou PARKING이 새롭게 출시되었습니다. 사용자의 현재위치가 최대 450미터까지 차이날 수 있습니다. &nbsp; &nbsp; &emsp; &emsp; &emsp;  &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;
     </p>
 </div>
 
