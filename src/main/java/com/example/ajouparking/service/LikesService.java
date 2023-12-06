@@ -13,9 +13,9 @@ public class LikesService {
     private final LikesRepository likesRepository;
 
     @Transactional
-    public void putLike(int fromUserId, int toUserId){
+    public void putLike(int fromUserId, int toReviewId){
         try{
-            likesRepository.like(fromUserId,toUserId);
+            likesRepository.like(fromUserId,toReviewId);
         }catch(Exception e){
             throw new CustomApiException("이미 좋아요를 눌렀음");
         }

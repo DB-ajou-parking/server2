@@ -23,11 +23,14 @@ public class Review {
     @JoinColumn(name = "parkinglot_id")
     private Parkinglot parkinglot;
 
-    @Column(nullable = false)
+    @Column(name ="author", nullable = false)
     private String author;
 
-    @Column(nullable = false)
+    @Column(name = "review_text", nullable = false)
     private String reviewText;
+
+    @Column(name="likes_count")
+    private int likesCount;
 
     @OneToMany
     @JoinColumn(name = "user_id")
