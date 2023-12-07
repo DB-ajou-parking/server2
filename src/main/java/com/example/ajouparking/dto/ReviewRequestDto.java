@@ -10,7 +10,6 @@ import lombok.Setter;
 public class ReviewRequestDto {
 
     private Parkinglot parkinglot;
-    //private String author;
     private String reviewText;
     private User user;
 

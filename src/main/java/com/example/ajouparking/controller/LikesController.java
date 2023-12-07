@@ -24,15 +24,14 @@ public class LikesController {
         User user = customUserDetails.getUser();
         likesService.putLike(user.getId(),toReviewId);
 
-        URI selfLink = URI.create(ServletUriComponentsBuilder.fromCurrentRequest() .toUriString());
-        return ResponseEntity.created(selfLink).build();
+        return new ResponseEntity<>(new CommonResponseDto<>("리뷰 등록 성공",null),HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{toReviewId}")
     public ResponseEntity<?> unlike(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable Long toReviewId){
         User user = customUserDetails.getUser();
         likesService.deleteLike(user.getId(), toReviewId);
-        return new ResponseEntity<>(new CommonResponseDto<>("삭제성공",null),HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(new CommonResponseDto<>("리뷰 삭제 성공",null),HttpStatus.NO_CONTENT);
     }
 
 }

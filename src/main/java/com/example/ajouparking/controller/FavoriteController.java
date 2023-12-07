@@ -24,15 +24,13 @@ public class FavoriteController {
     public ResponseEntity<?> addFavorite(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable int parkinglotId){
         User user = customUserDetails.getUser();
         favoriteService.addFavorite(user.getId(),parkinglotId);
-
-        URI selfLink = URI.create(ServletUriComponentsBuilder.fromCurrentRequest() .toUriString());
-        return ResponseEntity.created(selfLink).build();
+        return new ResponseEntity<>(new CommonResponseDto<>("즐겨찾기 성공",null),HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{parkinglotId}")
     public ResponseEntity<?> deleteFavorite(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable int parkinglotId){
         User user = customUserDetails.getUser();
         favoriteService.deleteFavorite(user.getId(), parkinglotId);
-        return new ResponseEntity<>(new CommonResponseDto<>("삭제성공",null),HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(new CommonResponseDto<>("즐겨찾기 삭제 성공",null),HttpStatus.NO_CONTENT);
     }
 }

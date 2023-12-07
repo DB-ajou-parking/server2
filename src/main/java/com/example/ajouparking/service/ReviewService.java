@@ -34,7 +34,7 @@ public class ReviewService {
     }
 
     @Transactional
-    public ResponseEntity<?> saveReview(int userId, Long parkingLotId, ReviewRequestDto reviewRequestDto) {
+    public Review saveReview(int userId, Long parkingLotId, ReviewRequestDto reviewRequestDto) {
         User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("없는유저"));
         Parkinglot parkinglot = parkinglotService.getParkinglotById(parkingLotId).orElseThrow(
                 () -> new IllegalArgumentException("없는 주차장 입니다."));
@@ -51,10 +51,10 @@ public class ReviewService {
                     .build();
 
             reviewRepository.save(reviewEntity);
-            return new ResponseEntity<>(new CommonResponseDto<>("리뷰 등록 성공",reviewEntity),HttpStatus.CREATED);
+            return reviewEntity;
 
         } catch (Exception e) {
-            return new ResponseEntity<>(new CustomApiException("리뷰 등록 실패"), HttpStatus.BAD_REQUEST);
+            throw new CustomApiException("리뷰 등록 실패");
         }
 
     }
