@@ -66,6 +66,7 @@ body {
     overflow-y: auto; /* Enable vertical scrolling */
     padding: 10px; /* 간격 조절 */
     border-radius: 8px;
+    background-color: #E8EEFA; /* 배경색 설정 */
 }
 
 
