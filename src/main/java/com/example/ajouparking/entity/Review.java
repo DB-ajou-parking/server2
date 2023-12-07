@@ -25,6 +25,7 @@ public class Review {
     @Column(name = "review_text", nullable = false)
     private String reviewText;
 
+
     @Column(name="likes_count")
     private int likesCount;
 
@@ -42,6 +43,7 @@ public class Review {
 
     public ReviewDto toDTO() {
         ReviewDto dto = new ReviewDto();
+        dto.setId(this.id);
         dto.setReviewText(this.reviewText);
         dto.setLikesCount(this.likesCount);
         dto.setUser(this.user);
