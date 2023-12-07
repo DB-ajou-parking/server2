@@ -38,5 +38,13 @@ public class User {
         this.tier = "un_lank";
     }
 
+    public void plusExp(int exp){
+        this.tierExp = tierExp + exp;
+    }
+
+    public void minusExp(int exp){
+        if(this.tierExp < 0){ return; }
+        this.tierExp = tierExp - exp;
+    }
 
 }
