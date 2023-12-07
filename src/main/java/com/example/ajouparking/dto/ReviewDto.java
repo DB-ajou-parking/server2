@@ -7,16 +7,16 @@ import lombok.Setter;
 
 @Getter @Setter
 public class ReviewDto {
-    //private String author;
+    private Long id;
     private String reviewText;
     private int likesCount;
     private User user;
 
     public Review toEntity(){
         return Review.builder()
-                //.author(author)
+                .id(id)
                 .reviewText(reviewText)
-
+                .likesCount(likesCount)
                 .build();
     }
 }
