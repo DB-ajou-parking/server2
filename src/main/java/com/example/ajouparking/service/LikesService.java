@@ -1,10 +1,8 @@
 package com.example.ajouparking.service;
 
-import com.example.ajouparking.entity.Review;
 import com.example.ajouparking.entity.User;
 import com.example.ajouparking.exceptionHandler.exceptions.CustomApiException;
 import com.example.ajouparking.repository.LikesRepository;
-import com.example.ajouparking.repository.ReviewRepository;
 import com.example.ajouparking.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
