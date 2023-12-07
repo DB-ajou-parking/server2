@@ -13,7 +13,7 @@ map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
 var markers = []; // Array to store markers
 
 
-
+var reviews = [];
 
 
 
@@ -292,8 +292,9 @@ function displayDetailedParkingLotInfo(parkingLot) {
 }
 
 function commentWrite() {
-    var commentWriter = $('#commentWriter').val();
+    //var commentWriter = $('#commentWriter').val();
     var commentContents = $('#commentContents').val();
+    //var loggedInUserId;
 
     if (currentParkingLotId !== null) {
         $.ajax({
@@ -301,12 +302,13 @@ function commentWrite() {
             url: '/api/parkinglot/' + currentParkingLotId + '/reviews',
             contentType: 'application/json',
             data: JSON.stringify({
-                author: commentWriter,
+                //user_id: loggedInUserId,
                 reviewText: commentContents
             }),
             success: function (response) {
                 // Clear input fields
-                $('#commentWriter').val('');
+                //loggedInUserId = response.user_id;
+                //$('#commentWriter').val('');
                 $('#commentContents').val('');
 
                 // Fetch and display updated reviews
@@ -323,11 +325,15 @@ function commentWrite() {
     }
 }
 
+
 function fetchReviews(parkingLotId) {
+
+
     $.ajax({
         type: 'GET',
         url: '/api/parkinglot/' + parkingLotId + '/reviews',
         success: function (reviews) {
+
             // Clear existing reviews
             $('#Reviews tbody').empty();
 
@@ -335,10 +341,24 @@ function fetchReviews(parkingLotId) {
             for (var i = 0; i < reviews.length; i++) {
                 $('#Reviews tbody').append(
                     '<tr>' +
-                    '<td>' + (i + 1) + '</td>' +
-                    '<td>' + reviews[i].author + '</td>' +
                     '<td>' + reviews[i].reviewText + '</td>' +
-                    '<td>' + reviews[i].timestamp + '</td>' +
+                    '</tr>'
+                );
+            }
+
+            $('#ShowMoreReviewstable tbody').empty();
+
+            // Append the new reviews to the modal's content
+            for (var i = 0; i < reviews.length; i++) {
+                $('#ShowMoreReviewstable tbody').append(
+                    '<tr>' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' + reviews[i].user.tier + '</td>' +
+                    '<td>' + reviews[i].user.tierExp + '</td>' +
+                    '<td>' + reviews[i].user.username + '</td>' +
+                    '<td>' + reviews[i].reviewText + '</td>' +
+                    '<td id="likesCount_' + i + '">' + reviews[i].likesCount + '</td>' +
+                    '<td><button onclick="likeReview(' + i + ')">좋아요</button></td>' +
                     '</tr>'
                 );
             }
@@ -348,6 +368,41 @@ function fetchReviews(parkingLotId) {
         }
     });
 }
+
+
+
+
+
+function likeReview(reviewIndex) {
+    // Assuming reviews array is globally defined
+    var review = reviews[reviewIndex];
+
+    // Toggle like status
+    review.liked = !review.liked;
+
+    // Update likes count in the UI
+    var likesCountElement = document.getElementById('likesCount_' + reviewIndex);
+    likesCountElement.textContent = review.likesCount + (review.liked ? 1 : -1);
+
+    // Send like status to the server
+    $.ajax({
+        type: review.liked ? 'POST' : 'DELETE',
+        url: '/api/likes/' + review.id,
+        success: function () {
+            // Optional: You may want to update the UI or handle success cases
+        },
+        error: function () {
+            alert('좋아요 처리 중에 오류가 발생했습니다.');
+            // If an error occurs, you might want to revert the UI changes
+            // and notify the user about the issue
+            review.liked = !review.liked;
+            likesCountElement.textContent = review.likesCount;
+        }
+    });
+}
+
+
+
 
 
 
@@ -426,6 +481,7 @@ function submitSatisfactionSurvey() {
 
 
 var barChart, radarChart;
+
 
 
 $(document).ready(function () {
@@ -623,3 +679,14 @@ btnRoadview.addEventListener('click', function () {
 btnMap.addEventListener('click', function () {
     toggleMap(true);
 });
+
+
+
+function ShowMoreReviews() {
+    // Open the details modal
+    $('#ShowMoreReviewsModal').modal('show');
+}
+
+
+
+
