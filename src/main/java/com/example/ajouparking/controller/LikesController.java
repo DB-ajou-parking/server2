@@ -23,15 +23,14 @@ public class LikesController {
     public ResponseEntity<?> like(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable Long toReviewId){
         User user = customUserDetails.getUser();
         likesService.putLike(user.getId(),toReviewId);
-
-        return new ResponseEntity<>(new CommonResponseDto<>("리뷰 등록 성공",null),HttpStatus.CREATED);
+        return new ResponseEntity<>(new CommonResponseDto<>("리뷰 좋아요 성공",null),HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{toReviewId}")
     public ResponseEntity<?> unlike(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable Long toReviewId){
         User user = customUserDetails.getUser();
         likesService.deleteLike(user.getId(), toReviewId);
-        return new ResponseEntity<>(new CommonResponseDto<>("리뷰 삭제 성공",null),HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(new CommonResponseDto<>("리뷰 좋아요 삭제 성공",null),HttpStatus.NO_CONTENT);
     }
 
 }

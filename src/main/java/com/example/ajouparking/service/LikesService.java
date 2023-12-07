@@ -22,6 +22,7 @@ public class LikesService {
                     .orElseThrow(() -> new IllegalArgumentException("없는유저"));
 
             user.plusExp(1);
+            user.changeTier(user.getTierExp());
 
             userRepository.save(user);
             likesRepository.like(fromUserId,toReviewId);
@@ -36,6 +37,7 @@ public class LikesService {
                 .orElseThrow(() -> new IllegalArgumentException("없는유저"));
 
         user.minusExp(1);
+        user.changeTier(user.getTierExp());
         userRepository.save(user);
         likesRepository.unlike(fromUserId,toUserId);
     }

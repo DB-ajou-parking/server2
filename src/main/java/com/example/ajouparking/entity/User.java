@@ -39,7 +39,19 @@ public class User {
     }
 
     public void minusExp(int exp){
-        if(this.tierExp < 0){ return; }
+        if(this.tierExp - exp < 0){
+            this.tierExp = 0;
+        }
         this.tierExp = tierExp - exp;
+    }
+
+    public void changeTier(int exp){
+        if(this.tierExp + exp == 1){
+            this.tier = "Bronze";
+        }else if(this.tierExp + exp == 2){
+            this.tier = "Silver";
+        }else{
+            this.tier = "Gold";
+        }
     }
 }
