@@ -357,8 +357,6 @@ function fetchReviews(parkingLotId) {
                     '<td>' + reviews[i].user.username + '</td>' +
                     '<td>' + reviews[i].reviewText + '</td>' +
                     '<td id="likesCount_' + i + '">' + reviews[i].likesCount + '</td>' +
-                    '<td>' + reviews[i].user.id + '</td>' +
-                    '<td>' + reviews[i].id + '</td>' +
                     '<td><button onclick="likeReview(' + reviews[i].user.id + ', ' + reviews[i].id + ')">좋아요</button></td>' +
                     '</tr>'
                 );
@@ -386,9 +384,9 @@ function likeReview(userId, reviewId) {
         url: url,
         contentType: 'application/json',
         data: JSON.stringify({
-            // Assuming "from_user_id" and "to_review_id" are correct field names
+            // Correct field names based on your controller
             from_user_id: userId,
-            to_review_id: reviewId
+            toReviewId: reviewId
         }),
         success: function () {
             console.log('likeReview post success');
