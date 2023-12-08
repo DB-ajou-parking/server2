@@ -3,6 +3,7 @@ package com.example.ajouparking.controller;
 import com.example.ajouparking.dto.CustomUserDetails;
 import com.example.ajouparking.dto.ReviewDto;
 import com.example.ajouparking.dto.ReviewRequestDto;
+import com.example.ajouparking.entity.Review;
 import com.example.ajouparking.entity.User;
 import com.example.ajouparking.service.ReviewService;
 import lombok.RequiredArgsConstructor;

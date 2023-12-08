@@ -44,6 +44,10 @@ public class ReviewService {
     @Transactional
     public ResponseEntity<?> saveReview(long userId, Long parkingLotId, ReviewRequestDto reviewRequestDto) {
         User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("없는유저"));
+        int reviewAuthorId = reviewRequestDto.getUser().getId();
+        if(reviewAuthorId == userId){
+            throw new CustomApiException("자신의 리뷰에 좋아요 할 수 없습니다");
+        }
         Parkinglot parkinglot = parkinglotService.getParkinglotById(parkingLotId).orElseThrow(
                 () -> new IllegalArgumentException("없는 주차장 입니다."));
 
