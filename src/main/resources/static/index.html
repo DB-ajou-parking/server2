@@ -53,6 +53,7 @@
     <button id="mapBtn" class="btn btn-primary"> <img class="map-image" src="/images/mapimg.png" alt="Map View" ></button>
     <button id="serveyBtn" class="btn btn-primary">만족도조사</button>
     <button id="visualizationBtn" class="btn btn-primary">시각화분석</button>
+    <button id="saveBookmarkBtn" class="bookmarkButton"><img class="map-image" src="/images/bookmarkimg.png" alt="bok"></button>
 </div>
 
 <div id="map"></div>
@@ -61,52 +62,68 @@
 <div id="Reviews">
     <h3>리뷰</h3>
     <table class="table">
-        <thead>
-        <tr>
-            <th>번호</th>
-            <th>작성자</th>
-            <th>내용</th>
-            <th>좋아요</th>
-        </tr>
-        </thead>
+
         <tbody th:each="comment: ${commentList}">
         <tr>
-            <td th:text="${comment.id}"></td>
-            <td th:text="${comment.commentWriter}"></td>
             <td th:text="${comment.commentContents}"></td>
-            <td th:text="${comment.likesCount}"></td>
         </tr>
         </tbody>
     </table>
-
     <div class="mb-3">
-        <input type="text" id="commentWriter" placeholder="작성자" class="form-control" required="required">
-    </div>
-    <div class="mb-3">
-        <input type="text" id="commentContents" placeholder="내용" class="form-control" required="required">
+        <input type="text" id="commentContents" placeholder="주차장에 대한 솔직한 리뷰를 남겨주세요." class="form-control" required="required">
     </div>
     <button id="comment-write-btn" onclick="commentWrite()" class="btn btn-primary">리뷰작성</button>
-<!--    <button type="button" class="btn btn-primary" onclick="goToReviews()">리뷰 작성하러 가기</button>-->
-<!--    <button type="button" class="btn btn-primary" onclick="goToParkinglotInfo()">주차장 정보 보러가기</button>-->
-    <script>
-        function goToReviews() {
-            window.location.href = '/review';
-        }
-
-        function goToParkinglotInfo(){
-            window.location.href = "/parkinglotInfo";
-        }
-    </script>
+    <button id="show-more-reviews-btn" onclick="ShowMoreReviews()" class="btn btn-primary" >더보기</button>
 </div>
 
+<!-- Add this HTML structure for the ShowMoreReviews Modal -->
+<div class="modal fade" id="ShowMoreReviewsModal" tabindex="-1" role="dialog" aria-labelledby="ShowMoreReviewsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ShowMoreReviewsModalLabel">전체 리뷰</h5>
+            </div>
+            <div class="modal-body" id="ShowMoreReviewstable">
+                <!-- Container to append reviews -->
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>티어</th>
+                        <th>exp</th>
+                        <th>ID</th>
+                        <th>리뷰내용</th>
+                        <th>좋아요 수</th>
+                        <th>좋아요</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeShowMoreReviewsModal()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div id="bottomRightButtons">
     <div class="transparentBox">
-        <a href="/favorite">
-            <button id="bookmarkBtn" class="btn btn-primary">즐겨찾기</button>
-        </a>
-        <a href="/auth/signin">
-            <button id="loginBtn" class="btn btn-primary">로그인/마이페이지</button>
+            <button id="bookmarklistBtn" onclick="bookmarklist()" class="btn btn-primary">즐겨찾기</button>
+        <a href="/auth/signout">
+            <button id="loginBtn" class="btn btn-primary">로그아웃</button>
         </a>
         <!-- 아이콘 추가 -->
         <span class="materiqal-icons">
@@ -115,10 +132,32 @@
     </div>
 </div>
 
+<!-- Add this HTML structure for the bookmark Modal -->
+<div class="modal fade" id="bookmarkModal" tabindex="-1" role="dialog" aria-labelledby="bookmarkModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bookmarkModalLabel">즐겨찾기</h5>
+            </div>
+            <div class="bookmarkItems">
+                <!-- Add your bookmark content here -->
+                <!-- For example, you can add a form to add/remove bookmarks -->
+                <form id="bookmarkForm">
+                    <!-- Your form content goes here -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeBookmarkModal()">Close</button>
+                <!-- Add any other buttons or actions as needed -->
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div id="bottomNotice">
     <p>
-        AJou PARKING이 새롭게 출시되었습니다. 사용자의 현재위치가 최대 450미터까지 차이날 수 있습니다. &nbsp; &nbsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;
+        AJou PARKING이 새롭게 출시되었습니다. 사용자의 현재위치가 최대 450미터까지 차이날 수 있습니다. &nbsp; &nbsp; &emsp; &emsp; &emsp;  &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;
     </p>
 </div>
 
@@ -259,7 +298,16 @@
         $('#visualizationModal').modal('hide');
     }
 
+    function closeShowMoreReviewsModal() {
+        console.log('Closing modal');
+        $('#ShowMoreReviewsModal').modal('hide');
+    }
 
+    function closeBookmarkModal() {
+        console.log('Closing bookmark modal');
+        $('#bookmarkModal').modal('hide');
+    }
+    map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
 </script>
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>

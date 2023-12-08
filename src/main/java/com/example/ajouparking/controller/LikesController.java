@@ -3,7 +3,6 @@ package com.example.ajouparking.controller;
 import com.example.ajouparking.dto.CommonResponseDto;
 import com.example.ajouparking.dto.CustomUserDetails;
 import com.example.ajouparking.entity.User;
-import com.example.ajouparking.repository.ReviewRepository;
 import com.example.ajouparking.service.LikesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,13 +19,12 @@ import java.net.URI;
 public class LikesController {
 
     private final LikesService likesService;
-    private final ReviewRepository reviewRepository;
     @PostMapping("/{toReviewId}")
-    public ResponseEntity<?> like(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable Long toReviewId){
+    public ResponseEntity<?> like(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable Long toReviewId) {
         User user = customUserDetails.getUser();
-        likesService.putLike(user.getId(),toReviewId);
+        likesService.putLike(user.getId(), toReviewId);
 
-        URI selfLink = URI.create(ServletUriComponentsBuilder.fromCurrentRequest() .toUriString());
+        URI selfLink = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().toUriString());
         return ResponseEntity.created(selfLink).build();
     }
 

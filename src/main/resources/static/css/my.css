@@ -66,6 +66,7 @@ body {
     overflow-y: auto; /* Enable vertical scrolling */
     padding: 10px; /* 간격 조절 */
     border-radius: 8px;
+    background-color: #E8EEFA; /* 배경색 설정 */
 }
 
 
@@ -146,9 +147,18 @@ body {
     height: 42px;
     border-radius: 0px 8px 8px 0px;
 }
-
-
-
+#saveBookmarkBtn{
+    writing-mode: vertical-lr; /* 세로로 텍스트 표시를 위한 속성 추가 */
+    text-orientation: upright; /* 텍스트 방향 설정 (선택 사항) */
+    position: absolute;
+    bottom: 58px; /* 아래에서 100px 떨어진 위치 */
+    width: 50px;
+    height: 42px;
+    border-radius: 0px 8px 8px 0px;
+}
+#saveBookmarkBtn img.map-image {
+    margin-left: -2px; /* 이미지를 왼쪽으로 2px 이동 */
+}
 
 #map {
     flex: 1;
@@ -177,7 +187,7 @@ body {
     /*right: 10px;*/
     right: 10px; /* Initially positioned outside the viewport */
     transition: right 0.5s ease-in-out; /* Add a transition for smooth animation */
-    width: 340px;
+    width: 300px;
     margin: 10px;
     padding: 10px;
     border: 1px solid #ccc;
@@ -185,7 +195,7 @@ body {
     z-index: 2;
     border-radius: 8px;
     align-items: flex-end; /* 추가 */
-    text-align: right; /* 텍스트 정렬 추가 */
+    text-align: left; /* 텍스트 정렬 추가 */
 }
 
 #Reviews th {
@@ -208,7 +218,9 @@ body {
     font-size: 1em; /* Adjusted font size for the '리뷰' heading */
 }
 
+#show-more-reviews-btn {
 
+}
 
 
 

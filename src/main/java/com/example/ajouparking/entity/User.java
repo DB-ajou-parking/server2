@@ -2,10 +2,6 @@ package com.example.ajouparking.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicInsert;
-
-import java.util.List;
 
 @Getter @Setter
 @Entity
@@ -38,5 +34,12 @@ public class User {
         this.tier = "un_lank";
     }
 
+    public void plusExp(int exp){
+        this.tierExp = tierExp + exp;
+    }
 
+    public void minusExp(int exp){
+        if(this.tierExp < 0){ return; }
+        this.tierExp = tierExp - exp;
+    }
 }

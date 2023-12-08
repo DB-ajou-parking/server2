@@ -8,10 +8,9 @@ var mapOption = {
     mapTypeId: kakao.maps.MapTypeId.ROADMAP
 };
 var map = new kakao.maps.Map(mapContainer, mapOption);
+//map.removeOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
 
-map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
 var markers = []; // Array to store markers
-
 
 
 
@@ -292,8 +291,9 @@ function displayDetailedParkingLotInfo(parkingLot) {
 }
 
 function commentWrite() {
-    var commentWriter = $('#commentWriter').val();
+    //var commentWriter = $('#commentWriter').val();
     var commentContents = $('#commentContents').val();
+    //var loggedInUserId;
 
     if (currentParkingLotId !== null) {
         $.ajax({
@@ -301,12 +301,13 @@ function commentWrite() {
             url: '/api/parkinglot/' + currentParkingLotId + '/reviews',
             contentType: 'application/json',
             data: JSON.stringify({
-                author: commentWriter,
+                //user_id: loggedInUserId,
                 reviewText: commentContents
             }),
             success: function (response) {
                 // Clear input fields
-                $('#commentWriter').val('');
+                //loggedInUserId = response.user_id;
+                //$('#commentWriter').val('');
                 $('#commentContents').val('');
 
                 // Fetch and display updated reviews
@@ -323,6 +324,8 @@ function commentWrite() {
     }
 }
 
+
+
 function fetchReviews(parkingLotId) {
     $.ajax({
         type: 'GET',
@@ -335,10 +338,24 @@ function fetchReviews(parkingLotId) {
             for (var i = 0; i < reviews.length; i++) {
                 $('#Reviews tbody').append(
                     '<tr>' +
-                    '<td>' + (i + 1) + '</td>' +
-                    '<td>' + reviews[i].author + '</td>' +
                     '<td>' + reviews[i].reviewText + '</td>' +
-                    '<td>' + reviews[i].timestamp + '</td>' +
+                    '</tr>'
+                );
+            }
+
+            $('#ShowMoreReviewstable tbody').empty();
+
+            // Append the new reviews to the modal's content
+            for (var i = 0; i < reviews.length; i++) {
+                $('#ShowMoreReviewstable tbody').append(
+                    '<tr>' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' + reviews[i].user.tier + '</td>' +
+                    '<td>' + reviews[i].user.tierExp + '</td>' +
+                    '<td>' + reviews[i].user.username + '</td>' +
+                    '<td>' + reviews[i].reviewText + '</td>' +
+                    '<td id="likesCount_' + i + '">' + reviews[i].likesCount + '</td>' +
+                    '<td><button onclick="likeReview(' + reviews[i].id + ',' + i + ')">좋아요</button></td>' +
                     '</tr>'
                 );
             }
@@ -349,9 +366,19 @@ function fetchReviews(parkingLotId) {
     });
 }
 
+// 좋아요 버튼 클릭 시 호출되는 함수
+function likeReview(reviewId, index) {
+    // 클라이언트 측에서만 likesCount 증가
+    var currentLikesCount = parseInt($('#likesCount_' + index).text(), 10);
+    $('#likesCount_' + index).text(currentLikesCount + 1);
 
+    // 클라이언트 측에서만 exp 증가
+    var currentExp = parseInt($('#ShowMoreReviewstable tbody tr:eq(' + index + ') td:eq(2)').text(), 10);
+    $('#ShowMoreReviewstable tbody tr:eq(' + index + ') td:eq(2)').text(currentExp + 1);
 
-
+    // 이후 서버로 해당 정보를 업데이트하는 api 호출을 추가해야 합니다.
+    // 서버에서는 클라이언트에서 전송한 정보를 검증하고 실제로 DB에 반영해야 합니다.
+}
 
 
 $(document).ready(function () {
@@ -426,6 +453,7 @@ function submitSatisfactionSurvey() {
 
 
 var barChart, radarChart;
+
 
 
 $(document).ready(function () {
@@ -623,3 +651,31 @@ btnRoadview.addEventListener('click', function () {
 btnMap.addEventListener('click', function () {
     toggleMap(true);
 });
+
+
+
+function ShowMoreReviews() {
+    // Open the details modal
+    $('#ShowMoreReviewsModal').modal('show');
+}
+
+
+
+
+
+
+
+
+
+function bookmarklist() {
+    // Show the bookmark modal
+    $('#bookmarkModal').modal('show');
+}
+
+
+
+
+
+
+
+
