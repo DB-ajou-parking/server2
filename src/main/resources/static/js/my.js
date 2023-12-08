@@ -8,8 +8,8 @@ var mapOption = {
     mapTypeId: kakao.maps.MapTypeId.ROADMAP
 };
 var map = new kakao.maps.Map(mapContainer, mapOption);
+//map.removeOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
 
-map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
 var markers = []; // Array to store markers
 
 
@@ -325,14 +325,12 @@ function commentWrite() {
 }
 
 
+
 function fetchReviews(parkingLotId) {
-
-
     $.ajax({
         type: 'GET',
         url: '/api/parkinglot/' + parkingLotId + '/reviews',
         success: function (reviews) {
-
             // Clear existing reviews
             $('#Reviews tbody').empty();
 
@@ -357,7 +355,7 @@ function fetchReviews(parkingLotId) {
                     '<td>' + reviews[i].user.username + '</td>' +
                     '<td>' + reviews[i].reviewText + '</td>' +
                     '<td id="likesCount_' + i + '">' + reviews[i].likesCount + '</td>' +
-                    '<td><button onclick="likeReview(' + reviews[i].user.id + ', ' + reviews[i].id + ')">좋아요</button></td>' +
+                    '<td><button onclick="likeReview(' + reviews[i].id + ',' + i + ')">좋아요</button></td>' +
                     '</tr>'
                 );
             }
@@ -368,34 +366,18 @@ function fetchReviews(parkingLotId) {
     });
 }
 
+// 좋아요 버튼 클릭 시 호출되는 함수
+function likeReview(reviewId, index) {
+    // 클라이언트 측에서만 likesCount 증가
+    var currentLikesCount = parseInt($('#likesCount_' + index).text(), 10);
+    $('#likesCount_' + index).text(currentLikesCount + 1);
 
-function likeReview(userId, reviewId) {
-    // Check if userId and reviewId are defined
-    if (userId === undefined || reviewId === undefined) {
-        console.error('Invalid userId or reviewId');
-        return;
-    }
+    // 클라이언트 측에서만 exp 증가
+    var currentExp = parseInt($('#ShowMoreReviewstable tbody tr:eq(' + index + ') td:eq(2)').text(), 10);
+    $('#ShowMoreReviewstable tbody tr:eq(' + index + ') td:eq(2)').text(currentExp + 1);
 
-    // Update the url to include the reviewId as a path variable
-    var url = '/api/likes/' + reviewId;
-
-    $.ajax({
-        type: 'POST',
-        url: url,
-        contentType: 'application/json',
-        data: JSON.stringify({
-            // Correct field names based on your controller
-            from_user_id: userId,
-            toReviewId: reviewId
-        }),
-        success: function () {
-            console.log('likeReview post success');
-        },
-        error: function (error) {
-            console.error('Error handling like request:', error);
-            alert('Error handling like request');
-        }
-    });
+    // 이후 서버로 해당 정보를 업데이트하는 api 호출을 추가해야 합니다.
+    // 서버에서는 클라이언트에서 전송한 정보를 검증하고 실제로 DB에 반영해야 합니다.
 }
 
 
@@ -676,6 +658,23 @@ function ShowMoreReviews() {
     // Open the details modal
     $('#ShowMoreReviewsModal').modal('show');
 }
+
+
+
+
+
+
+
+
+
+function bookmarklist() {
+    // Show the bookmark modal
+    $('#bookmarkModal').modal('show');
+}
+
+
+
+
 
 
 
