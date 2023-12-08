@@ -116,7 +116,7 @@ public class Parkinglot {
     @Column
     private String providingOrganizationName;
 
-    @Column String distance;
+
 
     @OneToMany(mappedBy = "parkinglot", cascade = CascadeType.ALL)
     @JsonIgnore

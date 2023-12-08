@@ -53,6 +53,7 @@
     <button id="mapBtn" class="btn btn-primary"> <img class="map-image" src="/images/mapimg.png" alt="Map View" ></button>
     <button id="serveyBtn" class="btn btn-primary">만족도조사</button>
     <button id="visualizationBtn" class="btn btn-primary">시각화분석</button>
+    <button id="saveBookmarkBtn" class="bookmarkButton"><img class="map-image" src="/images/bookmarkimg.png" alt="bok"></button>
 </div>
 
 <div id="map"></div>
@@ -120,9 +121,7 @@
 
 <div id="bottomRightButtons">
     <div class="transparentBox">
-        <a href="/favorite">
-            <button id="bookmarkBtn" class="btn btn-primary">즐겨찾기</button>
-        </a>
+            <button id="bookmarklistBtn" onclick="bookmarklist()" class="btn btn-primary">즐겨찾기</button>
         <a href="/auth/signout">
             <button id="loginBtn" class="btn btn-primary">로그아웃</button>
         </a>
@@ -130,6 +129,28 @@
         <span class="materiqal-icons">
             <img src="/images/apple-icon-72x72.png" alt="아이콘" class="icon-image">
         </span> <!-- 예시: material-icons 사용 -->
+    </div>
+</div>
+
+<!-- Add this HTML structure for the bookmark Modal -->
+<div class="modal fade" id="bookmarkModal" tabindex="-1" role="dialog" aria-labelledby="bookmarkModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bookmarkModalLabel">즐겨찾기</h5>
+            </div>
+            <div class="bookmarkItems">
+                <!-- Add your bookmark content here -->
+                <!-- For example, you can add a form to add/remove bookmarks -->
+                <form id="bookmarkForm">
+                    <!-- Your form content goes here -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeBookmarkModal()">Close</button>
+                <!-- Add any other buttons or actions as needed -->
+            </div>
+        </div>
     </div>
 </div>
 
@@ -282,6 +303,11 @@
         $('#ShowMoreReviewsModal').modal('hide');
     }
 
+    function closeBookmarkModal() {
+        console.log('Closing bookmark modal');
+        $('#bookmarkModal').modal('hide');
+    }
+    map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
 </script>
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>

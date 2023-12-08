@@ -20,11 +20,11 @@ public class LikesController {
 
     private final LikesService likesService;
     @PostMapping("/{toReviewId}")
-    public ResponseEntity<?> like(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable Long toReviewId){
+    public ResponseEntity<?> like(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable Long toReviewId) {
         User user = customUserDetails.getUser();
-        likesService.putLike(user.getId(),toReviewId);
+        likesService.putLike(user.getId(), toReviewId);
 
-        URI selfLink = URI.create(ServletUriComponentsBuilder.fromCurrentRequest() .toUriString());
+        URI selfLink = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().toUriString());
         return ResponseEntity.created(selfLink).build();
     }
 
