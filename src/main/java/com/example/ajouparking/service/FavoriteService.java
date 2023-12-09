@@ -1,20 +1,34 @@
 package com.example.ajouparking.service;
 
+import com.example.ajouparking.entity.Favorite;
 import com.example.ajouparking.exceptionHandler.exceptions.CustomApiException;
 import com.example.ajouparking.repository.FavoriteRepository;
-import com.example.ajouparking.repository.LikesRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
-@RequiredArgsConstructor
 public class FavoriteService {
 
     private final FavoriteRepository favoriteRepository;
+    @Autowired
+    public FavoriteService(FavoriteRepository favoriteRepository) {
+        this.favoriteRepository = favoriteRepository;
+    }
+
+
+
+    public List<Favorite> getFavoritesByUserId(long userId) {
+        return favoriteRepository.findByUserId(userId);
+    }
+
+
+
 
     @Transactional
-    public void addFavorite(int userId, int parkinglotId){
+    public void addFavorite(long userId, long parkinglotId){
         try{
             favoriteRepository.addFavorite(userId,parkinglotId);
         }catch(Exception e){
@@ -23,7 +37,7 @@ public class FavoriteService {
     }
 
     @Transactional
-    public void deleteFavorite(int userId, int parkinglotId){
+    public void deleteFavorite(long userId, long parkinglotId){
         favoriteRepository.deleteFavorite(userId,parkinglotId);
     }
 }
