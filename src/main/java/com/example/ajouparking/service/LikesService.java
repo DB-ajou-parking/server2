@@ -16,7 +16,7 @@ public class LikesService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void putLike(int fromUserId, Long toReviewId){
+    public void putLike(long fromUserId, long toReviewId){
         try{
             User user = userRepository.findById(fromUserId)
                     .orElseThrow(() -> new IllegalArgumentException("없는유저"));
@@ -31,7 +31,7 @@ public class LikesService {
     }
 
     @Transactional
-    public void deleteLike(int fromUserId, Long toUserId){
+    public void deleteLike(long fromUserId, long toUserId){
         User user = userRepository.findById(fromUserId)
                 .orElseThrow(() -> new IllegalArgumentException("없는유저"));
 

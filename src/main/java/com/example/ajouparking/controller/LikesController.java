@@ -20,7 +20,7 @@ public class LikesController {
 
     private final LikesService likesService;
     @PostMapping("/{toReviewId}")
-    public ResponseEntity<?> like(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable Long toReviewId) {
+    public ResponseEntity<?> like(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable long toReviewId) {
         User user = customUserDetails.getUser();
         likesService.putLike(user.getId(), toReviewId);
 
@@ -29,7 +29,7 @@ public class LikesController {
     }
 
     @DeleteMapping("/{toReviewId}")
-    public ResponseEntity<?> unlike(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable Long toReviewId){
+    public ResponseEntity<?> unlike(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable long toReviewId){
         User user = customUserDetails.getUser();
         likesService.deleteLike(user.getId(), toReviewId);
         return new ResponseEntity<>(new CommonResponseDto<>("삭제성공",null),HttpStatus.NO_CONTENT);

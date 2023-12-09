@@ -5,14 +5,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface FavoriteRepository extends JpaRepository<Favorite,Long> {
 
+    List<Favorite> findByUserId(long userId);
     @Modifying
     @Query(value = "insert into favorite(user_id,parkinglot_id) values(:userId,:parkinglotId)",nativeQuery = true)
-    void addFavorite(int userId,int parkinglotId);
+    void addFavorite(long userId,long parkinglotId);
 
     @Modifying
     @Query(value = "delete from favorite where user_id = :userId and parkinglot_id = :parkinglotId",nativeQuery=true)
-    void deleteFavorite(int userId, int parkinglotId);
+    void deleteFavorite(long userId, long parkinglotId);
+
 
 }

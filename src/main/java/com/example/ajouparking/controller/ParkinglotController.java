@@ -63,7 +63,7 @@ public class ParkinglotController {
 
     @PostMapping("/api/parkinglot/{id}/satisfaction")
     public ResponseEntity<?> saveSatisfactionSurvey(
-            @PathVariable Long id,
+            @PathVariable long id,
             @RequestBody Survey survey) {
 
         Parkinglot parkinglot = parkinglotService.getParkinglotById(id).orElse(null);

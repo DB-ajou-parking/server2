@@ -28,13 +28,13 @@ public class ReviewService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public List<ReviewDto> getReviewsByParkingLotId(Long parkingLotId) {
+    public List<ReviewDto> getReviewsByParkingLotId(long parkingLotId) {
         List<Review> reviews = reviewRepository.findByParkinglotId(parkingLotId);
         return reviews.stream().map(Review::toDTO).collect(Collectors.toList());
     }
 
     @Transactional
-    public ResponseEntity<?> saveReview(int userId, Long parkingLotId, ReviewRequestDto reviewRequestDto) {
+    public ResponseEntity<?> saveReview(long userId, Long parkingLotId, ReviewRequestDto reviewRequestDto) {
         User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("없는유저"));
         Parkinglot parkinglot = parkinglotService.getParkinglotById(parkingLotId).orElseThrow(
                 () -> new IllegalArgumentException("없는 주차장 입니다."));
