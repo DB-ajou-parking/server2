@@ -1,8 +1,12 @@
 package com.example.ajouparking.entity;
 
+import com.example.ajouparking.dto.ParkinglotDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,5 +126,12 @@ public class Parkinglot {
     @JsonIgnore
     private List<Review> reviews = new ArrayList<>();
 
+
+    public ParkinglotDto toDTO() {
+        ParkinglotDto dto = new ParkinglotDto();
+        dto.setId(this.id);
+        dto.setParkingFacilityName(this.ParkingFacilityName);
+        return dto;
+    }
 
 }

@@ -1,5 +1,5 @@
 var currentParkingLotId = null;
-
+var currentUserId = null;
 
 var mapContainer = document.getElementById('map');
 var mapOption = {
@@ -182,6 +182,8 @@ function displaySearchResult(data) {
 
             // Fetch and display detailed parking lot information
             fetchDetailedParkingLotInfo(currentParkingLotId);
+
+
 
             // Toggle the reviews section with animation
             $('#Reviews').css('right', '0');
@@ -678,4 +680,65 @@ function bookmarklist() {
 
 
 
+// 사용자의 즐겨찾기 주차장을 표시하는 함수
+function showFavorites() {
+    // 현재 로그인한 사용자의 ID를 얻어오는 로직이 필요할 수 있습니다.
+    // 예: const userId = getCurrentUserId();
 
+    // AJAX를 통해 서버에서 사용자의 즐겨찾기 목록을 가져옵니다.
+    $.ajax({
+        url: '/api/favorite', // 즐겨찾기 목록을 가져오는 엔드포인트
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            // 서버로부터 받아온 즐겨찾기 목록을 화면에 표시하는 로직을 작성합니다.
+            // 여기서는 간단하게 콘솔에 출력하는 것으로 대체합니다.
+            console.log('User Favorites:', data);
+
+            // 실제로는 즐겨찾기 목록을 사용하여 화면에 표시하는 로직을 작성해야 합니다.
+            // 예: displayFavoritesOnPage(data);
+        },
+        error: function (error) {
+            console.error('Failed to fetch user favorites:', error);
+        }
+    });
+}
+
+
+
+// 즐겨찾기에 주차장을 추가하는 함수
+function addToFavorites() {
+    // 주차장을 즐겨찾기에 추가하기 위한 AJAX POST 요청 수행
+    if (currentParkingLotId !== null) {
+        $.ajax({
+            type: 'POST',
+            url: '/api/favorite/' + currentParkingLotId,  //
+            data: { parkingLotId: currentParkingLotId },
+            success: function (response) {
+                alert('주차장이 즐겨찾기에 추가되었습니다!');
+            },
+            error: function () {
+                alert('주차장을 즐겨찾기에 추가하지 못했습니다.');
+            }
+        });
+    } else {
+        alert('설문조사를 제출하기 전에 주차장을 선택하세요.');
+    }
+}
+
+
+
+
+/*
+// 버튼에 클릭 이벤트 리스너를 추가합니다
+$(document).ready(function () {
+    $('#addToFavoritesBtn').click(function () {
+        addToFavorites(currentParkingLotId);
+
+    });
+
+    $('#showFavoritesBtn').click(function () {
+        showFavorites();
+    });
+});
+*/

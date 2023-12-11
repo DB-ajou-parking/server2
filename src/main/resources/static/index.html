@@ -274,7 +274,11 @@
 </div>
 
 
+<!-- 주차장을 즐겨찾기에 추가하는 버튼 -->
+<button id="addToFavoritesBtn">즐겨찾기에 추가</button>
 
+<!-- 사용자의 즐겨찾기 주차장을 표시하는 버튼 -->
+<button id="showFavoritesBtn">즐겨찾기 보기</button>
 
 <!-- Bootstrap JS and other scripts -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -308,6 +312,19 @@
         $('#bookmarkModal').modal('hide');
     }
     map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
+
+
+
+    $(document).ready(function () {
+        $('#addToFavoritesBtn').click(function () {
+            addToFavorites();
+
+        });
+
+        $('#showFavoritesBtn').click(function () {
+            showFavorites();
+        });
+    });
 </script>
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
