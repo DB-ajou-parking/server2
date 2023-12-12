@@ -349,10 +349,34 @@ function fetchReviews(parkingLotId) {
 
             // Append the new reviews to the modal's content
             for (var i = 0; i < reviews.length; i++) {
+                var tierImageUrl = '';
+                switch (reviews[i].user.tier) {
+                    case '브론즈':
+                        tierImageUrl = '/images/bronze.png';
+                        break;
+                    case '실버':
+                        tierImageUrl = '/images/silver.png';
+                        break;
+                    case '골드':
+                        tierImageUrl = '/images/gold.png';
+                        break;
+                    case '플레티넘':
+                        tierImageUrl = '/images/platinum.png';
+                        break;
+                    case '다이아몬드':
+                        tierImageUrl = '/images/diamond.png';
+                        break;
+                    default:
+                        tierImageUrl = ''; // Set a default image or handle this case as needed
+                }
+                var imageWidth = 30; // Example width
+                var imageHeight = 30; // Example height
+
                 $('#ShowMoreReviewstable tbody').append(
                     '<tr>' +
                     '<td>' + (i + 1) + '</td>' +
-                    '<td>' + reviews[i].user.tier + '</td>' +
+                    //'<td><img src="' + tierImageUrl + '" alt="' + reviews[i].user.tier + '"></td>' +
+                    '<td><img src="' + tierImageUrl + '" alt="' + reviews[i].user.tier + '" style="width: ' + imageWidth + 'px; height: ' + imageHeight + 'px;"></td>' +
                     '<td>' + reviews[i].user.tierExp + '</td>' +
                     '<td>' + reviews[i].user.username + '</td>' +
                     '<td>' + reviews[i].reviewText + '</td>' +
