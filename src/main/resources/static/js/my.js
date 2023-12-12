@@ -705,34 +705,6 @@ function showFavorites() {
     });
 }
 
-/*
-// 즐겨찾기 데이터를 모달 내부에 표시하는 함수
-function displayFavoritesOnModal(data) {
-    // 모달 내부의 body 엘리먼트를 선택합니다.
-    var modalBody = $('#favoritesModal .modal-body');
-
-    // 기존에 표시된 내용을 비웁니다.
-    modalBody.empty();
-
-    // 받아온 데이터를 이용하여 목록을 생성하고 모달에 추가합니다.
-    if (data.length > 0) {
-        var favoritesList = $('<ul class="list-group"></ul>');
-
-        // 각 즐겨찾기 아이템을 목록에 추가합니다.
-        data.forEach(function (favorite) {
-            var listItem = $('<li class="list-group-item"></li>').text(favorite.parkinglot.id);
-            favoritesList.append(listItem);
-        });
-
-        // 목록을 모달 내부에 추가합니다.
-        modalBody.append(favoritesList);
-    } else {
-        // 만약 즐겨찾기가 없을 경우에 대한 처리를 추가할 수 있습니다.
-        modalBody.text('즐겨찾기가 없습니다.');
-    }
-}
-*/
-
 
 // 즐겨찾기 데이터를 모달 내부에 표시하는 함수
 function displayFavoritesOnModal(data) {
@@ -746,27 +718,16 @@ function displayFavoritesOnModal(data) {
     if (data.length > 0) {
         data.forEach(function (favorite) {
             var row = $('<tr></tr>');
-            //row.append('<td>' + favorite.parkinglot.id + '</td>');
             row.append('<td>' + favorite.parkinglot.parkingFacilityName + '</td>');
             row.append('<td>' + favorite.parkinglot.locationRoadNameAddress + '</td>');
+            row.append('<td><button type="button" class="btn btn-danger" onclick="deleteFavorite(' + favorite.parkinglot.id + ')">삭제</button></td>');
             tableBody.append(row);
         });
     } else {
         // 만약 즐겨찾기가 없을 경우에 대한 처리를 추가할 수 있습니다.
-        tableBody.html('<tr><td colspan="3">즐겨찾기가 없습니다.</td></tr>');
+        tableBody.html('<tr><td colspan="4">즐겨찾기가 없습니다.</td></tr>');
     }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 // 즐겨찾기에 주차장을 추가하는 함수
 function addToFavorites() {
@@ -777,7 +738,8 @@ function addToFavorites() {
             url: '/api/favorite/' + currentParkingLotId,  //
             data: { parkingLotId: currentParkingLotId },
             success: function (response) {
-                alert('주차장이 즐겨찾기에 추가되었습니다!');
+                //alert('주차장이 즐겨찾기에 추가되었습니다!');
+                showMessage('주차장이 즐겨찾기에 추가되었습니다!');
             },
             error: function () {
                 alert('주차장을 즐겨찾기에 추가하지 못했습니다.');
@@ -788,19 +750,41 @@ function addToFavorites() {
     }
 }
 
+function showMessage(message) {
+    // 모달에 메시지 설정
+    $('#modalMessage').text(message);
 
+    // 모달 표시 및 3초 후에 숨기기
+    $('#messageModal').fadeIn();
+    setTimeout(function () {
+        $('#messageModal').fadeOut();
+    }, 3000);
+}
+// 주차장을 즐겨찾기에서 삭제하는 함수
+function deleteFavorite(parkinglotId) {
 
-
-/*
-// 버튼에 클릭 이벤트 리스너를 추가합니다
-$(document).ready(function () {
-    $('#addToFavoritesBtn').click(function () {
-        addToFavorites(currentParkingLotId);
-
+    // AJAX DELETE 요청 수행
+    $.ajax({
+        type: 'DELETE',
+        url: '/api/favorite/' + parkinglotId,
+        success: function (response) {
+            // 성공적으로 삭제되면 모달 등 화면 갱신을 수행할 수 있습니다.
+            //alert('주차장이 즐겨찾기에서 삭제되었습니다!');
+            // 삭제 후 모달 갱신 등을 위한 추가 로직을 호출할 수 있습니다.
+            refreshModal();
+        },
+        error: function () {
+            // 삭제에 실패하면 사용자에게 알림을 표시할 수 있습니다.
+            alert('주차장을 즐겨찾기에서 삭제하지 못했습니다.');
+        }
     });
+}
 
-    $('#showFavoritesBtn').click(function () {
-        showFavorites();
-    });
-});
-*/
+
+function refreshModal() {
+    // Call the function to show the favorites modal
+    showFavoritesModal();
+
+    // Call the function to show the updated list of favorites
+    showFavorites();
+}
