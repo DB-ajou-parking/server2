@@ -719,7 +719,8 @@ function displayFavoritesOnModal(data) {
         data.forEach(function (favorite) {
             var row = $('<tr></tr>');
             row.append('<td>' + favorite.parkinglot.parkingFacilityName + '</td>');
-            row.append('<td>' + favorite.parkinglot.locationRoadNameAddress + '</td>');
+            var address = favorite.parkinglot.locationRoadNameAddress || favorite.parkinglot.locationLandParcelAddress;
+            row.append('<td>' + address + '</td>');
             row.append('<td><button type="button" class="btn btn-danger" onclick="deleteFavorite(' + favorite.parkinglot.id + ')">삭제</button></td>');
             tableBody.append(row);
         });
