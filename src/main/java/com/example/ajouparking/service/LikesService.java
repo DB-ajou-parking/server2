@@ -15,6 +15,12 @@ public class LikesService {
     private final LikesRepository likesRepository;
     private final UserRepository userRepository;
 
+
+    @Transactional(readOnly = true)
+    public int getLikesCountByReviewId(long reviewId) {
+        return likesRepository.getLikesCountByReviewId(reviewId);
+    }
+
     @Transactional
     public void putLike(long fromUserId, long toReviewId){
         try{

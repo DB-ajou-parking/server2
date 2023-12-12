@@ -368,19 +368,21 @@ function fetchReviews(parkingLotId) {
     });
 }
 
-// 좋아요 버튼 클릭 시 호출되는 함수
 function likeReview(reviewId, index) {
-    // 클라이언트 측에서만 likesCount 증가
-    var currentLikesCount = parseInt($('#likesCount_' + index).text(), 10);
-    $('#likesCount_' + index).text(currentLikesCount + 1);
-
-    // 클라이언트 측에서만 exp 증가
-    var currentExp = parseInt($('#ShowMoreReviewstable tbody tr:eq(' + index + ') td:eq(2)').text(), 10);
-    $('#ShowMoreReviewstable tbody tr:eq(' + index + ') td:eq(2)').text(currentExp + 1);
-
-    // 이후 서버로 해당 정보를 업데이트하는 api 호출을 추가해야 합니다.
-    // 서버에서는 클라이언트에서 전송한 정보를 검증하고 실제로 DB에 반영해야 합니다.
+    $.ajax({
+        type: 'POST',
+        url: '/api/likes/' + reviewId,
+        success: function () {
+            fetchReviews(currentParkingLotId);
+        },
+        error: function () {
+            alert('좋아요 처리 중에 오류가 발생했습니다.');
+        }
+    });
 }
+
+
+
 
 
 $(document).ready(function () {
@@ -391,13 +393,6 @@ $(document).ready(function () {
 
 });
 
-/* closeSatisfactionModal() <- 이 함수만 작동이 안돼서 html에 따로 빼주었음. 해결해주시면 감사합니다.
-
-function closeSatisfactionModal() {
-    console.log('Closing modal');
-    $('#satisfactionModal').modal('hide');
-}
-*/
 
 
 // 모달 닫힐 때 입력 내용 초기화
