@@ -1,5 +1,5 @@
 var currentParkingLotId = null;
-
+var currentUserId = null;
 
 var mapContainer = document.getElementById('map');
 var mapOption = {
@@ -182,6 +182,8 @@ function displaySearchResult(data) {
 
             // Fetch and display detailed parking lot information
             fetchDetailedParkingLotInfo(currentParkingLotId);
+
+
 
             // Toggle the reviews section with animation
             $('#Reviews').css('right', '0');
@@ -667,9 +669,92 @@ function ShowMoreReviews() {
 
 
 
-function bookmarklist() {
-    // Show the bookmark modal
-    $('#bookmarkModal').modal('show');
+
+
+function showFavoritesModal() {
+    $('#favoritesModal').modal('show');
+
+}
+
+
+
+
+
+// 사용자의 즐겨찾기 주차장을 표시하는 함수
+function showFavorites() {
+    // 현재 로그인한 사용자의 ID를 얻어오는 로직이 필요할 수 있습니다.
+    // 예: const userId = getCurrentUserId();
+
+    // AJAX를 통해 서버에서 사용자의 즐겨찾기 목록을 가져옵니다.
+    $.ajax({
+        url: '/api/favorite', // 즐겨찾기 목록을 가져오는 엔드포인트
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            // 서버로부터 받아온 즐겨찾기 목록을 화면에 표시하는 로직을 작성합니다.
+            // 여기서는 간단하게 콘솔에 출력하는 것으로 대체합니다.
+            console.log('User Favorites:', data);
+
+            // 실제로는 즐겨찾기 목록을 사용하여 화면에 표시하는 로직을 작성해야 합니다.
+            // 예: displayFavoritesOnPage(data);
+            displayFavoritesOnModal(data);
+        },
+        error: function (error) {
+            console.error('Failed to fetch user favorites:', error);
+        }
+    });
+}
+
+/*
+// 즐겨찾기 데이터를 모달 내부에 표시하는 함수
+function displayFavoritesOnModal(data) {
+    // 모달 내부의 body 엘리먼트를 선택합니다.
+    var modalBody = $('#favoritesModal .modal-body');
+
+    // 기존에 표시된 내용을 비웁니다.
+    modalBody.empty();
+
+    // 받아온 데이터를 이용하여 목록을 생성하고 모달에 추가합니다.
+    if (data.length > 0) {
+        var favoritesList = $('<ul class="list-group"></ul>');
+
+        // 각 즐겨찾기 아이템을 목록에 추가합니다.
+        data.forEach(function (favorite) {
+            var listItem = $('<li class="list-group-item"></li>').text(favorite.parkinglot.id);
+            favoritesList.append(listItem);
+        });
+
+        // 목록을 모달 내부에 추가합니다.
+        modalBody.append(favoritesList);
+    } else {
+        // 만약 즐겨찾기가 없을 경우에 대한 처리를 추가할 수 있습니다.
+        modalBody.text('즐겨찾기가 없습니다.');
+    }
+}
+*/
+
+
+// 즐겨찾기 데이터를 모달 내부에 표시하는 함수
+function displayFavoritesOnModal(data) {
+    // 모달 내부의 테이블 body 엘리먼트를 선택합니다.
+    var tableBody = $('#favoritesTableBody');
+
+    // 기존에 표시된 내용을 비웁니다.
+    tableBody.empty();
+
+    // 받아온 데이터를 이용하여 행을 생성하고 테이블에 추가합니다.
+    if (data.length > 0) {
+        data.forEach(function (favorite) {
+            var row = $('<tr></tr>');
+            //row.append('<td>' + favorite.parkinglot.id + '</td>');
+            row.append('<td>' + favorite.parkinglot.parkingFacilityName + '</td>');
+            row.append('<td>' + favorite.parkinglot.locationRoadNameAddress + '</td>');
+            tableBody.append(row);
+        });
+    } else {
+        // 만약 즐겨찾기가 없을 경우에 대한 처리를 추가할 수 있습니다.
+        tableBody.html('<tr><td colspan="3">즐겨찾기가 없습니다.</td></tr>');
+    }
 }
 
 
@@ -679,3 +764,43 @@ function bookmarklist() {
 
 
 
+
+
+
+
+// 즐겨찾기에 주차장을 추가하는 함수
+function addToFavorites() {
+    // 주차장을 즐겨찾기에 추가하기 위한 AJAX POST 요청 수행
+    if (currentParkingLotId !== null) {
+        $.ajax({
+            type: 'POST',
+            url: '/api/favorite/' + currentParkingLotId,  //
+            data: { parkingLotId: currentParkingLotId },
+            success: function (response) {
+                alert('주차장이 즐겨찾기에 추가되었습니다!');
+            },
+            error: function () {
+                alert('주차장을 즐겨찾기에 추가하지 못했습니다.');
+            }
+        });
+    } else {
+        alert('설문조사를 제출하기 전에 주차장을 선택하세요.');
+    }
+}
+
+
+
+
+/*
+// 버튼에 클릭 이벤트 리스너를 추가합니다
+$(document).ready(function () {
+    $('#addToFavoritesBtn').click(function () {
+        addToFavorites(currentParkingLotId);
+
+    });
+
+    $('#showFavoritesBtn').click(function () {
+        showFavorites();
+    });
+});
+*/

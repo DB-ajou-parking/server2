@@ -147,7 +147,7 @@ body {
     height: 42px;
     border-radius: 0px 8px 8px 0px;
 }
-#saveBookmarkBtn{
+#addToFavoritesBtn{
     writing-mode: vertical-lr; /* 세로로 텍스트 표시를 위한 속성 추가 */
     text-orientation: upright; /* 텍스트 방향 설정 (선택 사항) */
     position: absolute;
@@ -156,7 +156,7 @@ body {
     height: 42px;
     border-radius: 0px 8px 8px 0px;
 }
-#saveBookmarkBtn img.map-image {
+#addToFavoritesBtn img.map-image {
     margin-left: -2px; /* 이미지를 왼쪽으로 2px 이동 */
 }
 

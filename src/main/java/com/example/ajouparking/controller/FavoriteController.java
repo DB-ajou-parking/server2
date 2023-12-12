@@ -2,7 +2,7 @@ package com.example.ajouparking.controller;
 
 import com.example.ajouparking.dto.CommonResponseDto;
 import com.example.ajouparking.dto.CustomUserDetails;
-import com.example.ajouparking.entity.Favorite;
+import com.example.ajouparking.dto.FavoriteDto;
 import com.example.ajouparking.entity.User;
 import com.example.ajouparking.service.FavoriteService;
 import lombok.RequiredArgsConstructor;
@@ -23,12 +23,13 @@ public class FavoriteController {
     private final FavoriteService favoriteService;
 
 
-    @GetMapping("/user")
-    public ResponseEntity<List<Favorite>> getFavoriteByUser(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        long userId = customUserDetails.getUser().getId();
-        List<Favorite> favorites = favoriteService.getFavoritesByUserId(userId);
-        return new ResponseEntity<>(favorites, HttpStatus.OK);
+    @GetMapping
+    public ResponseEntity<List<FavoriteDto>> getUserFavorites(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        User user = customUserDetails.getUser();
+        List<FavoriteDto> favorites = favoriteService.getUserFavorites(user.getId());
+        return ResponseEntity.ok(favorites);
     }
+
 
     @PostMapping("/{parkinglotId}")
     public ResponseEntity<?> addFavorite(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable long parkinglotId){

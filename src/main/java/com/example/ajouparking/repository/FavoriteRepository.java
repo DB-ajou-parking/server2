@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface FavoriteRepository extends JpaRepository<Favorite,Long> {
 
-    List<Favorite> findByUserId(long userId);
+
     @Modifying
     @Query(value = "insert into favorite(user_id,parkinglot_id) values(:userId,:parkinglotId)",nativeQuery = true)
     void addFavorite(long userId,long parkinglotId);
@@ -19,4 +19,5 @@ public interface FavoriteRepository extends JpaRepository<Favorite,Long> {
     void deleteFavorite(long userId, long parkinglotId);
 
 
+    List<Favorite> findByUserId(long userId);
 }

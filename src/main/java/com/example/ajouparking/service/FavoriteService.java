@@ -1,5 +1,6 @@
 package com.example.ajouparking.service;
 
+import com.example.ajouparking.dto.FavoriteDto;
 import com.example.ajouparking.entity.Favorite;
 import com.example.ajouparking.exceptionHandler.exceptions.CustomApiException;
 import com.example.ajouparking.repository.FavoriteRepository;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FavoriteService {
@@ -19,14 +21,21 @@ public class FavoriteService {
     }
 
 
+    @Transactional(readOnly = true)
+    public List<FavoriteDto> getUserFavorites(long userId) {
+        List<Favorite> favorites = favoriteRepository.findByUserId(userId);
 
-    public List<Favorite> getFavoritesByUserId(long userId) {
-        return favoriteRepository.findByUserId(userId);
+        // Filter favorites with both parkinglot and user as null
+
+        return favorites.stream()
+                .filter(favorite -> favorite.getParkinglot() != null || favorite.getUser() != null)
+                .map(favorite -> new FavoriteDto(
+                        favorite.getId(),
+                        favorite.getParkinglot(),
+                        favorite.getUser()
+                ))
+                .collect(Collectors.toList());
     }
-
-
-
-
     @Transactional
     public void addFavorite(long userId, long parkinglotId){
         try{
