@@ -26,15 +26,15 @@ public class FavoriteService {
         List<Favorite> favorites = favoriteRepository.findByUserId(userId);
 
         // Filter favorites with both parkinglot and user as null
-        List<FavoriteDto> filteredFavorites = favorites.stream()
+
+        return favorites.stream()
                 .filter(favorite -> favorite.getParkinglot() != null || favorite.getUser() != null)
                 .map(favorite -> new FavoriteDto(
                         favorite.getId(),
-                        favorite.getParkinglot() != null ? favorite.getParkinglot().getId() : null
+                        favorite.getParkinglot(),
+                        favorite.getUser()
                 ))
                 .collect(Collectors.toList());
-
-        return filteredFavorites;
     }
     @Transactional
     public void addFavorite(long userId, long parkinglotId){

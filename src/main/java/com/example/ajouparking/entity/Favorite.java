@@ -34,6 +34,8 @@ public class Favorite {
     public FavoriteDto toDTO() {
         FavoriteDto dto = new FavoriteDto();
         dto.setId(this.id);
+        dto.setParkinglot(this.parkinglot);
+        dto.setUser(this.user);
         return dto;
     }
 }

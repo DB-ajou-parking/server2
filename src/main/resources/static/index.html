@@ -53,8 +53,11 @@
     <button id="mapBtn" class="btn btn-primary"> <img class="map-image" src="/images/mapimg.png" alt="Map View" ></button>
     <button id="serveyBtn" class="btn btn-primary">만족도조사</button>
     <button id="visualizationBtn" class="btn btn-primary">시각화분석</button>
-    <button id="saveBookmarkBtn" class="bookmarkButton"><img class="map-image" src="/images/bookmarkimg.png" alt="bok"></button>
+    <button id="addToFavoritesBtn" class="bookmarkButton"><img class="map-image" src="/images/bookmarkimg.png" alt="bok"></button>
 </div>
+
+
+
 
 <div id="map"></div>
 <div id="roadview"></div>
@@ -119,9 +122,14 @@
     </div>
 </div>
 
+
+
+
+
+
 <div id="bottomRightButtons">
     <div class="transparentBox">
-            <button id="bookmarklistBtn" onclick="bookmarklist()" class="btn btn-primary">즐겨찾기</button>
+            <button id="showFavoritesBtn" onclick="showFavoritesModal()" class="btn btn-primary" >즐겨찾기</button>
         <a href="/auth/signout">
             <button id="loginBtn" class="btn btn-primary">로그아웃</button>
         </a>
@@ -131,28 +139,54 @@
         </span> <!-- 예시: material-icons 사용 -->
     </div>
 </div>
-
-<!-- Add this HTML structure for the bookmark Modal -->
-<div class="modal fade" id="bookmarkModal" tabindex="-1" role="dialog" aria-labelledby="bookmarkModalLabel" aria-hidden="true">
+<!--
+<div class="modal fade" id="favoritesModal" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="bookmarkModalLabel">즐겨찾기</h5>
+                <h5 class="modal-title" id="favoritesModalLabel">즐겨찾기</h5>
             </div>
-            <div class="bookmarkItems">
-                <!-- Add your bookmark content here -->
-                <!-- For example, you can add a form to add/remove bookmarks -->
-                <form id="bookmarkForm">
-                    <!-- Your form content goes here -->
-                </form>
+            <div class="modal-body">
+
+
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="closeBookmarkModal()">Close</button>
-                <!-- Add any other buttons or actions as needed -->
+                <button type="button" class="btn btn-secondary" onclick="closeFavoritesModal()">Close</button>
             </div>
         </div>
     </div>
 </div>
+-->
+
+<div class="modal fade" id="favoritesModal" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="favoritesModalLabel">즐겨찾기</h5>
+            </div>
+            <div class="modal-body">
+                <!-- Add your visualization content here -->
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>주차장명</th>
+                        <th>주소</th>
+                    </tr>
+                    </thead>
+                    <tbody id="favoritesTableBody"></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeFavoritesModal()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 
 
 <div id="bottomNotice">
@@ -252,6 +286,7 @@
 
 
 
+
 <div class="modal fade" id="visualizationModal" tabindex="-1" role="dialog" aria-labelledby="visualizationModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -273,12 +308,6 @@
     </div>
 </div>
 
-
-<!-- 주차장을 즐겨찾기에 추가하는 버튼 -->
-<button id="addToFavoritesBtn">즐겨찾기에 추가</button>
-
-<!-- 사용자의 즐겨찾기 주차장을 표시하는 버튼 -->
-<button id="showFavoritesBtn">즐겨찾기 보기</button>
 
 <!-- Bootstrap JS and other scripts -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -307,10 +336,7 @@
         $('#ShowMoreReviewsModal').modal('hide');
     }
 
-    function closeBookmarkModal() {
-        console.log('Closing bookmark modal');
-        $('#bookmarkModal').modal('hide');
-    }
+
     map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
 
 
@@ -325,6 +351,11 @@
             showFavorites();
         });
     });
+
+    function closeFavoritesModal() {
+        console.log('Closing modal');
+        $('#favoritesModal').modal('hide');
+    }
 </script>
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
