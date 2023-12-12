@@ -361,3 +361,17 @@ button:hover {
     display: block;
     margin: 0 auto;
 }
+
+#messageModal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #0056b3; /* 모달 배경색상 */
+    color: #fff; /* 글자색상 */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 그림자 효과 */
+    z-index: 1;
+}
