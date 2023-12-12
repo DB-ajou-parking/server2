@@ -43,5 +43,19 @@ public class User {
         this.tierExp = tierExp - exp;
     }
 
+    public void updateTier() {
+        if (tierExp >= 10) {
+            tier = "다이아몬드";
+        } else if (tierExp >= 5) {
+            tier = "플레티넘";
+        } else if (tierExp >= 3) {
+            tier = "골드";
+        } else if (tierExp >= 1) {
+            tier = "실버";
+        } else {
+            tier = "브론즈";
+        }
+    }
+
 
 }
