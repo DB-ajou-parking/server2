@@ -357,7 +357,11 @@ function fetchReviews(parkingLotId) {
                     '<td>' + reviews[i].user.username + '</td>' +
                     '<td>' + reviews[i].reviewText + '</td>' +
                     '<td id="likesCount_' + i + '">' + reviews[i].likesCount + '</td>' +
-                    '<td><button onclick="likeReview(' + reviews[i].id + ',' + i + ')">좋아요</button></td>' +
+                    '<td>' +
+                    '<button onclick="likeReview(' + reviews[i].id + ',' + i + ')" class="like-button">' +
+                    '<img src="/images/likeimg.png" alt="좋아요">' +
+                    '</button>' +
+                    '</td>' +
                     '</tr>'
                 );
             }
