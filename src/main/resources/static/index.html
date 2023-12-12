@@ -129,6 +129,7 @@
 
 <div id="bottomRightButtons">
     <div class="transparentBox">
+            <button id="myInfoButton">내정보</button>
             <button id="showFavoritesBtn" onclick="showFavoritesModal()" class="btn btn-primary" >즐겨찾기</button>
         <a href="/auth/signout">
             <button id="loginBtn" class="btn btn-primary">로그아웃</button>
@@ -140,6 +141,30 @@
     </div>
 </div>
 
+<div class="modal" id="myInfoModal">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">내 정보</h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body" id="userInfoBody" >
+                    <!-- User information will be displayed here -->
+                    <p id="greetingText" style="text-align: center;"></p>
+                    <p id="tierText" style="text-align: center;"></p>
+                    <div id="tierImageContainer" style="text-align: center;">
+                        <!-- 이미지는 여기에 추가될 것입니다. -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closemyInfoModal()">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 <div class="modal fade" id="favoritesModal" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -339,6 +364,61 @@
         console.log('Closing modal');
         $('#favoritesModal').modal('hide');
     }
+
+    function closemyInfoModal() {
+        console.log('Closing modal');
+        $('#myInfoModal').modal('hide');
+    }
+
+    $(document).ready(function() {
+        $('#myInfoButton').click(function() {
+            // AJAX request to fetch user information
+            $.ajax({
+                url: '/api/myinfo', // Endpoint URL
+                type: 'GET',
+                success: function(user) {
+                    // Display user information in the modal body
+                    var greetingText = "안녕하세요! " + user.username + " 님!";
+                    var usernameText = "Username: " + user.username;
+                    var tierText = "현재 티어는 " + user.tier + "입니다!";
+
+                    // Set the text in the respective paragraphs
+                    $('#greetingText').text(greetingText);
+                    $('#usernameText').text(usernameText).css({ 'font-size': '20px', 'font-weight': 'bold' });
+                    $('#tierText').text(tierText).css({ 'font-size': '20px', 'font-weight': 'bold' });
+                    var tierImageUrl;
+                    switch (user.tier) {
+                        case '브론즈':
+                            tierImageUrl = '/images/lgbronze.png';
+                            break;
+                        case '실버':
+                            tierImageUrl = '/images/lgsilver.png';
+                            break;
+                        case '골드':
+                            tierImageUrl = '/images/lggold.png';
+                            break;
+                        case '플레티넘':
+                            tierImageUrl = '/images/lgplatinum.png';
+                            break;
+                        case '다이아몬드':
+                            tierImageUrl = '/images/lgdiamond.png';
+                            break;
+                        default:
+                            tierImageUrl = ''; // Default image URL if tier is not recognized
+                    }
+
+                    // Add the tier image to the container
+                    $('#tierImageContainer').html('<img src="' + tierImageUrl + '" alt="Tier Image" style="max-width: 100%;">');
+
+                    // Show the modal
+                    $('#myInfoModal').modal('show');
+                },
+                error: function() {
+                    alert('Error fetching user information');
+                }
+            });
+        });
+    });
 </script>
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>

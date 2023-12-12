@@ -369,7 +369,7 @@ button:hover {
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 20px;
-    background-color: #0056b3; /* 모달 배경색상 */
+    background-color:  #007bff; /* 모달 배경색상 */
     color: #fff; /* 글자색상 */
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 그림자 효과 */
@@ -386,4 +386,15 @@ button.like-button {
 button.like-button img {
     width: 26px; /* 이미지의 너비를 조절합니다. */
     height: 26px; /* 이미지의 높이를 조절합니다. */
+}
+
+
+
+#userInfoBody {
+    font-size: 18px;
+}
+
+#usernameText, #tierText {
+    font-size: 20px;
+    font-weight: bold;
 }

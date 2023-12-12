@@ -812,3 +812,5 @@ function refreshModal() {
     // Call the function to show the updated list of favorites
     showFavorites();
 }
+
+
