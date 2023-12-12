@@ -367,7 +367,7 @@ function fetchReviews(parkingLotId) {
                         tierImageUrl = '/images/diamond.png';
                         break;
                     default:
-                        tierImageUrl = ''; // Set a default image or handle this case as needed
+                        tierImageUrl = '/images/unrank.png'; // Set a default image or handle this case as needed
                 }
                 var imageWidth = 30; // Example width
                 var imageHeight = 30; // Example height
