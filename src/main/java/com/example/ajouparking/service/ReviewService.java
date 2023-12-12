@@ -26,11 +26,19 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ParkinglotService parkinglotService;
     private final UserRepository userRepository;
+    private final LikesService likesService;
 
     @Transactional(readOnly = true)
     public List<ReviewDto> getReviewsByParkingLotId(long parkingLotId) {
         List<Review> reviews = reviewRepository.findByParkinglotId(parkingLotId);
-        return reviews.stream().map(Review::toDTO).collect(Collectors.toList());
+        return reviews.stream().map(this::mapReviewDtoWithLikesCount).collect(Collectors.toList());
+    }
+
+    private ReviewDto mapReviewDtoWithLikesCount(Review review) {
+        int likesCount = likesService.getLikesCountByReviewId(review.getId());
+        ReviewDto dto = review.toDTO();
+        dto.setLikesCount(likesCount);
+        return dto;
     }
 
     @Transactional
