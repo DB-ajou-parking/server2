@@ -24,4 +24,7 @@ public class MyInfoController {
         // The UserDetails is injected automatically when a user is logged in
         return userService.findUserById(userDetails.getUserId());
     }
+
+
+
 }

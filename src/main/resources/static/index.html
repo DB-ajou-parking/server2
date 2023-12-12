@@ -156,6 +156,9 @@
                     <div id="tierImageContainer" style="text-align: center;">
                         <!-- 이미지는 여기에 추가될 것입니다. -->
                     </div>
+                    <p id="expText" style="text-align: center;"></p>
+
+
                 </div>
             </div>
             <div class="modal-footer">
@@ -199,7 +202,7 @@
 
 <div id="bottomNotice">
     <p>
-        AJou PARKING이 새롭게 출시되었습니다. 사용자의 현재위치가 최대 450미터까지 차이날 수 있습니다. &nbsp; &nbsp; &emsp; &emsp; &emsp;  &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;
+        AJou PARKING이 새롭게 출시되었습니다. 사용자의 현재위치가 최대 300미터까지 차이날 수 있습니다. &nbsp; &nbsp; &emsp; &emsp; &emsp;  &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
     </p>
 </div>
 
@@ -370,6 +373,7 @@
         $('#myInfoModal').modal('hide');
     }
 
+
     $(document).ready(function() {
         $('#myInfoButton').click(function() {
             // AJAX request to fetch user information
@@ -382,10 +386,7 @@
                     var usernameText = "Username: " + user.username;
                     var tierText = "현재 티어는 " + user.tier + "입니다!";
 
-                    // Set the text in the respective paragraphs
-                    $('#greetingText').text(greetingText);
-                    $('#usernameText').text(usernameText).css({ 'font-size': '20px', 'font-weight': 'bold' });
-                    $('#tierText').text(tierText).css({ 'font-size': '20px', 'font-weight': 'bold' });
+
                     var tierImageUrl;
                     switch (user.tier) {
                         case '브론즈':
@@ -410,6 +411,21 @@
                     // Add the tier image to the container
                     $('#tierImageContainer').html('<img src="' + tierImageUrl + '" alt="Tier Image" style="max-width: 100%;">');
 
+
+                    // Calculate remaining exp to the next tier
+                    var remainingExp = calculateRemainingExp(user.tierExp, user.tier);
+
+                    // Create text for remaining exp
+                    var expText = "다음 티어까지 남은 Exp: " + remainingExp;
+
+                    // Set the text in the respective paragraphs
+                    $('#greetingText').text(greetingText);
+                    $('#usernameText').text(usernameText).css({ 'font-size': '20px', 'font-weight': 'bold' });
+                    $('#tierText').text(tierText).css({ 'font-size': '20px', 'font-weight': 'bold' });
+                    $('#expText').text(expText).css({ 'font-size': '16px', 'font-weight': 'bold' });
+
+                    // ... rest of your code ...
+
                     // Show the modal
                     $('#myInfoModal').modal('show');
                 },
@@ -419,6 +435,31 @@
             });
         });
     });
+
+    // Function to calculate remaining exp to the next tier
+    function calculateRemainingExp(currentExp, currentTier) {
+        var expRequired = 0;
+
+        switch (currentTier) {
+            case '브론즈':
+                expRequired = 2;
+                break;
+            case '실버':
+                expRequired = 3;
+                break;
+            case '골드':
+                expRequired = 5;
+                break;
+            case '플레티넘':
+                expRequired = 10;
+                break;
+            case '다이아몬드':
+                expRequired = 99999;
+                break;
+        }
+
+        return expRequired - currentExp;
+    }
 </script>
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
