@@ -19,6 +19,8 @@
 <img width="545" alt="데이터 수집 및 가공" src="https://github.com/DB-ajou-parking/server2/assets/89715722/9d82e154-b2ce-43ce-95a5-a5d5dc4c2c2f">
 
 
+
+### 뷰
 ![image](https://github.com/BaxDailyGit/AJouPARKING/assets/99312529/98f203a0-6373-44f8-b3a3-4efe36149a9c)
 ![image](https://github.com/BaxDailyGit/AJouPARKING/assets/99312529/1e8a6dbc-0fbd-4f73-992b-136d1b4912a4)
 ![image](https://github.com/BaxDailyGit/AJouPARKING/assets/99312529/ff55f929-e0b2-4eb4-978e-457cf7fa4e20)
