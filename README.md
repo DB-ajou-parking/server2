@@ -1,5 +1,23 @@
 # AJouPARKING
 
+### 사용 스택
+- Spring Boot 3.1.5
+- Spring DATA JPA
+- MySQL
+
+### 시스템 아키텍쳐
+<img width="578" alt="시스템아키텍쳐" src="https://github.com/DB-ajou-parking/server2/assets/89715722/8068fcbd-cff8-4cc4-9c05-230bbb31656a">
+
+### 릴레이션 스키마
+![릴레이션스키마 drawio](https://github.com/DB-ajou-parking/server2/assets/89715722/52da80d4-a643-4e7b-befd-4ae2e66cddeb)
+
+### ER모델/ERD
+![데베ER모델 drawio](https://github.com/DB-ajou-parking/server2/assets/89715722/ccb9268f-5d6b-4936-aa8f-8aebf6024c5d)
+![ERD](https://github.com/DB-ajou-parking/server2/assets/89715722/42cb7126-2424-4953-a263-facf83075cb4)
+
+### 데이터 수집 및 가공
+<img width="545" alt="데이터 수집 및 가공" src="https://github.com/DB-ajou-parking/server2/assets/89715722/9d82e154-b2ce-43ce-95a5-a5d5dc4c2c2f">
+
 
 ![image](https://github.com/BaxDailyGit/AJouPARKING/assets/99312529/98f203a0-6373-44f8-b3a3-4efe36149a9c)
 ![image](https://github.com/BaxDailyGit/AJouPARKING/assets/99312529/1e8a6dbc-0fbd-4f73-992b-136d1b4912a4)
