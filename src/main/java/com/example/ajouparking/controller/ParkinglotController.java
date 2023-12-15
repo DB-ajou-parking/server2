@@ -36,7 +36,6 @@ public class ParkinglotController {
             Optional<Parkinglot> parkingLot = parkinglotService.getParkinglotById(id);
             return parkingLot.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
         } catch (Exception e) {
-            // Log the exception or handle it accordingly
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

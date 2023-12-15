@@ -20,8 +20,6 @@ public class MyInfoController {
 
     @GetMapping("/myinfo")
     public User getMyInfo(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        // Retrieve user information using the userService
-        // The UserDetails is injected automatically when a user is logged in
         return userService.findUserById(userDetails.getUserId());
     }
 

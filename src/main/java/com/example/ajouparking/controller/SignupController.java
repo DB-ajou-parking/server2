@@ -19,7 +19,6 @@ public class SignupController {
         return "signup";
     }
 
-
     @PostMapping("/auth/signup")
     public void signup(SignupRequestDto signupRequestDto){
         signupService.signup(signupRequestDto);
